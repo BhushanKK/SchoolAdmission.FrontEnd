@@ -5,11 +5,12 @@ $(document).ready(function () {
 
     // Function to load categories into dropdown
     function loadCategories(selectedId = null) {
-        $.get(categoryApi, function (categories) {
+        $.get(categoryApi, function (response) {
             const select = $('#categoryId');
             select.empty();
             select.append('<option value="">-- Select Category --</option>');
-            categories.forEach(cat => {
+
+            response.data.forEach(cat => {
                 const isSelected = selectedId && selectedId == cat.categoryId ? 'selected' : '';
                 select.append(`<option value="${cat.categoryId}" ${isSelected}>${cat.category}</option>`);
             });
