@@ -3,30 +3,58 @@ $(document).ready(function () {
     const apiBase = "http://localhost:5263/api";
     const categoryApi = apiBase + "/categorymasters";
 
-    // Function to load categories into dropdown
-    function loadCategories(selectedId = null) {
-        $.get(categoryApi, function (response) {
-            const select = $('#categoryId');
-            select.empty();
-            select.append('<option value="">-- Select Category --</option>');
+    function getTokenHeader() {
+        return {
+            "Authorization": "Bearer " + localStorage.getItem("accessToken")
+        };
+    }
 
-            response.data.forEach(cat => {
-                const isSelected = selectedId && selectedId == cat.categoryId ? 'selected' : '';
-                select.append(`<option value="${cat.categoryId}" ${isSelected}>${cat.category}</option>`);
-            });
+    function loadCategories(selectedId = null) {
+
+        $.ajax({
+            url: categoryApi,
+            method: "GET",
+            headers: getTokenHeader(),
+            success: function (response) {
+
+                const select = $('#categoryId');
+                select.empty();
+                select.append('<option value="">-- Select Category --</option>');
+
+                response.data.forEach(cat => {
+
+                    const selected =
+                        selectedId && selectedId == cat.categoryId
+                            ? "selected"
+                            : "";
+
+                    select.append(
+                        `<option value="${cat.categoryId}" ${selected}>
+                            ${cat.category}
+                        </option>`
+                    );
+                });
+            },
+            error: function (xhr) {
+                handle401(xhr);
+            }
         });
     }
 
-    // Initialize DataTable
+    /* ⭐ DataTable */
     const table = $('#casteTable').DataTable({
         ajax: {
             url: apiBase + "/castemaster",
             type: "GET",
-            dataSrc: "data"
+            headers: getTokenHeader(),
+            dataSrc: "data",
+            error: function (xhr) {
+                handle401(xhr);
+            }
         },
         columns: [
             { data: "casteId" },
-            { data: "categoryName" },
+            { data: "category" },
             { data: "caste" },
             {
                 data: null,
@@ -37,125 +65,196 @@ $(document).ready(function () {
                     `;
                 }
             }
-        ],
-        responsive: true,
-        lengthChange: true,
-        autoWidth: false
+        ]
     });
 
-    // Show modal for Add
+    /* ⭐ Add Button */
     $('#addCasteBtn').click(function () {
+
         $('#casteId').val('');
-        $('#caste').val('');
-        loadCategories(); // load dropdown for Add
-        var modal = new bootstrap.Modal(document.getElementById('casteModal'));
+        $('#casteName').val('');
+        loadCategories();
+
+        const modal = new mdb.Modal(document.getElementById("casteModal"));
         modal.show();
     });
 
-    // Save button (Add or Edit)
+    /* ⭐ Save */
     $('#saveCasteBtn').click(function () {
+
         const id = $('#casteId').val();
+
         const payload = {
             casteId: parseInt(id) || 0,
             categoryId: parseInt($('#categoryId').val()),
-            caste: $('#caste').val()
+            caste: $('#casteName').val().trim()
         };
 
         if (!payload.categoryId || !payload.caste) {
-            alert("Please select category and enter caste");
+            showToast("Please select category and enter caste", "warning");
             return;
         }
 
-        if (id) {
-            // Edit / Update
-            $.ajax({
-                url: `${apiBase}/castemaster/${id}`,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(payload),
-                success: function (res) {
-                    $('#casteModal').modal('hide'); // hide modal
-                    table.ajax.reload();
-                    if (res.success) {
-                        showToast(res.message, "success");
-                    } else {
-                        showToast(res.message, "error");
-                    }
-                },
-                error: function () {
-                    alert("Failed to update caste");
-                }
-            });
-        } else {
-            // Add / Create
-            $.ajax({
-                url: `${apiBase}/castemaster`,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(payload),
-                success: function (res) {
-                    $('#casteModal').modal('hide'); // hide modal
-                    table.ajax.reload();
-                    if (res.success) {
-                        showToast(res.message, "success");
-                    } else {
-                        showToast(res.message, "error");
-                    }
-                },
-                error: function () {
-                    alert("Failed to add caste");
-                }
-            });
-        }
-    });
+        const method = id ? "PUT" : "POST";
+        const url = id
+            ? `${apiBase}/castemaster/${id}`
+            : `${apiBase}/castemaster`;
 
-    // Edit button click
-    $('#casteTable').on('click', '.editBtn', function () {
-        const id = $(this).data('id');
-        $.get(`${apiBase}/castemaster/${id}`, function (res) {
-            $('#casteId').val(res.data.casteId);
-            $('#caste').val(res.data.caste);
-            loadCategories(res.data.categoryId); // load categories and select current
-            var modal = new bootstrap.Modal(document.getElementById('casteModal'));
-            modal.show();
+        $.ajax({
+            url: url,
+            method: method,
+            headers: getTokenHeader(),
+            contentType: "application/json",
+            data: JSON.stringify(payload),
+            success: function (res) {
+
+                mdb.Modal.getInstance(
+                    document.getElementById("casteModal")
+                ).hide();
+
+                table.ajax.reload();
+
+                showToast(res.message, "success");
+            },
+            error: function (xhr) {
+
+                if (xhr.status === 401) {
+                    handle401(xhr);
+                    return;
+                }
+
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+
+                    const message = xhr.responseJSON.errors.join("\n");
+
+                    if (message.toLowerCase().includes("already")) {
+                        showToast(message, "exists"); 
+                    }
+                    else {
+                        showToast(message, "error");
+                    }
+                    return;
+                }
+
+                showToast("Something went wrong", "error");
+            }
         });
+
     });
 
-    // Delete button click
-    $('#casteTable').on('click', '.deleteBtn', function () {
-        const id = $(this).data('id');
-        if (confirm("Are you sure to delete this caste?")) {
-            $.ajax({
-                url: `${apiBase}/castemaster/${id}`,
-                method: 'DELETE',
-                success: function (res) {
-                    table.ajax.reload();
-                    if (res.success) {
-                        showToast(res.message, "success");
-                    } else {
-                        showToast(res.message, "error");
-                    }
-                },
-                error: function () {
-                    alert("Failed to delete caste");
-                }
-            });
+    /* ⭐ Edit */
+    $('#casteTable').on('click', '.editBtn', function () {
+
+        /* ⭐ get datatable row data directly */
+        const rowData = $('#casteTable')
+            .DataTable()
+            .row($(this).parents('tr'))
+            .data();
+
+        console.log("Edit Row:", rowData);
+
+        if (!rowData) {
+            showToast("Unable to load record", "error");
+            return;
         }
+
+        /* ⭐ fill modal fields */
+        $('#casteId').val(rowData.casteId);
+        $('#casteName').val(rowData.caste);
+
+        /* ⭐ load category dropdown */
+        loadCategories(rowData.categoryId);
+
+        /* ⭐ open modal */
+        const modal = new mdb.Modal(document.getElementById("casteModal"));
+        modal.show();
+
     });
+
+    let deleteId = 0;
+
+    /* ⭐ open confirmation modal */
+    $('#casteTable').on('click', '.deleteBtn', function () {
+
+        deleteId = $(this).data('id');
+
+        const modal = new mdb.Modal(
+            document.getElementById("deleteConfirmModal")
+        );
+        modal.show();
+    });
+
+
+    /* ⭐ confirmed delete */
+    $('#confirmDeleteBtn').click(function () {
+
+        if (!deleteId) return;
+
+        $.ajax({
+            url: `${apiBase}/castemaster/${deleteId}`,
+            type: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("accessToken")
+            },
+            success: function (res) {
+
+                mdb.Modal.getInstance(
+                    document.getElementById("deleteConfirmModal")
+                ).hide();
+
+                $('#casteTable').DataTable().ajax.reload(null, false);
+
+                showToast(res.message, "success");
+            },
+            error: function () {
+
+                mdb.Modal.getInstance(
+                    document.getElementById("deleteConfirmModal")
+                ).hide();
+
+                showToast("Delete failed", "info");
+            }
+        });
+
+    });
+
+    /* ⭐ Toast */
     function showToast(message, type = "success") {
-        const toastEl = document.getElementById('casteToast');
-        const toastMessage = document.getElementById('toastMessage');
 
-        // Change message
-        toastMessage.textContent = message;
+        const toastEl = document.getElementById("casteToast");
+        const toastMsg = document.getElementById("toastMessage");
 
-        // Change color based on type
-        toastEl.classList.remove('bg-success', 'bg-danger', 'bg-warning');
-        if (type === "success") toastEl.classList.add('bg-success');
-        else if (type === "error") toastEl.classList.add('bg-danger');
-        else if (type === "warning") toastEl.classList.add('bg-warning');
+        toastMsg.innerText = message;
 
-        const toast = new bootstrap.Toast(toastEl);
+        toastEl.classList.remove(
+            "bg-success",
+            "bg-danger",
+            "bg-warning",
+            "bg-info"
+        );
+
+        if (type === "success")
+            toastEl.classList.add("bg-success");
+
+        else if (type === "exists" || type === "warning")
+            toastEl.classList.add("bg-warning");
+
+        else if (type === "info") 
+            toastEl.classList.add("bg-info");
+
+        else
+            toastEl.classList.add("bg-danger");
+
+        const toast = new mdb.Toast(toastEl);
         toast.show();
     }
+
+    function handle401(xhr) {
+        if (xhr.status === 401) {
+            alert("Session expired. Please login again.");
+            localStorage.clear();
+            window.location.href = "../index.html";
+        }
+    }
+
 });

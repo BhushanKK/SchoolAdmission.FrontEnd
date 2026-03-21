@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>School Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"/>
+
+
+<style>
+body{
+    background:#f4f6f9;
+}
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    background:#2f4050;
+    color:white;
+}
+
+.sidebar .menu-title{
+    padding:18px;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+    background:#1c2b36;
+}
+
+.sidebar a{
+    display:block;
+    padding:12px 20px;
+    color:#cfd8dc;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.sidebar a:hover{
+    background:#1ab394;
+    color:white;
+}
+
+.content{
+    margin-left:260px;
+    padding:20px;
+}
+
+.topbar{
+    background:white;
+    padding:12px 20px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+
+    <div class="menu-title">
+        School Admin
+    </div>
+
+    <a href="#" onclick="loadPage('school.html')">🏫 School Master</a>
+    <a href="#" onclick="loadPage('committee.html')">👨‍💼 Committee Master</a>
+    <a href="#" onclick="loadPage('standard.html')">📚 Standard Master</a>
+    <a href="#" onclick="loadPage('division.html')">🏷️ Division Master</a>
+    <a href="#" onclick="loadPage('category.html')">🧾 Category Master</a>
+    <a href="#" onclick="loadPage('caste.html')">🧬 Caste Master</a>
+    <a href="#" onclick="loadPage('religion.html')">🕌 Religion Master</a>
+    <a href="#" onclick="loadPage('branch.html')">🏠 Branch Master</a>
+    <a href="#" onclick="loadPage('student.html')">👩‍🎓 Student Master</a>
+
+</div>
+
+<!-- Content -->
+<div class="content" id="mainContent">
+
+    <div class="topbar d-flex justify-content-between">
+
+        <h4 id="pageTitle">Dashboard</h4>
+
+        <div>
+            <span id="userEmail"></span>
+            <button class="btn btn-danger btn-sm ms-3" onclick="logout()">Logout</button>
+        </div>
+
+    </div>
+
+    <div class="card p-4 shadow">
+        <h5>Welcome to School Admission Admin Panel</h5>
+        <p>Select menu from left side.</p>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+
+<script>
+
+document.getElementById("userEmail").innerText =
+    localStorage.getItem("userEmail");
+
+function logout(){
+    localStorage.clear();
+    window.location.href="../index.html";
+}
+
+/* ⭐ Partial Page Loader */
+function loadPage(page){
+
+    fetch(page)
+    .then(res => res.text())
+    .then(html => {
+
+        document.getElementById("mainContent").innerHTML =
+        `
+            <div class="topbar d-flex justify-content-between">
+                <h4>${page.replace('.html','').toUpperCase()}</h4>
+                <div>
+                    <span>${localStorage.getItem("userEmail")}</span>
+                    <button class="btn btn-danger btn-sm ms-3" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        ` + html;
+
+        if(page === "caste.html"){
+            loadScript("../js/caste.js");
+        }
+    });
+}
+
+function loadScript(src){
+
+    let script = document.createElement("script");
+    script.src = src;
+    script.type = "text/javascript";
+    document.body.appendChild(script);
+
+}
+</script>
+
+</body>
+</html>

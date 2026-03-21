@@ -1,17 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>School Admission</title>
+    <meta charset="UTF-8">
+    <title>School Admission Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- MDB CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            background: linear-gradient(135deg,#4e73df,#224abe);
+            height: 100vh;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>School Admission System</h1>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow" style="width:400px">
+        <div class="card-body p-5">
 
-<ul>
-    <li><a href="pages/caste.html">Caste Master</a></li>
-    <li><a href="pages/category.html">Category Master</a></li>
-</ul>
+            <h3 class="text-center mb-4 text-primary">Login</h3>
+
+            <form id="loginForm">
+
+                <div class="form-outline mb-4">
+                    <input type="email" id="email" class="form-control"/>
+                    <label class="form-label">Email</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="password" id="password" class="form-control"/>
+                    <label class="form-label">Password</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Login
+                </button>
+
+                <div class="text-danger mt-3 text-center" id="errorMsg"></div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- MDB JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+
+        const response = await fetch("http://localhost:5263/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailId: email,
+                password: password
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            // ✅ store tokens
+            localStorage.setItem("accessToken", result.data.accessToken);
+            localStorage.setItem("refreshToken", result.data.refreshToken);
+            localStorage.setItem("userEmail", result.data.emailId);
+            localStorage.setItem("role", result.data.role);
+
+            // ✅ redirect
+            window.location.href = "pages/AdminDashboard.html";
+
+        } else {
+            document.getElementById("errorMsg").innerText = result.message;
+        }
+
+    } catch (error) {
+        document.getElementById("errorMsg").innerText = "Server error. Please try again.";
+    }
+
+});
+</script>
 
 </body>
 </html>
