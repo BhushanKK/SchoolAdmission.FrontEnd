@@ -14,6 +14,8 @@ $(document).ready(function () {
                 if (xhr.status === 401) {
                     localStorage.clear();
                     window.location.href = "../index.html";
+                } else {
+                    showToast("Failed to load religions", "error");
                 }
             }
         },
@@ -32,6 +34,7 @@ $(document).ready(function () {
         ]
     });
 
+    // Show Add Religion Modal
     $('#addReligionBtn').click(function () {
         $('#religionId').val('');
         $('#religionName').val('');
@@ -39,17 +42,20 @@ $(document).ready(function () {
         modal.show();
     });
 
+    // Save Religion
     $('#saveReligionBtn').click(function () {
         const id = $('#religionId').val();
-        const payload = {
-            religionId: parseInt(id) || 0,
-            religion: $('#religionName').val().trim()
-        };
+        const religionName = $('#religionName').val().trim();
 
-        if (!payload.religion) {
+        if (!religionName) {
             showToast("Please enter Religion Name", "warning");
             return;
         }
+
+        const payload = {
+            religionId: parseInt(id) || 0,
+            religion: religionName
+        };
 
         const method = id ? "PUT" : "POST";
         const url = id ? `${apiBase}/religionmasters/${id}` : `${apiBase}/religionmasters`;
@@ -62,6 +68,7 @@ $(document).ready(function () {
             },
             contentType: "application/json",
             data: JSON.stringify(payload),
+
             success: function (res) {
                 const modalEl = document.getElementById('religionModal');
                 mdb.Modal.getInstance(modalEl)?.hide();
@@ -69,16 +76,39 @@ $(document).ready(function () {
                 table.ajax.reload(null, false);
                 showToast(res.message || (id ? "Religion updated successfully" : "Religion added successfully"), "success");
             },
+
             error: function (xhr) {
-                let message = "Something went wrong";
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    message = xhr.responseJSON.errors.join("\n");
+                const modalEl = document.getElementById('religionModal');
+                mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
                 }
-                showToast(message, "error");
+
+                if (xhr.status === 409 && xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "exists");
+                    return;
+                }
+
+                if (xhr.responseJSON?.errors) {
+                    const message = xhr.responseJSON.errors.join("\n");
+                    showToast(message, "error");
+                    return;
+                }
+
+                if (xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "error");
+                    return;
+                }
+
+                showToast("Something went wrong", "error");
             }
         });
     });
 
+    // Edit Religion
     $('#religionTable').on('click', '.editBtn', function () {
         const rowData = table.row($(this).closest('tr')).data();
         if (!rowData) {
@@ -93,6 +123,7 @@ $(document).ready(function () {
         modal.show();
     });
 
+    // Delete Religion
     let deleteId = 0;
     $('#religionTable').on('click', '.deleteBtn', function () {
         deleteId = $(this).data('id');
@@ -109,6 +140,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
             },
+
             success: function (res) {
                 const modalEl = document.getElementById("deleteConfirmModal");
                 mdb.Modal.getInstance(modalEl)?.hide();
@@ -116,9 +148,21 @@ $(document).ready(function () {
                 table.ajax.reload(null, false);
                 showToast(res.message || "Religion deleted successfully", "success");
             },
-            error: function () {
+
+            error: function (xhr) {
                 const modalEl = document.getElementById("deleteConfirmModal");
                 mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
+                }
+
+                if (xhr.status === 409 && xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "exists");
+                    return;
+                }
 
                 showToast("Delete failed", "error");
             }

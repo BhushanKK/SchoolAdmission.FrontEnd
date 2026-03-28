@@ -14,6 +14,8 @@ $(document).ready(function () {
                 if (xhr.status === 401) {
                     localStorage.clear();
                     window.location.href = "../index.html";
+                } else {
+                    showToast("Failed to load standards", "error");
                 }
             }
         },
@@ -32,6 +34,7 @@ $(document).ready(function () {
         ]
     });
 
+    // Add Standard
     $('#addStandardBtn').click(function () {
         $('#standardId').val('');
         $('#standardName').val('');
@@ -39,17 +42,20 @@ $(document).ready(function () {
         modal.show();
     });
 
+    // Save Standard
     $('#saveStandardBtn').click(function () {
         const id = $('#standardId').val();
-        const payload = {
-            standardId: parseInt(id) || 0,
-            standardName: $('#standardName').val().trim()
-        };
+        const standardName = $('#standardName').val().trim();
 
-        if (!payload.standardName) {
+        if (!standardName) {
             showToast("Please enter Standard Name", "warning");
             return;
         }
+
+        const payload = {
+            standardId: parseInt(id) || 0,
+            standardName: standardName
+        };
 
         const method = id ? "PUT" : "POST";
         const url = id ? `${apiBase}/standardmasters/${id}` : `${apiBase}/standardmasters`;
@@ -62,23 +68,47 @@ $(document).ready(function () {
             },
             contentType: "application/json",
             data: JSON.stringify(payload),
+
             success: function (res) {
                 const modalEl = document.getElementById('standardModal');
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 table.ajax.reload(null, false);
-                showToast(res.message || (id ? "Standard Name updated successfully" : "Standard added successfully"), "success");
+                showToast(res.message || (id ? "Standard updated successfully" : "Standard added successfully"), "success");
             },
+
             error: function (xhr) {
-                let message = "Something went wrong";
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    message = xhr.responseJSON.errors.join("\n");
+                const modalEl = document.getElementById('standardModal');
+                mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
                 }
-                showToast(message, "error");
+
+                if (xhr.status === 409 && xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "exists");
+                    return;
+                }
+
+                if (xhr.responseJSON?.errors) {
+                    const message = xhr.responseJSON.errors.join("\n");
+                    showToast(message, "error");
+                    return;
+                }
+
+                if (xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "error");
+                    return;
+                }
+
+                showToast("Something went wrong", "error");
             }
         });
     });
 
+    // Edit Standard
     $('#standardTable').on('click', '.editBtn', function () {
         const rowData = table.row($(this).closest('tr')).data();
         if (!rowData) {
@@ -87,12 +117,13 @@ $(document).ready(function () {
         }
 
         $('#standardId').val(rowData.standardId);
-        $('#standardName').val(rowData.standard);
+        $('#standardName').val(rowData.standardName); // FIXED
 
         const modal = new mdb.Modal(document.getElementById('standardModal'));
         modal.show();
     });
 
+    // Delete Standard
     let deleteId = 0;
     $('#standardTable').on('click', '.deleteBtn', function () {
         deleteId = $(this).data('id');
@@ -109,6 +140,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
             },
+
             success: function (res) {
                 const modalEl = document.getElementById("deleteConfirmModal");
                 mdb.Modal.getInstance(modalEl)?.hide();
@@ -116,12 +148,25 @@ $(document).ready(function () {
                 table.ajax.reload(null, false);
                 showToast(res.message || "Standard deleted successfully", "success");
             },
-            error: function () {
+
+            error: function (xhr) {
                 const modalEl = document.getElementById("deleteConfirmModal");
                 mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
+                }
+
+                if (xhr.status === 409 && xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "exists");
+                    return;
+                }
 
                 showToast("Delete failed", "error");
             }
         });
     });
+
 });
