@@ -2,9 +2,9 @@ $(document).ready(function () {
 
     const apiBase = "http://localhost:5263/api";
 
-    const table = $('#standardTable').DataTable({
+    const table = $('#branchTable').DataTable({
         ajax: {
-            url: `${apiBase}/standardmasters`,
+            url: `${apiBase}/branchmasters`,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -18,41 +18,41 @@ $(document).ready(function () {
             }
         },
         columns: [
-            { data: "standardId" },
-            { data: "standardName" },
+            { data: "branchId" },
+            { data: "branchName" },
             {
                 data: null,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-warning editBtn" data-id="${row.standardId}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.standardId}">Delete</button>
+                        <button class="btn btn-sm btn-warning editBtn" data-id="${row.branchId}">Edit</button>
+                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.branchId}">Delete</button>
                     `;
                 }
             }
         ]
     });
 
-    $('#addStandardBtn').click(function () {
-        $('#standardId').val('');
-        $('#standardName').val('');
-        const modal = new mdb.Modal(document.getElementById('standardModal'));
+    $('#addBranchBtn').click(function () {
+        $('#branchId').val('');
+        $('#branchName').val('');
+        const modal = new mdb.Modal(document.getElementById('branchModal'));
         modal.show();
     });
 
-    $('#saveStandardBtn').click(function () {
-        const id = $('#standardId').val();
+    $('#saveBranchBtn').click(function () {
+        const id = $('#branchId').val();
         const payload = {
-            standardId: parseInt(id) || 0,
-            standardName: $('#standardName').val().trim()
+            branchId: parseInt(id) || 0,
+            branchName: $('#branchName').val().trim()
         };
 
-        if (!payload.standardName) {
-            showToast("Please enter Standard Name", "warning");
+        if (!payload.branchName) {
+            showToast("Please enter Branch Name", "warning");
             return;
         }
 
         const method = id ? "PUT" : "POST";
-        const url = id ? `${apiBase}/standardmasters/${id}` : `${apiBase}/standardmasters`;
+        const url = id ? `${apiBase}/branchmasters/${id}` : `${apiBase}/branchmasters`;
 
         $.ajax({
             url: url,
@@ -63,11 +63,11 @@ $(document).ready(function () {
             contentType: "application/json",
             data: JSON.stringify(payload),
             success: function (res) {
-                const modalEl = document.getElementById('standardModal');
+                const modalEl = document.getElementById('branchModal');
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 table.ajax.reload(null, false);
-                showToast(res.message || (id ? "Standard Name updated successfully" : "Standard added successfully"), "success");
+                showToast(res.message || (id ? "Branch updated successfully" : "Branch added successfully"), "success");
             },
             error: function (xhr) {
                 let message = "Something went wrong";
@@ -79,22 +79,22 @@ $(document).ready(function () {
         });
     });
 
-    $('#standardTable').on('click', '.editBtn', function () {
+    $('#branchTable').on('click', '.editBtn', function () {
         const rowData = table.row($(this).closest('tr')).data();
         if (!rowData) {
             showToast("Unable to load record", "error");
             return;
         }
 
-        $('#standardId').val(rowData.standardId);
-        $('#standardName').val(rowData.standard);
+        $('#branchId').val(rowData.branchId);
+        $('#branchName').val(rowData.branchName);
 
-        const modal = new mdb.Modal(document.getElementById('standardModal'));
+        const modal = new mdb.Modal(document.getElementById('branchModal'));
         modal.show();
     });
 
     let deleteId = 0;
-    $('#standardTable').on('click', '.deleteBtn', function () {
+    $('#branchTable').on('click', '.deleteBtn', function () {
         deleteId = $(this).data('id');
         const modal = new mdb.Modal(document.getElementById("deleteConfirmModal"));
         modal.show();
@@ -104,7 +104,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/standardmasters/${deleteId}`,
+            url: `${apiBase}/branchmasters/${deleteId}`,
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -114,7 +114,7 @@ $(document).ready(function () {
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 table.ajax.reload(null, false);
-                showToast(res.message || "Standard deleted successfully", "success");
+                showToast(res.message || "Branch deleted successfully", "success");
             },
             error: function () {
                 const modalEl = document.getElementById("deleteConfirmModal");

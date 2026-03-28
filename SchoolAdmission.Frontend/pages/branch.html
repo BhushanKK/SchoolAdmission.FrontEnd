@@ -3,18 +3,18 @@
     <div class="card-body">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0">Standard Master List</h5>
-            <button class="btn btn-primary btn-sm" id="addStandardBtn">
-                + Add Standard
+            <h5 class="mb-0">Branch Master List</h5>
+            <button class="btn btn-primary btn-sm" id="addBranchBtn">
+                + Add Branch
             </button>
         </div>
 
         <div class="table-responsive">
-            <table id="standardTable" class="table table-striped table-bordered align-middle w-100">
+            <table id="branchTable" class="table table-striped table-bordered align-middle w-100">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:120px">Standard Id</th>
-                        <th>Standard Name</th>
+                        <th style="width:120px">Branch Id</th>
+                        <th>Branch Name</th>
                         <th style="width:160px">Actions</th>
                     </tr>
                 </thead>
@@ -24,29 +24,29 @@
     </div>
 </div>
 
-<div class="modal fade" id="standardModal" tabindex="-1">
+<div class="modal fade" id="branchModal" tabindex="-1">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header bg-primary text-white">
-                <h6 class="modal-title mb-0">Add / Edit Standard</h6>
+                <h6 class="modal-title mb-0">Add / Edit Branch</h6>
                 <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
 
-                <input type="hidden" id="standardId">
+                <input type="hidden" id="branchId">
 
                 <div class="mb-3">
-                    <label class="form-label">Standard Name</label>
-                    <input type="text" class="form-control" id="standardName" placeholder="Enter Standard name">
+                    <label class="form-label">Branch Name</label>
+                    <input type="text" class="form-control" id="branchName" placeholder="Enter branch name">
                 </div>
 
             </div>
 
             <div class="modal-footer">
                 <button class="btn btn-light" data-mdb-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" id="saveStandardBtn">Save</button>
+                <button class="btn btn-primary" id="saveBranchBtn">Save</button>
             </div>
 
         </div>
