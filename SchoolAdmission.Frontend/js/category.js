@@ -1,10 +1,8 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
-
     const table = $('#categoryTable').DataTable({
         ajax: {
-            url: `${apiBase}/categorymasters`,
+            url: categoryApi,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -43,7 +41,7 @@ $(document).ready(function () {
         const id = $('#categoryId').val();
         const payload = {
             categoryId: parseInt(id) || 0,
-            category: $('#categoryName').val().trim()
+            category: $('.categoryInput').val().trim()
         };
 
         if (!payload.category) {

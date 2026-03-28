@@ -8,116 +8,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-    <style>
-        body {
-            background: #f4f6f9;
-        }
-        .arrow {
-    transition: transform 0.3s;
-}
-
-        footer {
-            bottom: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            background: #f8f9fa;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 14px;
-            color: #555;
-        }
-
-
-        .content {
-            margin-left: 260px;
-            padding: 20px;
-            min-height: calc(100vh - 60px);
-        }
-
-        footer {
-            bottom: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            background: #f8f9fa;
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .sidebar a i {
-            margin-right: 8px;
-        }
-
-        .sidebar .submenu a {
-            padding: 8px 25px;
-            font-size: 14px;
-        }
-
-        .sidebar .menu-parent {
-            cursor: pointer;
-            display: block;
-            padding: 12px 20px;
-            color: #cfd8dc;
-            font-size: 15px;
-            text-decoration: none;
-        }
-
-        .sidebar .menu-parent:hover {
-            background: #1ab394;
-            color: white;
-        }
-
-        .sidebar {
-            width: 260px;
-            height: 100vh;
-            position: fixed;
-            background: #2f4050;
-            color: white;
-        }
-
-        .sidebar .menu-title {
-            padding: 18px;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            background: #1c2b36;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: #cfd8dc;
-            text-decoration: none;
-            font-size: 15px;
-        }
-
-        .sidebar a:hover {
-            background: #1ab394;
-            color: white;
-        }
-
-        .content {
-            margin-left: 260px;
-            padding: 20px;
-        }
-
-        .topbar {
-            background: white;
-            padding: 12px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
-            margin-bottom: 20px;
-        }
-    </style>
-
+    <link rel="stylesheet" href="../css/style.css" />
 </head>
 
 <body>
 
-
     <div class="sidebar">
-
         <div class="menu-title">
             School Admin
         </div>
@@ -135,7 +31,6 @@
             <a href="#" onclick="loadPage('caste.html')"><i class="fas fa-dna"></i> Caste Master</a>
             <a href="#" onclick="loadPage('religion.html')"><i class="fas fa-place-of-worship"></i> Religion Master</a>
             <a href="#" onclick="loadPage('branch.html')"><i class="fas fa-home"></i> Branch Master</a>
-            <a href="#" onclick="loadPage('student.html')"><i class="fas fa-user-graduate"></i> Student Master</a>
         </div>
 
         <a href="#" onclick="loadPage('activate-student.html')"><i class="fas fa-check-circle"></i> Activate Student</a>
@@ -260,12 +155,10 @@
         }
 
         function loadScript(src) {
-
             let script = document.createElement("script");
             script.src = src;
             script.type = "text/javascript";
             document.body.appendChild(script);
-
         }
     </script>
 </body>
