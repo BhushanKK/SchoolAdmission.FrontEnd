@@ -93,6 +93,7 @@ $(document).ready(function () {
             headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
+
             success: function (res) {
 
                 mdb.Modal.getInstance(
@@ -103,6 +104,7 @@ $(document).ready(function () {
 
                 showToast(res.message, "success");
             },
+
             error: function (xhr) {
 
                 if (xhr.status === 401) {
@@ -110,17 +112,23 @@ $(document).ready(function () {
                     return;
                 }
 
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                if (xhr.responseJSON) {
 
-                    const message = xhr.responseJSON.errors.join("\n");
+                    if (xhr.status === 409) {
+                        showToast(xhr.responseJSON.message, "exists");
+                        return;
+                    }
 
-                    if (message.toLowerCase().includes("already")) {
-                        showToast(message, "exists"); 
+                    if (xhr.responseJSON.errors) {
+                        const message = xhr.responseJSON.errors.join("\n");
+                        showToast(message, "warning");
+                        return;
                     }
-                    else {
-                        showToast(message, "error");
+
+                    if (xhr.responseJSON.message) {
+                        showToast(xhr.responseJSON.message, "error");
+                        return;
                     }
-                    return;
                 }
 
                 showToast("Something went wrong", "error");
@@ -135,8 +143,6 @@ $(document).ready(function () {
             .DataTable()
             .row($(this).parents('tr'))
             .data();
-
-        console.log("Edit Row:", rowData);
 
         if (!rowData) {
             showToast("Unable to load record", "error");
@@ -165,7 +171,6 @@ $(document).ready(function () {
         modal.show();
     });
 
-
     $('#confirmDeleteBtn').click(function () {
 
         if (!deleteId) return;
@@ -173,9 +178,8 @@ $(document).ready(function () {
         $.ajax({
             url: `${apiBase}/castemaster/${deleteId}`,
             type: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
+
             success: function (res) {
 
                 mdb.Modal.getInstance(
@@ -186,14 +190,21 @@ $(document).ready(function () {
 
                 showToast(res.message, "success");
             },
-            error: function () {
+
+            error: function (xhr) {
 
                 mdb.Modal.getInstance(
                     document.getElementById("deleteConfirmModal")
                 ).hide();
 
-                showToast("Delete failed", "info");
+                if (xhr.status === 401) {
+                    handle401(xhr);
+                    return;
+                }
+
+                showToast("Delete failed", "error");
             }
         });
-    });    
+    });
+
 });

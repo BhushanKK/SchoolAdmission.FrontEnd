@@ -12,6 +12,8 @@ $(document).ready(function () {
                 if (xhr.status === 401) {
                     localStorage.clear();
                     window.location.href = "../index.html";
+                } else {
+                    showToast("Failed to load categories", "error");
                 }
             }
         },
@@ -30,6 +32,7 @@ $(document).ready(function () {
         ]
     });
 
+    // Show add modal
     $('#addCategoryBtn').click(function () {
         $('#categoryId').val('');
         $('#categoryName').val('');
@@ -37,20 +40,25 @@ $(document).ready(function () {
         modal.show();
     });
 
+    // Save category
     $('#saveCategoryBtn').click(function () {
         const id = $('#categoryId').val();
-        const payload = {
-            categoryId: parseInt(id) || 0,
-            category: $('.categoryInput').val().trim()
-        };
+        const categoryName = $('#categoryName').val().trim();
 
-        if (!payload.category) {
+        if (!categoryName) {
             showToast("Please enter Category Name", "warning");
             return;
         }
 
+        const payload = {
+            categoryId: parseInt(id) || 0,
+            category: categoryName
+        };
+
         const method = id ? "PUT" : "POST";
-        const url = id ? `${apiBase}/categorymasters/${id}` : `${apiBase}/categorymasters`;
+        const url = id
+            ? `${apiBase}/categorymasters/${id}`
+            : `${apiBase}/categorymasters`;
 
         $.ajax({
             url: url,
@@ -60,6 +68,7 @@ $(document).ready(function () {
             },
             contentType: "application/json",
             data: JSON.stringify(payload),
+
             success: function (res) {
                 const modalEl = document.getElementById('categoryModal');
                 mdb.Modal.getInstance(modalEl)?.hide();
@@ -67,16 +76,39 @@ $(document).ready(function () {
                 table.ajax.reload(null, false);
                 showToast(res.message || (id ? "Category updated successfully" : "Category added successfully"), "success");
             },
+
             error: function (xhr) {
-                let message = "Something went wrong";
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    message = xhr.responseJSON.errors.join("\n");
+                const modalEl = document.getElementById('categoryModal');
+                mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
                 }
-                showToast(message, "error");
+
+                if (xhr.status === 409 && xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "exists");
+                    return;
+                }
+
+                if (xhr.responseJSON?.errors) {
+                    const message = xhr.responseJSON.errors.join("\n");
+                    showToast(message, "error");
+                    return;
+                }
+
+                if (xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "error");
+                    return;
+                }
+
+                showToast("Something went wrong", "error");
             }
         });
     });
 
+    // Edit category
     $('#categoryTable').on('click', '.editBtn', function () {
         const rowData = table.row($(this).closest('tr')).data();
         if (!rowData) {
@@ -91,6 +123,7 @@ $(document).ready(function () {
         modal.show();
     });
 
+    // Delete category
     let deleteId = 0;
     $('#categoryTable').on('click', '.deleteBtn', function () {
         deleteId = $(this).data('id');
@@ -114,12 +147,24 @@ $(document).ready(function () {
                 table.ajax.reload(null, false);
                 showToast(res.message || "Category deleted successfully", "success");
             },
-            error: function () {
+            error: function (xhr) {
                 const modalEl = document.getElementById("deleteConfirmModal");
                 mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
+                }
+
+                if (xhr.status === 409 && xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "exists");
+                    return;
+                }
 
                 showToast("Delete failed", "error");
             }
         });
     });
+
 });
