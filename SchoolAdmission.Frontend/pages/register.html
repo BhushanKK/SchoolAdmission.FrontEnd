@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School Admission Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- MDB CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            background: linear-gradient(135deg,#1cc88a,#13855c);
+            height: 100vh;
+        }
+
+        .form-control {
+            border: 1px solid #ccc !important;
+            border-radius: 5px;
+        }
+
+        .form-control:focus {
+            border-color: #1cc88a !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow" style="width:450px">
+        <div class="card-body p-5">
+
+            <h3 class="text-center mb-4 text-success">Register</h3>
+
+            <form id="registerForm">
+
+                <div class="mb-3">
+                    <input type="text" id="firstName" class="form-control" placeholder="First Name" required/>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" id="middleName" class="form-control" placeholder="Middle Name"/>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" id="lastName" class="form-control" placeholder="Last Name" required/>
+                </div>
+
+                <div class="mb-3">
+                    <input type="email" id="emailId" class="form-control" placeholder="Email" required/>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" id="mobileNo" class="form-control" placeholder="Mobile Number" required/>
+                </div>
+
+                <div class="mb-3">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required/>
+                </div>
+
+                <div class="mb-3">
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required/>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                    Register
+                </button>
+
+                <div class="text-danger mt-3 text-center" id="errorMsg"></div>
+                <div class="text-success mt-3 text-center" id="successMsg"></div>
+
+                <!-- Login Link -->
+                <div class="text-center mt-3">
+                    <span>Already have an account? </span>
+                    <a href="../index.html" class="text-success fw-bold">
+                        Login here
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    const registerApi = "http://localhost:5263/api/student"; // update this
+
+    $(document).ready(function () {
+
+        $("#registerForm").submit(function (e) {
+            e.preventDefault();
+
+            let firstName = $("#firstName").val();
+            let middleName = $("#middleName").val();
+            let lastName = $("#lastName").val();
+            let emailId = $("#emailId").val();
+            let mobileNo = $("#mobileNo").val();
+            let password = $("#password").val();
+            let confirmPassword = $("#confirmPassword").val();
+
+            if (password !== confirmPassword) {
+                $("#errorMsg").text("Passwords do not match");
+                return;
+            }
+
+            $.ajax({
+                url: registerApi,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    emailId: emailId,
+                    mobileNo: mobileNo,
+                    passwordHash: password,
+                    firstName: firstName,
+                    middleName: middleName,
+                    lastName: lastName
+                }),
+
+                success: function (response) {
+                    if (response.success) {
+                        $("#successMsg").text("Registration successful!");
+                        $("#errorMsg").text("");
+
+                        setTimeout(() => {
+                            window.location.href = "../index.html";
+                        }, 2000);
+                    } else {
+                        $("#errorMsg").text(response.message);
+                    }
+                },
+
+                error: function () {
+                    $("#errorMsg").text("Server error. Please try again.");
+                }
+            });
+
+        });
+
+    });
+</script>
+
+</body>
+</html>

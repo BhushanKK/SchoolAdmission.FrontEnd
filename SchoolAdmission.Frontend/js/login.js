@@ -2,15 +2,15 @@ $(document).ready(function () {
     $("#loginForm").submit(function (e) {
         e.preventDefault();
 
-        var emailOrMobile = $("#email").val();
+        var userName = $("#email").val();
         var password = $("#password").val();
 
         $.ajax({
-            url: "http://localhost:5263/api/auth/login", 
+            url: "http://localhost:5263/api/auth/login", // update this
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({
-                emailOrMobile: emailOrMobile,
+                emailOrMobile: userName,
                 password: password
             }),
             
@@ -23,7 +23,10 @@ $(document).ready(function () {
                     localStorage.setItem("userId", response.data.userId);
                     localStorage.setItem("role", response.data.role);
                     localStorage.setItem("userEmail", response.data.emailId);
-                    window.location.href = "pages/AdminDashboard.html";
+                    if (response.data.role === "Admin") 
+                        window.location.href = "pages/AdminDashboard.html";
+                     else 
+                        window.location.href = "pages/StudentDashboard.html";
                 }
                 else {
                     $("#errorMsg").text(response.message);

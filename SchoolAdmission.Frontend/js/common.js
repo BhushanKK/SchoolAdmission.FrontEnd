@@ -3,6 +3,8 @@ const apiBase = "http://localhost:5263/api";
 const categoryApi = apiBase + "/categorymasters";
 const casteApi = apiBase + "/castemaster"; 
 const schoolApi = apiBase + "/schoolmasters";
+const loginApi = apiBase + "/auth/login";
+
 document.getElementById("currentYear").innerText = new Date().getFullYear();
 
 function getTokenHeader() {

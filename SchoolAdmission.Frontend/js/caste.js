@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     function loadCategories(selectedId = null) {
         $.ajax({
-            url: categoryApi,
+            url: casteApi,
             method: "GET",
             headers: getTokenHeader(),
             success: function (response) {
