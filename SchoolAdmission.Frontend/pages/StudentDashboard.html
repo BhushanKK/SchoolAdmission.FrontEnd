@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="menu-title">
+            Student Panel
+        </div>
+
+        <a href="#" onclick="loadPage('student-admission.html')">
+            <i class="fas fa-user-plus"></i> Student Admission Form
+        </a>
+
+        <a href="#" onclick="loadPage('print-admission.html')">
+            <i class="fas fa-print"></i> Print Admission Form
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" id="mainContent">
+
+        <div class="topbar d-flex justify-content-between">
+            <h4 id="pageTitle">Dashboard</h4>
+
+            <div>
+                <span id="userEmail"></span>
+                <button class="btn btn-danger btn-sm ms-3" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="card p-4 shadow">
+            <h5>Welcome to Student Dashboard</h5>
+            <p>Select an option from the left menu.</p>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+        <div id="toastAlert" class="toast text-white bg-success border-0" data-mdb-autohide="true"
+            data-mdb-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-mdb-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-light text-center text-muted py-3">
+        &copy; <span id="currentYear"></span> Shriyash Computers and IT Solutions Pvt.Ltd.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+
+    <script>
+        document.getElementById("userEmail").innerText =
+            localStorage.getItem("userEmail");
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = "../index.html";
+        }
+
+        function loadPage(page) {
+
+            fetch(page)
+                .then(res => res.text())
+                .then(html => {
+
+                    document.getElementById("mainContent").innerHTML = html;
+
+                    // LOAD JS AFTER HTML
+                    if (page === "StudentAdmission.html") {
+                        loadScript("../js/student-admission.js", function () {
+                            initWizard(); // ✅ IMPORTANT
+                        });
+                    }
+                });
+        }
+        function loadScript(src, callback) {
+    let script = document.createElement("script");
+    script.src = src;
+    script.onload = callback;
+    document.body.appendChild(script);
+}
+
+function loadPage(page) {
+
+    fetch(page)
+        .then(res => res.text())
+        .then(html => {
+
+            document.getElementById("mainContent").innerHTML = html;
+
+            if (page === "student-admission.html") {
+                loadScript("../js/student-admission.js", function () {
+                    initWizard(); // ✅ MUST
+                });
+            }
+        });
+}
+    </script>
+
+</body>
+
+</html>
