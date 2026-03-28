@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School Admission Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- MDB CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            background: linear-gradient(135deg,#4e73df,#224abe);
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow" style="width:400px">
+        <div class="card-body p-5">
+
+            <h3 class="text-center mb-4 text-primary">Login</h3>
+
+            <form id="loginForm">
+
+                <div class="form-outline mb-4">
+                    <input type="email" id="email" class="form-control"/>
+                    <label class="form-label">Email</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="password" id="password" class="form-control"/>
+                    <label class="form-label">Password</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Login
+                </button>
+
+                <div class="text-danger mt-3 text-center" id="errorMsg"></div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- MDB JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

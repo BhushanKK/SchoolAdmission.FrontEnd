@@ -1,0 +1,56 @@
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Category Master List</h5>
+            <button class="btn btn-primary btn-sm" id="addCategoryBtn">
+                + Add Category
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table id="categoryTable" class="table table-striped table-bordered align-middle w-100">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:120px">Category Id</th>
+                        <th>Category Name</th>
+                        <th style="width:160px">Actions</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h6 class="modal-title mb-0">Add / Edit Category</h6>
+                <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden" id="categoryId">
+
+                <div class="mb-3">
+                    <label class="form-label">Category Name</label>
+                    <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-light" data-mdb-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" id="saveCategoryBtn">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
