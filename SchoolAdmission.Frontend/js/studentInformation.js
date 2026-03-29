@@ -39,7 +39,7 @@ $('#btnSaveStudentInfo').click(function () {
             data: JSON.stringify(payload),
 
             success: function (res) {
-                showToast(res.message || (id ? "Branch updated successfully" : "Branch added successfully"), "success");
+                showToast(res.message || "Student information saved successfully", "success");
             },
 
             error: function (xhr) {
@@ -64,7 +64,6 @@ $('#btnSaveStudentInfo').click(function () {
                     showToast(xhr.responseJSON.message, "error");
                     return;
                 }
-
                 showToast("Something went wrong", "error");
             }
         });

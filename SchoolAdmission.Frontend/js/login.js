@@ -23,6 +23,7 @@ $(document).ready(function () {
                     localStorage.setItem("userId", response.data.userId);
                     localStorage.setItem("role", response.data.role);
                     localStorage.setItem("userEmail", response.data.emailId);
+                    localStorage.setItem("studentId", response.data.studentId);
                     if (response.data.role === "Admin") 
                         window.location.href = "pages/AdminDashboard.html";
                      else 

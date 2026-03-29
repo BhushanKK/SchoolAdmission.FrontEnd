@@ -1,7 +1,30 @@
 $(document).ready(function () {
 
     const token = localStorage.getItem("accessToken");
+    const studentId = localStorage.getItem("studentId");
     const headers = { "Authorization": "Bearer " + token };
+
+    $.ajax({
+        url: 'http://localhost:5263/api/student/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: headers,
+        success: function(response) {
+            if(response.success && response.data) {
+                $('#firstName').val(response.data.firstName);
+                $('#middleName').val(response.data.middleName);
+                $('#lastName').val(response.data.lastName);
+
+                //bind remaining fields similarly... @@ Kunal
+                
+            } else {
+                alert('No data found for this student.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('API Error:', error);
+        }
+    });
 
     function populateDropdown(url, $dropdown, valueField, textField, placeholder) {
         $dropdown.empty().append(`<option value="">${placeholder}</option>`);
