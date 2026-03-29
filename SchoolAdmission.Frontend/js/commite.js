@@ -26,8 +26,8 @@ $(document).ready(function () {
         },
 
         columns: [
-            { data: "committeeId", defaultContent: "-" },
-            { data: "committeeName", defaultContent: "-" },
+            { data: "commiteeId"},
+            { data: "commiteeName" },
             {
                 data: null,
                 orderable: false,
