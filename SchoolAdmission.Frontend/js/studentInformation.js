@@ -8,7 +8,23 @@ $('#btnSaveStudentInfo').click(function () {
             financialYearId: "",
             firstName: $("#firstName").val(),
             middleName: $("#middleName").val(),
+            lastName: $("#lastName").val(),
+            gender:false,
+            dob : $("#dob").val(),
+            saralId : "",
+            aadharNo : $("#aadharNo").val(),
+            nationality: $("#nationality").val(),
+            motherTongue: $("#motherTongue").val(),
+            religionId : "",
+            casteId : "",
+            CategoryId : "",
+            isMinority : false,
             isHandicapped:false,
+            isBpl : false,
+            bpl_Type : "",
+            photo : "",
+            modifyBy : "",
+            branchId : "",
         };
       
         const url = `${apiBase}/student/${studentId}`;
