@@ -3,20 +3,45 @@
         --mdb-text-opacity: 1;
         color: white !important;
     }
+
+    .step {
+        display: none;
+    }
+
+    .progress-bar {
+        transition: width 0.4s ease;
+        font-weight: bold;
+    }
 </style>
+
+<div class="topbar d-flex justify-content-between">
+
+    <h4 id="pageTitle">Student Registration</h4>
+
+    <div>
+        <span id="userEmail"></span>
+        <button class="btn btn-danger btn-sm ms-3" onclick="logout()">Logout</button>
+    </div>
+
+</div>
 <div class="card p-4 shadow">
 
     <h4 class="mb-4 text-center">Student Admission Wizard</h4>
 
     <!-- Progress Bar -->
-    <div class="progress mb-4" style="height: 10px; border-radius: 5px;">
-        <div id="progressBar" class="progress-bar bg-primary" style="width: 16.66%;"></div>
+    <div class="progress mb-4" style="height: 20px;">
+        <div id="progressBar" class="progress-bar bg-info d-flex align-items-center justify-content-center"
+            style="width: 0%;">
+            0%
+        </div>
     </div>
 
     <!-- STEP 1: STUDENT INFO -->
     <div class="step">
 
-        <h6>Student Information</h6>
+        <div class="mb-3">
+            <span class="badge bg-info text-dark fs-6 py-2 px-3">Step 1: Student Information</span>
+        </div>
 
         <div class="row">
 
@@ -160,8 +185,10 @@
             <span class="badge bg-warning text-dark fs-6 py-2 px-3">Step 3: Physical Details</span>
         </div>
         <div class="row g-3">
-            <div class="col-md-4"><input type="text" id="height" class="form-control" placeholder="Height (cm)"></div>
-            <div class="col-md-4"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)"></div>
+            <div class="col-md-4"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
+            </div>
+            <div class="col-md-4"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
+            </div>
             <div class="col-md-4"><input type="text" id="handicappedTypeId" class="form-control"
                     placeholder="Handicapped Type ID"></div>
         </div>
@@ -185,8 +212,10 @@
                     placeholder="Grand Father Name"></div>
             <div class="col-md-4"><input type="text" id="parentName" class="form-control"
                     placeholder="Parent/Guardian Name"></div>
-            <div class="col-md-4"><input type="text" id="contactNo" class="form-control" placeholder="Contact No"></div>
-            <div class="col-md-4"><input type="email" id="emailId" class="form-control" placeholder="Email ID"></div>
+            <div class="col-md-4"><input type="text" id="contactNo" class="form-control" placeholder="Contact No">
+            </div>
+            <div class="col-md-4"><input type="email" id="emailId" class="form-control" placeholder="Email ID">
+            </div>
             <div class="col-md-4"><input type="text" id="income" class="form-control" placeholder="Income"></div>
             <div class="col-md-4"><input type="text" id="occupation" class="form-control" placeholder="Occupation">
             </div>
@@ -207,8 +236,10 @@
                     placeholder="Previous School"></div>
             <div class="col-md-6"><input type="date" id="schoolDOE" class="form-control"
                     placeholder="Date of Enrollment"></div>
-            <div class="col-md-4"><input type="text" id="progress" class="form-control" placeholder="Progress"></div>
-            <div class="col-md-4"><input type="text" id="behaviour" class="form-control" placeholder="Behaviour"></div>
+            <div class="col-md-4"><input type="text" id="progress" class="form-control" placeholder="Progress">
+            </div>
+            <div class="col-md-4"><input type="text" id="behaviour" class="form-control" placeholder="Behaviour">
+            </div>
             <div class="col-md-4"><input type="text" id="passingYear" class="form-control" placeholder="Passing Year">
             </div>
             <div class="col-md-4"><input type="text" id="seatNo" class="form-control" placeholder="Seat No"></div>
