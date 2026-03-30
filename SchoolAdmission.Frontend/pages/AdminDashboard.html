@@ -134,7 +134,7 @@
                     document.getElementById("mainContent").innerHTML =
                         `
             <div class="topbar d-flex justify-content-between">
-                <h4>${page.replace('.html', '').toUpperCase()}</h4>
+                <h4>${page.replace('.html', '').charAt(0).toUpperCase() + page.replace('.html', '').slice(1).toLowerCase()}</h4>
                 <div>
                     <span>${localStorage.getItem("userEmail")}</span>
                     <button class="btn btn-danger btn-sm ms-3" onclick="logout()">Logout</button>

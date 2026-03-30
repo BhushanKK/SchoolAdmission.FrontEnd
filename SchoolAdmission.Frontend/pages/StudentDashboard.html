@@ -94,27 +94,26 @@
                 });
         }
         function loadScript(src, callback) {
-    let script = document.createElement("script");
-    script.src = src;
-    script.onload = callback;
-    document.body.appendChild(script);
-}
+            let script = document.createElement("script");
+            script.src = src;
+            script.onload = callback;
+            document.body.appendChild(script);
+        }
 
-function loadPage(page) {
+        function loadPage(page) {
 
-    fetch(page)
-        .then(res => res.text())
-        .then(html => {
-
-            document.getElementById("mainContent").innerHTML = html;
-
-            if (page === "student-admission.html") {
-                loadScript("../js/student-admission.js", function () {
-                    initWizard(); // ✅ MUST
+            fetch(page)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById("mainContent").innerHTML = html;
+                    if (page === "student-admission.html") {
+                        loadScript("../js/studentdetails.js");
+                        loadScript("../js/student-admission.js", function () {
+                            initWizard();
+                        });
+                    }
                 });
-            }
-        });
-}
+        }
     </script>
 
 </body>

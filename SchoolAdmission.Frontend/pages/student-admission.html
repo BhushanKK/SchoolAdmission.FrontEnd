@@ -3,89 +3,116 @@
         --mdb-text-opacity: 1;
         color: white !important;
     }
+
+    .step {
+        display: none;
+    }
+
+    .progress-bar {
+        transition: width 0.4s ease;
+        font-weight: bold;
+    }
 </style>
+
+<div class="topbar d-flex justify-content-between">
+
+    <h4 id="pageTitle">Student Admission Portal</h4>
+
+    <div>
+        <span id="userEmail"></span>
+        <button class="btn btn-danger btn-sm ms-3" onclick="logout()">Logout</button>
+    </div>
+
+</div>
 <div class="card p-4 shadow">
 
-    <h4 class="mb-4 text-center">Student Admission Wizard</h4>
+    <h4 class="mb-4 text-center">Student Registration</h4>
 
     <!-- Progress Bar -->
-    <div class="progress mb-4" style="height: 10px; border-radius: 5px;">
-        <div id="progressBar" class="progress-bar bg-primary" style="width: 16.66%;"></div>
+    <div class="progress mb-4" style="height: 20px;">
+        <div id="progressBar" class="progress-bar bg-info d-flex align-items-center justify-content-center"
+            style="width: 0%;">
+            0%
+        </div>
     </div>
 
     <!-- STEP 1: STUDENT INFO -->
     <div class="step">
 
-        <h6>Student Information</h6>
+        <div class="mb-3">
+            <span class="badge bg-info text-dark fs-6 py-2 px-3">Step 1: Student Information</span>
+        </div>
 
         <div class="row">
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="firstName" class="form-control" placeholder="First Name">
+                <input type="text" id="firstName" autocomplete="off" class="form-control" placeholder="First Name">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="middleName" class="form-control" placeholder="Middle Name">
+                <input type="text" id="middleName" autocomplete="off" class="form-control" placeholder="Middle Name">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="lastName" class="form-control" placeholder="Last Name">
+                <input type="text" id="lastName" autocomplete="off" class="form-control" placeholder="Last Name">
             </div>
 
             <div class="col-md-4 mb-3">
                 <select id="gender" class="form-select">
+                    <option value="">Select Gender</option>
                     <option value="true">Male</option>
                     <option value="false">Female</option>
                 </select>
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="date" id="dob" class="form-control">
+                <input type="date" id="dob" autocomplete="off" class="form-control">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="aadharNo" class="form-control" placeholder="Aadhar No">
+                <input type="number" min="1" minlength="12" id="aadharNo" autocomplete="off" class="form-control"
+                    placeholder="Aadhar No">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="saralId" class="form-control" placeholder="Saral ID">
+                <input type="number" id="saralId" autocomplete="off" class="form-control" placeholder="Saral ID">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="nationality" class="form-control" placeholder="Nationality">
+                <input type="text" id="nationality" value="Indian" disabled autocomplete="off" class="form-control"
+                    placeholder="Nationality">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="motherTongue" class="form-control" placeholder="Mother Tongue">
+                <input type="text" id="motherTongue" autocomplete="off" class="form-control"
+                    placeholder="Mother Tongue">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="religionId" class="form-control" placeholder="Religion">
+                <select id="religionId" class="form-control form-select" data-mdb-select-init>
+                    <option value="">Select Religion</option>
+                </select>
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="casteId" class="form-control" placeholder="Caste">
+                <select id="categoryId" class="form-control form-select" data-mdb-select-init>
+                    <option value="">Select Category</option>
+                </select>
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="categoryId" class="form-control" placeholder="Category">
+                <select id="casteId" class="form-control form-select" data-mdb-select-init disabled>
+                    <option value="">Select Caste</option>
+                </select>
             </div>
 
-            <div class="col-md-3">
-                <input type="checkbox" id="isMinority"> Minority
+            <div class="col-md-2">
+                <input type="checkbox" id="isMinority" disabled> Minority
             </div>
 
-            <div class="col-md-3">
-                <input type="checkbox" id="isHandicapped"> Handicapped
-            </div>
-
-            <div class="col-md-3">
+            <!-- <div class="col-md-2">
                 <input type="checkbox" id="isBpl"> BPL
-            </div>
-
-            <div class="col-md-3">
-                <input type="text" id="bpL_Type" class="form-control" placeholder="BPL Type">
-            </div>
+            </div> -->
 
         </div>
 
@@ -98,35 +125,57 @@
         <div class="mb-3">
             <span class="badge bg-success fs-6 py-2 px-3">Step 2: Address Details</span>
         </div>
-        <div class="row g-3">
+
+        <div class="row g-4">
+            <!-- Permanent Address -->
             <div class="col-md-6">
-                <div class="card p-3 mb-3 border-primary">
-                    <h6 class="text-primary">Permanent Address</h6>
-                    <input type="text" id="permanent_village" class="form-control mb-2" placeholder="Village">
-                    <input type="text" id="permanent_city" class="form-control mb-2" placeholder="City">
-                    <input type="text" id="permanent_district" class="form-control mb-2" placeholder="District">
-                    <input type="text" id="permanent_state" class="form-control mb-2" placeholder="State">
-                    <input type="text" id="permanent_pincode" class="form-control mb-2" placeholder="Pincode">
+                <div class="card shadow-sm p-4 border-0">
+                    <h6 class="text-primary mb-3">Permanent Address</h6>
+
+                    <input type="text" autocomplete="off" id="permanent_village" class="form-control mb-2"
+                        placeholder="Village">
+                    <input type="text" autocomplete="off" id="permanent_city" class="form-control mb-2"
+                        placeholder="City">
+                    <input type="text" autocomplete="off" id="permanent_district" class="form-control mb-2"
+                        placeholder="District">
+                    <input type="text" autocomplete="off" id="permanent_state" class="form-control mb-2"
+                        placeholder="State">
+                    <input type="number" min="1" length="6" autocomplete="off" id="permanent_pincode"
+                        class="form-control mb-2" placeholder="Pincode">
                 </div>
             </div>
+
+            <!-- Current Address -->
             <div class="col-md-6">
-                <div class="card p-3 mb-3 border-success">
-                    <h6 class="text-success">Current Address</h6>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="sameAddress" onclick="copyPermanent()">
-                        <label class="form-check-label">Same as Permanent</label>
+                <div class="card shadow-sm p-4 border-0">
+
+                    <!-- Header with Toggle -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-success mb-0">Current Address</h6>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="sameAddress" onclick="copyPermanent()">
+                            <label class="form-check-label small">Same as Permanent</label>
+                        </div>
                     </div>
-                    <input type="text" id="current_village" class="form-control mb-2" placeholder="Village">
-                    <input type="text" id="current_city" class="form-control mb-2" placeholder="City">
-                    <input type="text" id="current_district" class="form-control mb-2" placeholder="District">
-                    <input type="text" id="current_state" class="form-control mb-2" placeholder="State">
-                    <input type="text" id="current_pincode" class="form-control mb-2" placeholder="Pincode">
+
+                    <input type="text" autocomplete="off" id="current_village" class="form-control mb-2"
+                        placeholder="Village">
+                    <input type="text" autocomplete="off" id="current_city" class="form-control mb-2"
+                        placeholder="City">
+                    <input type="text" autocomplete="off" id="current_district" class="form-control mb-2"
+                        placeholder="District">
+                    <input type="text" autocomplete="off" id="current_state" class="form-control mb-2"
+                        placeholder="State">
+                    <input type="number" length="6" min="1" id="current_pincode" class="form-control mb-2"
+                        placeholder="Pincode">
                 </div>
             </div>
         </div>
-        <div class="mt-3">
-            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-            <button class="btn btn-primary" onclick="nextStep()">Next</button>
+
+        <div class="mt-4 d-flex justify-content-between">
+            <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
+            <button class="btn btn-primary px-4" onclick="nextStep()">Next</button>
         </div>
     </div>
 
@@ -136,8 +185,10 @@
             <span class="badge bg-warning text-dark fs-6 py-2 px-3">Step 3: Physical Details</span>
         </div>
         <div class="row g-3">
-            <div class="col-md-4"><input type="text" id="height" class="form-control" placeholder="Height (cm)"></div>
-            <div class="col-md-4"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)"></div>
+            <div class="col-md-4"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
+            </div>
+            <div class="col-md-4"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
+            </div>
             <div class="col-md-4"><input type="text" id="handicappedTypeId" class="form-control"
                     placeholder="Handicapped Type ID"></div>
         </div>
@@ -161,8 +212,10 @@
                     placeholder="Grand Father Name"></div>
             <div class="col-md-4"><input type="text" id="parentName" class="form-control"
                     placeholder="Parent/Guardian Name"></div>
-            <div class="col-md-4"><input type="text" id="contactNo" class="form-control" placeholder="Contact No"></div>
-            <div class="col-md-4"><input type="email" id="emailId" class="form-control" placeholder="Email ID"></div>
+            <div class="col-md-4"><input type="text" id="contactNo" class="form-control" placeholder="Contact No">
+            </div>
+            <div class="col-md-4"><input type="email" id="emailId" class="form-control" placeholder="Email ID">
+            </div>
             <div class="col-md-4"><input type="text" id="income" class="form-control" placeholder="Income"></div>
             <div class="col-md-4"><input type="text" id="occupation" class="form-control" placeholder="Occupation">
             </div>
@@ -183,8 +236,10 @@
                     placeholder="Previous School"></div>
             <div class="col-md-6"><input type="date" id="schoolDOE" class="form-control"
                     placeholder="Date of Enrollment"></div>
-            <div class="col-md-4"><input type="text" id="progress" class="form-control" placeholder="Progress"></div>
-            <div class="col-md-4"><input type="text" id="behaviour" class="form-control" placeholder="Behaviour"></div>
+            <div class="col-md-4"><input type="text" id="progress" class="form-control" placeholder="Progress">
+            </div>
+            <div class="col-md-4"><input type="text" id="behaviour" class="form-control" placeholder="Behaviour">
+            </div>
             <div class="col-md-4"><input type="text" id="passingYear" class="form-control" placeholder="Passing Year">
             </div>
             <div class="col-md-4"><input type="text" id="seatNo" class="form-control" placeholder="Seat No"></div>
