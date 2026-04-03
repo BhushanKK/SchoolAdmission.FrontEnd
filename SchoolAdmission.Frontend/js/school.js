@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     const table = $('#schoolTable').DataTable({
         ajax: {
-            url: `${apiBase}/schoolmasters`,
+            url: `${apiBase}/schoolmasters/AllSchools`,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")

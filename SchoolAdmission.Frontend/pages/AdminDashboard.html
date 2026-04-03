@@ -35,7 +35,7 @@
 
         <a href="#" onclick="loadPage('activate-student.html')"><i class="fas fa-check-circle"></i> Activate Student</a>
 
-        <a href="#" onclick="loadPage('student-list.html')"><i class="fas fa-list-alt"></i> Student List</a>
+        <a href="#" onclick="loadPage('studentDetailsView.html')"><i class="fas fa-list-alt"></i> Student List</a>
 
         <a href="#" onclick="loadPage('merit-list.html')"><i class="fas fa-award"></i> Merit List</a>
     </div>
@@ -164,6 +164,9 @@
                     }
                     if (page === "activate-student.html") {
                         loadScript("../js/activate-student.js");
+                    }
+                    if (page === "studentDetailsView.html") {
+                        loadScript("../js/studentDetailsView.js");
                     }
                 });
         }
