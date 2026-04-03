@@ -20,6 +20,7 @@ $(document).ready(function () {
             }
         },
         columns: [
+
             {data:"studentId",defaultContent:""},
             {data:"registrationNo",defaultContent:""},
             {data:"schoolName",defaultContent:""},
