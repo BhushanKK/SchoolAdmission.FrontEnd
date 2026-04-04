@@ -1,86 +1,35 @@
 $(document).ready(function () {
-
-    const apiBase = "http://localhost:5263/api";
-
-    const table = $('#studentTable').DataTable({
+ const token = localStorage.getItem("accessToken");
+    const headers = { "Authorization": "Bearer " + token };
+    $('#casteTable').DataTable({
         ajax: {
-            url: `${apiBase}/student`,
+            url: "http://localhost:5263/api/student-details",
             type: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
-            dataSrc: "data",
-            error: function (xhr) {
-                if (xhr.status === 401) {
-                    localStorage.clear();
-                    window.location.href = "../index.html";
+            headers: headers,
+            dataSrc: function (json) {
+                if (json.success && json.data) {
+                    return json.data;
                 } else {
-                    showToast("Failed to load students", "error");
+                    console.error("Failed to load student data");
+                    return [];
                 }
+            },
+            error: function (xhr) {
+                console.error("Server error while fetching student details:", xhr);
+                return [];
             }
         },
-
         columns: [
-            { data: "studentId" },
-            { data: "name" },
-            { data: "email" },
-            { data: "course" },
-
-            {
-                data: "isActive",
-                render: function (data, type, row) {
-                    return `
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="status-toggle"
-                                data-id="${row.studentId}"
-                                ${data ? "checked" : ""}>
-                            <span class="slider"></span>
-                        </label>
-                    `;
-                }
-            }
-        ]
-    });
-
-    $('#studentTable').on('change', '.status-toggle', function () {
-
-        var checkbox = $(this);
-        var studentId = checkbox.data("id");
-        var isChecked = checkbox.is(":checked");
-
-        let url = isChecked
-            ? `${apiBase}/users/activate/${studentId}`
-            : `${apiBase}/users/deactivate/${studentId}`;
-
-        $.ajax({
-            url: url,
-            method: "PUT",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
-
-            success: function (res) {
-
-                if (res.success) {
-                    showToast(res.message || "Status updated", "success");
-                } else {
-                    showToast(res.message || "Operation failed", "error");
-                    checkbox.prop("checked", !isChecked); 
-                }
-            },
-
-            error: function (xhr) {
-
-                if (xhr.status === 401) {
-                    localStorage.clear();
-                    window.location.href = "../index.html";
-                    return;
-                }
-
-                showToast("Error updating status", "error");
-                checkbox.prop("checked", !isChecked); 
-            }
-        });
+            {data:"studentName", defaultContent: "" },
+            {data:"schoolName", defaultContent: ""},
+            {data:"dob",defaultContent:""},
+            {data:"gender",defaultContent:""},
+            {data:"aadharNo",defaultContent:""},
+            {data:"standard",defaultContent:""},
+            {data:"division",defaultContent:""}
+        ],
+        responsive: true,
+        pageLength: 10
     });
 
 });

@@ -48,7 +48,6 @@ $(document).ready(function () {
     $('#addCommitteeBtn').click(function () {
         $('#committeeId').val('');
         $('#committeeName').val('');
-
         const modal = new mdb.Modal(document.getElementById('commiteModal'));
         modal.show();
     });
