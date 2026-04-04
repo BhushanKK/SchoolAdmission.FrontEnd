@@ -56,7 +56,7 @@ $(document).ready(function () {
             return;
         }
 
-        const payload = {
+        const payload = { 
             branchId: parseInt(id) || 0,
             branchName: branchName
         };
@@ -74,7 +74,7 @@ $(document).ready(function () {
             data: JSON.stringify(payload),
 
             success: function (res) {
-                const modalEl = document.getElementById('branchModal');
+                const modalEl = $('#branchModal').trim();
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 table.ajax.reload(null, false);
@@ -82,7 +82,7 @@ $(document).ready(function () {
             },
 
             error: function (xhr) {
-                const modalEl = document.getElementById('branchModal');
+                const modalEl = $('#branchModal');
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 if (xhr.status === 401) {

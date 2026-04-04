@@ -1,39 +1,29 @@
-$('#btnSaveStudentInfo').click(function ()
-{
-        var apiBase = "https://localhost:44328/api";
-        const studentId = localStorage.getItem("userId");
+$(document).ready(function () {
+    $('#btnSaveStudentInfo').click(function () {
+        var apiBase = "http://localhost:5263/api";
+        
+        const studentId = localStorage.getItem("studentId");
         const payload = {
-            registrationNo: "",
-            schoolId: "",
-            academicYearId: "",
-            financialYearId: "",
             firstName: $("#firstName").val(),
             middleName: $("#middleName").val(),
             lastName: $("#lastName").val(),
-            gender:false,
-            dob : $("#dob").val(),
-            saralId : "",
-            aadharNo : $("#aadharNo").val(),
+            gender: $("#gender").val() === "true",
+            dob: new Date($("#dob").val()).toISOString(),
+            saralId: $("#saralId").val(),
+            aadharNo: $("#aadharNo").val(),
             nationality: $("#nationality").val(),
             motherTongue: $("#motherTongue").val(),
-            religionId : "",
-            casteId : "",
-            CategoryId : "",
-            isMinority : false,
-            isHandicapped:false,
-            isBpl : false,
-            bpl_Type : "",
-            photo : "",
-            modifyBy : "",
-            branchId : "",
+            religionId: parseInt($("#religionId").val()),
+            casteId: parseInt($("#casteId").val()),
+            categoryId: parseInt($("#categoryId").val()),
+            isMinority: $("#isMinority").is(":checked"),
+            isHandicapped: false,
+            isBpl: false
         };
-      
-        const url = `${apiBase}/student/${studentId}`;
 
+        
         $('#btnSaveStudentInfo').prop("disabled", true);
-
-
-
+        const url = `${apiBase}/student/${studentId}`;
         $.ajax({
             url: url,
             method: "PUT",
@@ -42,34 +32,24 @@ $('#btnSaveStudentInfo').click(function ()
             },
             contentType: "application/json",
             data: JSON.stringify(payload),
-
             success: function (res) {
-                showToast(res.message || "Student information saved successfully", "success");
+                console.log("SUCCESS:", res);
+                showToast("Student updated successfully", "success");
+                $('#btnSaveStudentInfo').prop("disabled", false);
             },
-
             error: function (xhr) {
+                console.log("ERROR:", xhr);
+                $('#btnSaveStudentInfo').prop("disabled", false);
                 if (xhr.status === 401) {
                     localStorage.clear();
                     window.location.href = "../index.html";
                     return;
                 }
-
-                if (xhr.status === 409 && xhr.responseJSON?.message) {
-                    showToast(xhr.responseJSON.message, "exists");
-                    return;
-                }
-
-                if (xhr.responseJSON?.errors) {
-                    const message = xhr.responseJSON.errors.join("\n");
-                    showToast(message, "error");
-                    return;
-                }
-
                 if (xhr.responseJSON?.message) {
-                    showToast(xhr.responseJSON.message, "error");
+                    alert(xhr.responseJSON.message);
                     return;
                 }
-                showToast("Something went wrong", "error");
             }
         });
     });
+});

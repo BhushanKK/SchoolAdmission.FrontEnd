@@ -108,6 +108,7 @@
                     document.getElementById("mainContent").innerHTML = html;
                     if (page === "student-admission.html") {
                         loadScript("../js/studentdetails.js");
+                        loadScript("../js/studentInformation.js");
                         loadScript("../js/validations.js");
                         loadScript("../js/student-admission.js", function () {
                             initWizard();
