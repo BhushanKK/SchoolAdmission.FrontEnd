@@ -45,4 +45,18 @@ $(document).ready(function () {
             e.preventDefault();
         }
     });
+
+    $(".passwordValidation").on("blur", function () {
+
+        var password = $(this).val();
+
+        var regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{7,}$/;
+
+        if (!regex.test(password)) {
+            alert("Password must be at least 7 characters long and include at least one uppercase letter, one number, and one special character.");
+            e.preventDefault();
+            
+        }
+
+    });
 });
