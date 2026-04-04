@@ -3,29 +3,11 @@ $('#btnSaveStudentInfo').click(function ()
         var apiBase = "https://localhost:44328/api";
         const studentId = localStorage.getItem("userId");
         const payload = {
-            registrationNo: "",
-            schoolId: "",
-            academicYearId: "",
-            financialYearId: "",
-            firstName: $("#firstName").val(),
-            middleName: $("#middleName").val(),
-            lastName: $("#lastName").val(),
-            gender:false,
-            dob : $("#dob").val(),
-            saralId : "",
-            aadharNo : $("#aadharNo").val(),
-            nationality: $("#nationality").val(),
-            motherTongue: $("#motherTongue").val(),
-            religionId : "",
-            casteId : "",
-            CategoryId : "",
-            isMinority : false,
-            isHandicapped:false,
-            isBpl : false,
-            bpl_Type : "",
-            photo : "",
-            modifyBy : "",
-            branchId : "",
+           
+            
+             Height:"",
+             Weight:"",
+             HandicappedTypeID:"",
         };
       
         const url = `${apiBase}/student/${studentId}`;

@@ -1,35 +1,64 @@
 $(document).ready(function () {
- const token = localStorage.getItem("accessToken");
-    const headers = { "Authorization": "Bearer " + token };
-    $('#casteTable').DataTable({
+    const token = localStorage.getItem("accessToken");
+
+    const table = $('#studentTable').DataTable({
         ajax: {
             url: "http://localhost:5263/api/student-details",
             type: "GET",
-            headers: headers,
+            headers: { "Authorization": "Bearer " + token },
             dataSrc: function (json) {
-                if (json.success && json.data) {
-                    return json.data;
-                } else {
-                    console.error("Failed to load student data");
-                    return [];
-                }
-            },
-            error: function (xhr) {
-                console.error("Server error while fetching student details:", xhr);
-                return [];
+                return json.success && json.data ? json.data : [];
             }
         },
         columns: [
-            {data:"studentName", defaultContent: "" },
-            {data:"schoolName", defaultContent: ""},
-            {data:"dob",defaultContent:""},
-            {data:"gender",defaultContent:""},
-            {data:"aadharNo",defaultContent:""},
-            {data:"standard",defaultContent:""},
-            {data:"division",defaultContent:""}
-        ],
-        responsive: true,
-        pageLength: 10
+            { data: "studentName", defaultContent: "" },
+            { data: "schoolName", defaultContent: "" },
+            { data: "dob", defaultContent: "" },
+            { data: "gender", defaultContent: "" },
+            { data: "aadharNo", defaultContent: "" },
+            { data: "standard", defaultContent: "" },
+            { data: "division", defaultContent: "" },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    const isChecked = row.status ? "checked" : "";
+                    return `
+                        <div class="form-check form-switch">
+                            <input 
+                                class="form-check-input status-toggle" 
+                                type="checkbox" 
+                                data-id="${row.studentId}" 
+                                ${isChecked}>
+                        </div>
+                    `;
+                },
+                orderable: false
+            }
+        ]
     });
 
+    $('#studentTable').on('change', '.status-toggle', function () {
+        const checkbox = $(this);
+        const studentId = checkbox.data('id');
+        const isActive = checkbox.is(':checked');
+        const status = isActive;
+
+        checkbox.prop('disabled', true);
+
+        $.ajax({
+            url: `http://localhost:5263/api/users/student-status/${studentId}/${status}`,
+            type: "PUT",
+            headers: { "Authorization": "Bearer " + token },
+            success: function () {
+                console.log("Status updated");
+            },
+            error: function () {
+                alert("Failed to update status");
+                checkbox.prop('checked', !isActive); // revert
+            },
+            complete: function () {
+                checkbox.prop('disabled', false);
+            }
+        });
+    });
 });
