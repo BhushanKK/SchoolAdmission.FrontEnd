@@ -83,11 +83,11 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">First Name</label>
-                                <input type="text" id="firstName" class="form-control" required>
+                                <input type="text" id="firstName" class="nameValidation form-control" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Middle Name</label>
-                                <input type="text" id="middleName" class="form-control">
+                                <input type="text" id="middleName" class="nameValidation form-control">
                             </div>
                             
                         </div>
@@ -96,12 +96,12 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Last Name</label>
-                                <input type="text" id="lastName" class="form-control" required>
+                                <input type="text" id="lastName" class="nameValidation form-control" required>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Mobile Number</label>
-                                <input type="text" id="mobileNo" class="form-control" required>
+                                <input type="text" id="mobileNo" minlength="10" maxlength="10" class="numberValidation form-control" required>
                             </div>
                         </div>
 
@@ -151,6 +151,7 @@
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../js/studentRegistration.js"></script>
+<script src="../js/validations.js"></script>
 
 </body>
 </html>
