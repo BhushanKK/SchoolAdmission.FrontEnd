@@ -35,7 +35,7 @@ function loadSchools(committeeId) {
                 });
                 dropdown.prop("disabled", false);
                 if (response.data.length > 0) {
-                    dropdown.val(response.data[0].schoolId); // auto-select first
+                    dropdown.val(response.data.schoolId);
                 }
             }
         },

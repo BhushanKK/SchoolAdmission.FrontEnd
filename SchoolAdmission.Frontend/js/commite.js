@@ -26,15 +26,19 @@ $(document).ready(function () {
         },
 
         columns: [
-            { data: "commiteeId"},
+            { data: "commiteeId" },
             { data: "commiteeName" },
             {
                 data: null,
                 orderable: false,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-warning editBtn" data-id="${row.committeeId}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.committeeId}">Delete</button>
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.committeeId}" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.committeeId}" title="Delete">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
                     `;
                 }
             }
@@ -49,7 +53,7 @@ $(document).ready(function () {
         modal.show();
     });
 
-     
+
     $('#saveCommitteeBtn').click(function () {
 
         const id = $('#committeeId').val();
@@ -135,7 +139,7 @@ $(document).ready(function () {
         modal.show();
     });
 
-    
+
     let deleteId = 0;
 
     $('#commiteTable').on('click', '.deleteBtn', function () {
