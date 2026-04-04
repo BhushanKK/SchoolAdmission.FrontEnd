@@ -49,8 +49,12 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-warning editBtn" data-id="${row.casteId}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.casteId}">Delete</button>
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.casteId}" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.casteId}" title="Delete">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
                     `;
                 }
             }

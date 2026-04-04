@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     const table = $('#schoolTable').DataTable({
         ajax: {
-            url: `${apiBase}/schoolmasters`,
+            url: `${apiBase}/schoolmasters/AllSchools`,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -26,9 +26,13 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-warning editBtn" data-id="${row.schoolId}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.schoolId}">Delete</button>
-                    `;
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.schoolId}" title="Edit">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.schoolId}" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        `;
                 }
             }
         ]

@@ -11,75 +11,138 @@
     <style>
         body {
             background: linear-gradient(135deg,#1cc88a,#13855c);
-            height: 100vh;
         }
 
-        .form-control {
+        .card {
+            border-radius: 15px;
+        }
+
+        .form-control, .form-select {
             border: 1px solid #ccc !important;
-            border-radius: 5px;
+            border-radius: 6px;
+            background-color: #fff;
         }
 
-        .form-control:focus {
+        .form-control:focus, .form-select:focus {
             border-color: #1cc88a !important;
             box-shadow: none !important;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        /* Register button design */
+        .btn-success {
+            background: linear-gradient(135deg, #1cc88a, #13855c);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: 0.3s;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #17a673, #0f6848);
+            transform: translateY(-1px);
         }
     </style>
 </head>
 
 <body>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow" style="width:450px">
-        <div class="card-body p-5">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-            <h3 class="text-center mb-4 text-success">Register</h3>
+            <div class="card shadow">
+                <div class="card-body p-4">
 
-            <form id="registerForm">
+                    <h3 class="text-center mb-4 text-success">Student Registration</h3>
 
-                <div class="mb-3">
-                    <input type="text" id="firstName" class="form-control" placeholder="First Name" required/>
+                    <form id="registerForm">
+
+                        <!-- ROW 1: Committee & School -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Committee</label>
+                                <select id="committee" class="form-select form-control" required>
+                                    <option value="">Select Committee</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">School</label>
+                                <select id="school" class="form-select form-control" required disabled>
+                                    <option value="">Select School</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ROW 2: First & Last Name -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" id="firstName" class="nameValidation form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Middle Name</label>
+                                <input type="text" id="middleName" class="nameValidation form-control">
+                            </div>
+                            
+                        </div>
+
+                        <!-- ROW 3: Middle & Mobile -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" id="lastName" class="nameValidation form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Mobile Number</label>
+                                <input type="text" id="mobileNo" minlength="10" maxlength="10" class="numberValidation form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- ROW 4: Email & Password -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" id="emailId" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" id="password" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- ROW 5: Confirm Password -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Confirm Password</label>
+                                <input type="password" id="confirmPassword" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success w-100 btn-lg mt-3">
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Messages -->
+                        <div class="text-danger mt-3 text-center" id="errorMsg"></div>
+                        <div class="text-success mt-3 text-center" id="successMsg"></div>
+
+                    </form>
+
                 </div>
-
-                <div class="mb-3">
-                    <input type="text" id="middleName" class="form-control" placeholder="Middle Name"/>
-                </div>
-
-                <div class="mb-3">
-                    <input type="text" id="lastName" class="form-control" placeholder="Last Name" required/>
-                </div>
-
-                <div class="mb-3">
-                    <input type="email" id="emailId" class="form-control" placeholder="Email" required/>
-                </div>
-
-                <div class="mb-3">
-                    <input type="text" id="mobileNo" class="form-control" placeholder="Mobile Number" required/>
-                </div>
-
-                <div class="mb-3">
-                    <input type="password" id="password" class="form-control" placeholder="Password" required/>
-                </div>
-
-                <div class="mb-3">
-                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required/>
-                </div>
-
-                <button type="submit" class="btn btn-success w-100">
-                    Register
-                </button>
-
-                <div class="text-danger mt-3 text-center" id="errorMsg"></div>
-                <div class="text-success mt-3 text-center" id="successMsg"></div>
-
-                <!-- Login Link -->
-                <div class="text-center mt-3">
-                    <span>Already have an account? </span>
-                    <a href="../index.html" class="text-success fw-bold">
-                        Login here
-                    </a>
-                </div>
-
-            </form>
+            </div>
 
         </div>
     </div>
@@ -87,63 +150,8 @@
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<script>
-    const registerApi = "http://localhost:5263/api/student"; // update this
-
-    $(document).ready(function () {
-
-        $("#registerForm").submit(function (e) {
-            e.preventDefault();
-
-            let firstName = $("#firstName").val();
-            let middleName = $("#middleName").val();
-            let lastName = $("#lastName").val();
-            let emailId = $("#emailId").val();
-            let mobileNo = $("#mobileNo").val();
-            let password = $("#password").val();
-            let confirmPassword = $("#confirmPassword").val();
-
-            if (password !== confirmPassword) {
-                $("#errorMsg").text("Passwords do not match");
-                return;
-            }
-
-            $.ajax({
-                url: registerApi,
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    emailId: emailId,
-                    mobileNo: mobileNo,
-                    passwordHash: password,
-                    firstName: firstName,
-                    middleName: middleName,
-                    lastName: lastName
-                }),
-
-                success: function (response) {
-                    if (response.success) {
-                        $("#successMsg").text("Registration successful!");
-                        $("#errorMsg").text("");
-
-                        setTimeout(() => {
-                            window.location.href = "../index.html";
-                        }, 2000);
-                    } else {
-                        $("#errorMsg").text(response.message);
-                    }
-                },
-
-                error: function () {
-                    $("#errorMsg").text("Server error. Please try again.");
-                }
-            });
-
-        });
-
-    });
-</script>
+<script src="../js/studentRegistration.js"></script>
+<script src="../js/validations.js"></script>
 
 </body>
 </html>

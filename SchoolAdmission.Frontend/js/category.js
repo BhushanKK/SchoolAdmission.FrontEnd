@@ -24,8 +24,12 @@ $(document).ready(function () {
                 data: null,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-warning editBtn" data-id="${row.categoryId}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.categoryId}">Delete</button>
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.categoryId}" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.categoryId}" title="Delete">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
                     `;
                 }
             }
