@@ -46,6 +46,7 @@ $(document).ready(function () {
         }
     });
 
+
     $(".emailValidation").on("input", function () {
     var email = $(this).val().trim();
 
@@ -81,4 +82,5 @@ $(document).ready(function () {
         $(this).css("border", "2px solid green");
     }
     });
+
 });
