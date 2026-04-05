@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".nameValidation").on("keypress", function (e) { //Events
+    $(".nameValidationWithSpace").on("keypress", function (e) { //Events
         var charCode = e.which;
         var char = String.fromCharCode(e.which);
         var currentVal = $(this).val();
@@ -46,17 +46,39 @@ $(document).ready(function () {
         }
     });
 
-    $(".passwordValidation").on("blur", function () {
+    $(".emailValidation").on("input", function () {
+    var email = $(this).val().trim();
 
-        var password = $(this).val();
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        var regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{7,}$/;
+    if (!emailRegex.test(email)) {
+        $(this).css("border", "2px solid red");
+    } else {
+        $(this).css("border", "2px solid green");
+    }
+    });
 
-        if (!regex.test(password)) {
-            alert("Password must be at least 7 characters long and include at least one uppercase letter, one number, and one special character.");
-            e.preventDefault();
-            
-        }
+    $(".passwordValidation").on("input", function () {
+    var password = $(this).val();
 
+    
+    var passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{7,}$/;
+
+    if (!passwordRegex.test(password)) {
+        $(this).css("border", "2px solid red");
+    } else {
+        $(this).css("border", "2px solid green");
+    }
+    });
+
+    $(".confirmPasswordValidation").on("input", function () {
+    var password = $(".passwordValidation").val();
+    var confirmPassword = $(this).val();
+
+    if (confirmPassword !== password) {
+        $(this).css("border", "2px solid red");
+    } else {
+        $(this).css("border", "2px solid green");
+    }
     });
 });

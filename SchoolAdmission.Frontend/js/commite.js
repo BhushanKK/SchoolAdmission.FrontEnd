@@ -9,34 +9,27 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
             },
-
-            dataSrc: function (json) {
-                console.log("API RESPONSE:", json);
-                if (json.data) return json.data;
-                return [json];
-            },
+            dataSrc: "data",
             error: function (xhr) {
                 if (xhr.status === 401) {
                     localStorage.clear();
                     window.location.href = "../index.html";
                 } else {
-                    showToast("Failed to load committee", "error");
+                    showToast("Failed to load Commite", "error");
                 }
             }
         },
-
         columns: [
             { data: "commiteeId" },
             { data: "commiteeName" },
             {
                 data: null,
-                orderable: false,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-info editBtn" data-id="${row.committeeId}" title="Edit">
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.commiteeId}" title="Edit">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.committeeId}" title="Delete">
+                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.commiteeId}" title="Delete">
                     <i class="fas fa-trash-alt"></i>
                 </button>
                     `;
@@ -45,33 +38,31 @@ $(document).ready(function () {
         ]
     });
 
-    $('#addCommitteeBtn').click(function () {
-        $('#committeeId').val('');
-        $('#committeeName').val('');
+    // Show Add Religion Modal
+    $('#addCommiteBtn').click(function () {
+        $('#commiteeId').val('');
+        $('#commiteeName').val('');
         const modal = new mdb.Modal(document.getElementById('commiteModal'));
         modal.show();
     });
 
+    // Save Religion
+    $('#saveCommiteBtn').click(function () {
+        const id = $('#commiteeId').val();
+        const commiteeName = $('#commiteeName').val().trim();
 
-    $('#saveCommitteeBtn').click(function () {
-
-        const id = $('#committeeId').val();
-        const committeeName = $('#committeeName').val().trim();
-
-        if (!committeeName) {
-            showToast("Please enter Committee Name", "warning");
+        if (!commiteeName) {
+            showToast("Please enter Commitee Name", "warning");
             return;
         }
 
         const payload = {
-            committeeId: parseInt(id) || 0,
-            committeeName: committeeName
+            commiteeId: parseInt(id) || 0,
+            commiteeName: commiteeName
         };
 
         const method = id ? "PUT" : "POST";
-        const url = id
-            ? `${apiBase}/commitemasters/${id}`
-            : `${apiBase}/commitemasters`;
+        const url = id ? `${apiBase}/commitemasters/${id}` : `${apiBase}/commitemasters`;
 
         $.ajax({
             url: url,
@@ -87,7 +78,7 @@ $(document).ready(function () {
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 table.ajax.reload(null, false);
-                showToast(res.message || (id ? "Committee updated successfully" : "Committee added successfully"), "success");
+                showToast(res.message || (id ? "Commite updated successfully" : "Commite added successfully"), "success");
             },
 
             error: function (xhr) {
@@ -121,35 +112,30 @@ $(document).ready(function () {
         });
     });
 
-
+    // Edit Religion
     $('#commiteTable').on('click', '.editBtn', function () {
-
         const rowData = table.row($(this).closest('tr')).data();
-
         if (!rowData) {
             showToast("Unable to load record", "error");
             return;
         }
 
-        $('#committeeId').val(rowData.committeeId);
-        $('#committeeName').val(rowData.committeeName);
+        $('#commiteeId').val(rowData.commiteeId);
+        $('#commiteeName').val(rowData.commiteeName);
 
         const modal = new mdb.Modal(document.getElementById('commiteModal'));
         modal.show();
     });
 
-
+    // Delete Religion
     let deleteId = 0;
-
     $('#commiteTable').on('click', '.deleteBtn', function () {
         deleteId = $(this).data('id');
-
         const modal = new mdb.Modal(document.getElementById("deleteConfirmModal"));
         modal.show();
     });
 
     $('#confirmDeleteBtn').click(function () {
-
         if (!deleteId) return;
 
         $.ajax({
@@ -164,7 +150,7 @@ $(document).ready(function () {
                 mdb.Modal.getInstance(modalEl)?.hide();
 
                 table.ajax.reload(null, false);
-                showToast(res.message || "Committee deleted successfully", "success");
+                showToast(res.message || "Commite deleted successfully", "success");
             },
 
             error: function (xhr) {
@@ -186,5 +172,4 @@ $(document).ready(function () {
             }
         });
     });
-
 });

@@ -50,11 +50,9 @@ $(document).ready(function () {
             type: "PUT",
             headers: { "Authorization": "Bearer " + token },
             success: function () {
-                console.log("Status updated");
             },
             error: function () {
-                alert("Failed to update status");
-                checkbox.prop('checked', !isActive); // revert
+                checkbox.prop('checked', !isActive);
             },
             complete: function () {
                 checkbox.prop('disabled', false);

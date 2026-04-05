@@ -22,7 +22,7 @@ $(document).ready(function () {
         columns: [
             { data: "schoolId" },
             { data: "schoolName" },
-            //{ data: "committeeId"},
+            { data: "committeeId"},
             {
                 data: null,
                 render: function (data, type, row) {

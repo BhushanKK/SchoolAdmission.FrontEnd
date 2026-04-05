@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    /*Step 1: Load Student Information Fetching */
+
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
     const headers = { "Authorization": "Bearer " + token };
@@ -11,22 +13,55 @@ $(document).ready(function () {
         headers: headers,
         success: function(response) {
             if(response.success && response.data) {
-                $('#firstName').val(response.data.firstName);
-                $('#middleName').val(response.data.middleName);
-                $('#lastName').val(response.data.lastName);
+                const data = response.data;
 
-                //bind remaining fields similarly... @@ Kunal
-                
-            } else {
-                alert('No data found for this student.');
-            }
+                // Basic info
+                $('#firstName').val(data.firstName);
+                $('#middleName').val(data.middleName);
+                $('#lastName').val(data.lastName);
+
+                $('#dob').val(data.dob ? data.dob.split('T')[0] : '');
+                $('#aadharNo').val(data.aadharNo);
+                $('#saralId').val(data.saralId);
+                $('#motherTongue').val(data.motherTongue);
+                $('#nationality').val(data.nationality || 'Indian');
+
+                if (data.gender !== null) {
+                    $('#gender').val(data.gender.toString());
+                }
+                // Religion / Category / Caste
+                populateDropdown(
+                    'http://localhost:5263/api/religionmasters',
+                    $('#religionId'),
+                    'religionId',
+                    'religion',
+                    'Select Religion',
+                    data.religionId
+                );
+
+                populateDropdown(
+                    'http://localhost:5263/api/Categorymasters',
+                    $('#categoryId'),
+                    'categoryId',
+                    'category',
+                    'Select Category',
+                    data.categoryId
+                );
+
+                if (data.categoryId) {
+                    loadCasteDropdown(data.categoryId, data.casteId);
+                }
+
+                $('#isMinority').prop('checked', !!data.isMinority);
+            } 
         },
         error: function(xhr, status, error) {
             console.error('API Error:', error);
         }
     });
 
-    function populateDropdown(url, $dropdown, valueField, textField, placeholder) {
+    // Populate dropdown with optional selected value
+    function populateDropdown(url, $dropdown, valueField, textField, placeholder, selectedValue = null) {
         $dropdown.empty().append(`<option value="">${placeholder}</option>`);
 
         $.ajax({
@@ -41,11 +76,15 @@ $(document).ready(function () {
                 data.forEach(item => {
                     if (!item) return;
 
-                    $dropdown.append(
-                        $('<option>')
-                            .val(item[valueField] || '')
-                            .text(item[textField] || 'Unknown')
-                    );
+                    const option = $('<option>')
+                        .val(item[valueField] || '')
+                        .text(item[textField] || 'Unknown');
+
+                    if (selectedValue && selectedValue.toString() === (item[valueField] || '').toString()) {
+                        option.prop('selected', true);
+                    }
+
+                    $dropdown.append(option);
                 });
             },
             error: function () {
@@ -54,30 +93,10 @@ $(document).ready(function () {
         });
     }
 
-    populateDropdown(
-        'http://localhost:5263/api/religionmasters',
-        $('#religionId'),
-        'religionId',
-        'religion',
-        'Select Religion'
-    );
-
-    populateDropdown(
-        'http://localhost:5263/api/Categorymasters',
-        $('#categoryId'),
-        'categoryId',
-        'category',
-        'Select Category'
-    );
-
-    $('#categoryId').on('change', function () {
-
-        const categoryId = $(this).val();
+    // Load caste dropdown based on category
+    function loadCasteDropdown(categoryId, selectedCasteId = null) {
         const $caste = $('#casteId');
-
-        $caste.empty()
-            .append('<option value="">Select Caste</option>')
-            .prop('disabled', true);
+        $caste.empty().append('<option value="">Select Caste</option>').prop('disabled', true);
 
         if (!categoryId) return;
 
@@ -86,7 +105,6 @@ $(document).ready(function () {
             type: 'GET',
             headers: headers,
             success: function (response) {
-
                 if (!response || !response.data) return;
 
                 const data = Array.isArray(response.data) ? response.data : [response.data];
@@ -94,11 +112,15 @@ $(document).ready(function () {
                 data.forEach(item => {
                     if (!item) return;
 
-                    $caste.append(
-                        $('<option>')
-                            .val(item.casteId || '')
-                            .text(item.caste || 'Unknown')
-                    );
+                    const option = $('<option>')
+                        .val(item.casteId || '')
+                        .text(item.caste || 'Unknown');
+
+                    if (selectedCasteId && selectedCasteId.toString() === (item.casteId || '').toString()) {
+                        option.prop('selected', true);
+                    }
+
+                    $caste.append(option);
                 });
 
                 $caste.prop('disabled', false);
@@ -107,19 +129,27 @@ $(document).ready(function () {
                 alert('Failed to load caste data');
             }
         });
+    }
+
+    // When category changes, reload caste
+    $('#categoryId').on('change', function () {
+        const categoryId = $(this).val();
+        loadCasteDropdown(categoryId);
     });
 
+    // Minority checkbox based on religion
     const HINDU_ID = "7";
-
     $('#religionId').on('change', function () {
         const religionId = $(this).val();
         $('#isMinority').prop('checked', religionId && religionId !== HINDU_ID);
     });
+/*--End of Step I - Student Information Fetching and Dropdown Population--*/
 
+/*Step II: Address Fetching Logic */
+
+    // Copy permanent address to current
     window.copyPermanent = function () {
-
         const isChecked = $('#sameAddress').is(':checked');
-
         const fields = ['village', 'city', 'district', 'state', 'pincode'];
 
         fields.forEach(field => {
@@ -139,47 +169,6 @@ $(document).ready(function () {
             if ($('#sameAddress').is(':checked')) {
                 copyPermanent();
             }
-        });
-
-    function validateStep1() {
-
-        let isValid = true;
-
-        // required fields
-        const fields = [
-            '#firstName',
-            '#lastName',
-            '#dob',
-            '#aadharNo',
-            '#religionId',
-            '#categoryId'
-        ];
-
-        fields.forEach(function (selector) {
-            const value = $(selector).val();
-
-            if (!value) {
-                isValid = false;
-                $(selector).addClass('is-invalid');
-            } else {
-                $(selector).removeClass('is-invalid');
-            }
-        });
-
-        // Aadhar validation (12 digits)
-        const aadhar = $('#aadharNo').val();
-        if (aadhar && aadhar.length !== 12) {
-            isValid = false;
-            $('#aadharNo').addClass('is-invalid');
-        }
-
-        // Toggle buttons
-        if (isValid) {
-            $('#nextBtn').removeClass('d-none');
-            $('#submitBtn').removeClass('d-none');
-        } else {
-            $('#nextBtn').addClass('d-none');
-            $('#submitBtn').addClass('d-none');
-        }
-    }
+    });
+   
 });

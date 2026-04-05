@@ -46,15 +46,18 @@
         <div class="row">
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="firstName" autocomplete="off" class="nameValidation form-control" placeholder="First Name">
+                <input type="text" id="firstName" autocomplete="off" class="nameValidation form-control"
+                    placeholder="First Name">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="middleName" autocomplete="off" class="nameValidation form-control" placeholder="Middle Name">
+                <input type="text" id="middleName" autocomplete="off" class="nameValidation form-control"
+                    placeholder="Middle Name">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="lastName" autocomplete="off" class="nameValidation form-control" placeholder="Last Name">
+                <input type="text" id="lastName" autocomplete="off" class="nameValidation form-control"
+                    placeholder="Last Name">
             </div>
 
             <div class="col-md-4 mb-3">
@@ -70,8 +73,8 @@
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" maxlength="12" minlength="12" id="aadharNo" autocomplete="off" class="numberValidation form-control"
-                    placeholder="Aadhar No">
+                <input type="text" maxlength="12" minlength="12" id="aadharNo" autocomplete="off"
+                    class="numberValidation form-control" placeholder="Aadhar No">
             </div>
 
             <div class="col-md-4 mb-3">
@@ -110,14 +113,10 @@
                 <input type="checkbox" id="isMinority" disabled> Minority
             </div>
 
-            <!-- <div class="col-md-2">
-                <input type="checkbox" id="isBpl"> BPL
-            </div> -->
-
         </div>
 
+        <button class="btn btn-success mt-3" id="btnSaveStudentInfo">Save Student Information</button>
         <button class="btn btn-primary mt-3" onclick="nextStep()">Next</button>
-        <button class="btn btn-primary mt-3" id="submit" onclick="saveAndNext()">save and next</button>
 
     </div>
 
@@ -174,9 +173,13 @@
             </div>
         </div>
 
-        <div class="mt-4 d-flex justify-content-between">
+        <div class="mt-4 d-flex justify-content-between align-items-center">
             <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
-            <button class="btn btn-primary px-4" onclick="nextStep()">Next</button>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-success" id="btnSaveAddressInfo">Save Address Info</button>
+                <button class="btn btn-primary" onclick="nextStep()">Next</button>
+            </div>
         </div>
     </div>
 
@@ -186,16 +189,39 @@
             <span class="badge bg-warning text-dark fs-6 py-2 px-3">Step 3: Physical Details</span>
         </div>
         <div class="row g-3">
-            <div class="col-md-4"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
+            <div class="col-md-3"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
             </div>
-            <div class="col-md-4"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
+            <div class="col-md-3"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
             </div>
-            <div class="col-md-4"><input type="text" id="handicappedTypeId" class="form-control"
-                    placeholder="Handicapped Type ID"></div>
+            <div class="col-md-3">
+                <select id="isHandicapped" class="form-select form-control" data-mdb-select-init required>
+                    <option value="">Handicapped?</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="handicappedTypeId" disabled class="form-select form-control" data-mdb-select-init
+                    required>
+                    <option value="">Handicapped Type</option>
+                    <option value="1">Deaf</option>
+                    <option value="2">Mute</option>
+                    <option value="3">Bone Sarcasm</option>
+                    <option value="3">Less Vision</option>
+                    <option value="3">Dynamic</option>
+                    <option value="3">Learning Unability</option>
+                    <option value="3">Read Fault</option>
+                    <option value="3">Other</option>
+                </select>
+            </div>
         </div>
-        <div class="mt-3">
-            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-            <button class="btn btn-primary" onclick="nextStep()">Next</button>
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-success" id="btnSavePhysicalInfo">Save Physical Info</button>
+                <button class="btn btn-primary" onclick="nextStep()">Next</button>
+            </div>
         </div>
     </div>
 
@@ -221,9 +247,13 @@
             <div class="col-md-4"><input type="text" id="occupation" class="form-control" placeholder="Occupation">
             </div>
         </div>
-        <div class="mt-3">
-            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-            <button class="btn btn-primary" onclick="nextStep()">Next</button>
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-success" id="btnSavePhysicalInfo">Save Parent Info</button>
+                <button class="btn btn-primary" onclick="nextStep()">Next</button>
+            </div>
         </div>
     </div>
 
@@ -249,9 +279,13 @@
             <div class="col-md-4"><input type="text" id="percentage" class="form-control" placeholder="Percentage">
             </div>
         </div>
-        <div class="mt-3">
-            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-            <button class="btn btn-primary" onclick="nextStep()">Next</button>
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-success" id="btnSavePreviousInfo">Save Previous School Info</button>
+                <button class="btn btn-primary" onclick="nextStep()">Next</button>
+            </div>
         </div>
     </div>
 
@@ -264,7 +298,18 @@
             <div class="col-md-6">
                 <div class="card p-3 border-info mb-3">
                     <h6 class="text-info">Document Info</h6>
-                    <input type="text" id="documentType" class="form-control mb-2" placeholder="Document Type">
+                    <select id="documentType" class="form-select form-control" data-mdb-select-init required>
+                        <option value="">Select Document Type</option>
+                        <option value="1">Aadhar Card</option>
+                        <option value="2">PAN Card</option>
+                        <option value="3">Birth Certificate</option>
+                        <option value="4">Caste Certificate</option>
+                        <option value="5">Income Certificate</option>
+                        <option value="6">Leaving Certificate</option>
+                        <option value="7">Passport size photo</option>
+                        <option value="8">Domicile Certificate</option>
+                        <option value="9">Nationality Certificate</option>
+                    </select>
                 </div>
             </div>
             <div class="col-md-6">
@@ -274,9 +319,13 @@
                 </div>
             </div>
         </div>
-        <div class="mt-3">
-            <button class="btn btn-secondary" onclick="prevStep()">Back</button>
-            <button class="btn btn-success" onclick="submitForm()">Submit</button>
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-success" id="btnSavePreviousInfo">Submit Documents</button>
+                <button class="btn btn-primary" onclick="nextStep()">Next</button>
+            </div>
         </div>
     </div>
 
