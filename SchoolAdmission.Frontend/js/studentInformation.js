@@ -33,12 +33,10 @@ $(document).ready(function () {
             contentType: "application/json",
             data: JSON.stringify(payload),
             success: function (res) {
-                console.log("SUCCESS:", res);
-                showToast("Student updated successfully", "success");
+                showToast("Student saved successfully", "success");
                 $('#btnSaveStudentInfo').prop("disabled", false);
             },
             error: function (xhr) {
-                console.log("ERROR:", xhr);
                 $('#btnSaveStudentInfo').prop("disabled", false);
                 if (xhr.status === 401) {
                     localStorage.clear();

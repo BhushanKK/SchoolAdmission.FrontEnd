@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    /*Step 1: Load Student Information Fetching */
+
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
     const headers = { "Authorization": "Bearer " + token };
@@ -17,6 +19,7 @@ $(document).ready(function () {
                 $('#firstName').val(data.firstName);
                 $('#middleName').val(data.middleName);
                 $('#lastName').val(data.lastName);
+
                 $('#dob').val(data.dob ? data.dob.split('T')[0] : '');
                 $('#aadharNo').val(data.aadharNo);
                 $('#saralId').val(data.saralId);
@@ -50,11 +53,7 @@ $(document).ready(function () {
                 }
 
                 $('#isMinority').prop('checked', !!data.isMinority);
-
-
-            } else {
-                alert('No data found for this student.');
-            }
+            } 
         },
         error: function(xhr, status, error) {
             console.error('API Error:', error);
@@ -144,6 +143,9 @@ $(document).ready(function () {
         const religionId = $(this).val();
         $('#isMinority').prop('checked', religionId && religionId !== HINDU_ID);
     });
+/*--End of Step I - Student Information Fetching and Dropdown Population--*/
+
+/*Step II: Address Fetching Logic */
 
     // Copy permanent address to current
     window.copyPermanent = function () {
@@ -167,5 +169,6 @@ $(document).ready(function () {
             if ($('#sameAddress').is(':checked')) {
                 copyPermanent();
             }
-        });
+    });
+   
 });

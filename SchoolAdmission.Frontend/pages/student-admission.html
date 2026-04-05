@@ -46,15 +46,18 @@
         <div class="row">
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="firstName" autocomplete="off" class="nameValidation form-control" placeholder="First Name">
+                <input type="text" id="firstName" autocomplete="off" class="nameValidation form-control"
+                    placeholder="First Name">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="middleName" autocomplete="off" class="nameValidation form-control" placeholder="Middle Name">
+                <input type="text" id="middleName" autocomplete="off" class="nameValidation form-control"
+                    placeholder="Middle Name">
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" id="lastName" autocomplete="off" class="nameValidation form-control" placeholder="Last Name">
+                <input type="text" id="lastName" autocomplete="off" class="nameValidation form-control"
+                    placeholder="Last Name">
             </div>
 
             <div class="col-md-4 mb-3">
@@ -70,8 +73,8 @@
             </div>
 
             <div class="col-md-4 mb-3">
-                <input type="text" maxlength="12" minlength="12" id="aadharNo" autocomplete="off" class="numberValidation form-control"
-                    placeholder="Aadhar No">
+                <input type="text" maxlength="12" minlength="12" id="aadharNo" autocomplete="off"
+                    class="numberValidation form-control" placeholder="Aadhar No">
             </div>
 
             <div class="col-md-4 mb-3">
@@ -111,9 +114,9 @@
             </div>
 
         </div>
-        
+
         <button class="btn btn-success mt-3" id="btnSaveStudentInfo">Save Student Information</button>
-        <button class="btn btn-primary mt-3" onclick="nextStep()">Next</button>       
+        <button class="btn btn-primary mt-3" onclick="nextStep()">Next</button>
 
     </div>
 
@@ -186,12 +189,24 @@
             <span class="badge bg-warning text-dark fs-6 py-2 px-3">Step 3: Physical Details</span>
         </div>
         <div class="row g-3">
-            <div class="col-md-4"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
+            <div class="col-md-3"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
             </div>
-            <div class="col-md-4"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
+            <div class="col-md-3"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
             </div>
-            <div class="col-md-4"><input type="text" id="handicappedTypeId" class="form-control"
-                    placeholder="Handicapped Type ID"></div>
+            <div class="col-md-3">
+                <select id="isHandicapped" class="form-select form-control" data-mdb-select-init required>
+                    <option value="">Handicapped?</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="col-md-3"><select id="handicappedTypeId" disabled class="form-select form-control" data-mdb-select-init
+                    required>
+                    <option value="">Handicapped Type</option>
+                    <option value="1">Visual Impairment</option>
+                    <option value="2">Hearing Impairment</option>
+                    <option value="3">Physical Impairment</option>
+                </select></div>
         </div>
         <div class="mt-4 d-flex justify-content-between align-items-center">
             <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
@@ -276,7 +291,18 @@
             <div class="col-md-6">
                 <div class="card p-3 border-info mb-3">
                     <h6 class="text-info">Document Info</h6>
-                    <input type="text" id="documentType" class="form-control mb-2" placeholder="Document Type">
+                    <select id="documentType" class="form-select form-control" data-mdb-select-init required>
+                        <option value="">Select Document Type</option>
+                        <option value="1">Aadhar Card</option>
+                        <option value="2">PAN Card</option>
+                        <option value="3">Birth Certificate</option>
+                        <option value="4">Caste Certificate</option>
+                        <option value="5">Income Certificate</option>
+                        <option value="6">Leaving Certificate</option>
+                        <option value="7">Passport size photo</option>
+                        <option value="8">Domicile Certificate</option>
+                        <option value="9">Nationality Certificate</option>
+                    </select>
                 </div>
             </div>
             <div class="col-md-6">
