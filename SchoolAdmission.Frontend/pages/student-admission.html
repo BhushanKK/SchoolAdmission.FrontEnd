@@ -140,8 +140,10 @@
                         placeholder="District">
                     <input type="text" autocomplete="off" id="permanent_state" class="form-control mb-2"
                         placeholder="State">
-                    <input type="number" min="1" length="6" autocomplete="off" id="permanent_pincode"
+                    <input type="number" maxlength="6" autocomplete="off" id="permanent_pincode"
                         class="form-control mb-2" placeholder="Pincode">
+                    <input type="text" autocomplete="off" id="permanent_landmark" class="form-control mb-2"
+                        placeholder="Landmark" >
                 </div>
             </div>
 
@@ -167,8 +169,11 @@
                         placeholder="District">
                     <input type="text" autocomplete="off" id="current_state" class="form-control mb-2"
                         placeholder="State">
-                    <input type="number" length="6" min="1" id="current_pincode" class="form-control mb-2"
+                    <input type="number" maxlength="6"  autocomplete="off" id="current_pincode" class="form-control mb-2"
                         placeholder="Pincode">
+                    <input type="text" autocomplete="off" id="current_landmark" class="form-control mb-2"
+                        placeholder="Landmark" >
+                    
                 </div>
             </div>
         </div>
@@ -177,7 +182,7 @@
             <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
 
             <div class="d-flex gap-2">
-                <button class="btn btn-success" id="btnSaveAddressInfo">Save Address Info</button>
+                <button class="btn btn-success" id="btnSaveAddressInfo">SAVE ADDRESS INFO</button>
                 <button class="btn btn-primary" onclick="nextStep()">Next</button>
             </div>
         </div>
@@ -192,30 +197,6 @@
             <div class="col-md-3"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
             </div>
             <div class="col-md-3"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
-
-            </div>
-            <div class="col-md-3">
-                <select id="isHandicapped" class="form-select form-control" data-mdb-select-init required>
-                    <option value="">Handicapped?</option>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select id="handicappedTypeId" disabled class="form-select form-control" data-mdb-select-init
-                    required>
-                    <option value="">Handicapped Type</option>
-                    <option value="1">Deaf</option>
-                    <option value="2">Mute</option>
-                    <option value="3">Bone Sarcasm</option>
-                    <option value="3">Less Vision</option>
-                    <option value="3">Dynamic</option>
-                    <option value="3">Learning Unability</option>
-                    <option value="3">Read Fault</option>
-                    <option value="3">Other</option>
-                </select>
-            </div>
-
             </div>
             <div class="col-md-3">
                 <select id="isHandicapped" class="form-select form-control" data-mdb-select-init required>
@@ -231,7 +212,6 @@
                     <option value="2">Hearing Impairment</option>
                     <option value="3">Physical Impairment</option>
                 </select></div>
-
         </div>
         <div class="mt-4 d-flex justify-content-between align-items-center">
             <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>

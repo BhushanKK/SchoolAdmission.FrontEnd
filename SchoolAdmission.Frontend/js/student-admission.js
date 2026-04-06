@@ -13,7 +13,7 @@ function showStep(n) {
     if (progressBar) {
         const percent = Math.round(((n + 1) / steps.length) * 100);
         progressBar.style.width = percent + "%";
-        progressBar.innerText = percent + "%";   // 👈 SHOW TEXT
+        progressBar.innerText = percent + "%";   
     }
 }
 

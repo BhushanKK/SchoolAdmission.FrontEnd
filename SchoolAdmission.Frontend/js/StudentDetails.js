@@ -144,31 +144,4 @@ $(document).ready(function () {
         $('#isMinority').prop('checked', religionId && religionId !== HINDU_ID);
     });
 /*--End of Step I - Student Information Fetching and Dropdown Population--*/
-
-/*Step II: Address Fetching Logic */
-
-    // Copy permanent address to current
-    window.copyPermanent = function () {
-        const isChecked = $('#sameAddress').is(':checked');
-        const fields = ['village', 'city', 'district', 'state', 'pincode'];
-
-        fields.forEach(field => {
-            const $current = $(`#current_${field}`);
-            const $permanent = $(`#permanent_${field}`);
-
-            if (isChecked) {
-                $current.val($permanent.val()).prop('disabled', true);
-            } else {
-                $current.val('').prop('disabled', false);
-            }
-        });
-    };
-
-    $('#permanent_village, #permanent_city, #permanent_district, #permanent_state, #permanent_pincode')
-        .on('input', function () {
-            if ($('#sameAddress').is(':checked')) {
-                copyPermanent();
-            }
-    });
-   
 });
