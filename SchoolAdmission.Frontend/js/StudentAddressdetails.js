@@ -21,7 +21,7 @@ $(document).ready(function () {
 
             pVillage: $("#permanent_village").val(),
             pCity: $("#permanent_city").val(),
-            pTaluka: "",
+            pTaluka: $("#permanent_taluka").val(),
             pDistrict: $("#permanent_district").val(),
             pState: $("#permanent_state").val(),
             pCountry: "India",
@@ -30,7 +30,7 @@ $(document).ready(function () {
 
             cVillage: $("#current_village").val(),
             cCity: $("#current_city").val(),
-            cTaluka: "",
+            cTaluka: $("#current_taluka").val(),
             cDistrict: $("#current_district").val(),
             cState: $("#current_state").val(),
             cCountry: "India",
@@ -77,7 +77,7 @@ $(document).ready(function () {
 
     window.copyPermanent = function () {
         const isChecked = $('#sameAddress').is(':checked');
-        const fields = ['village', 'city', 'district', 'state', 'pincode', 'landmark'];
+        const fields = ['village', 'taluka','city', 'district', 'state', 'pincode', 'landmark'];
 
         fields.forEach(function (field) {
             const $current = $('#current_' + field);
@@ -91,7 +91,7 @@ $(document).ready(function () {
         });
     };
 
-    $('#permanent_village, #permanent_city, #permanent_district, #permanent_state, #permanent_pincode, #permanent_landmark')
+    $('#permanent_village,#permanent_taluka, #permanent_city, #permanent_district, #permanent_state, #permanent_pincode, #permanent_landmark')
         .on('input', function () {
             if ($('#sameAddress').is(':checked')) {
                 copyPermanent();

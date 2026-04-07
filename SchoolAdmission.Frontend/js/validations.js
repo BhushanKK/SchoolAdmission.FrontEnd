@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var maxLength = 15;
+    var maxLength = 50;
 
     $(".nameValidation").on("keypress", function (e) { //Events
         var charCode = e.which;
