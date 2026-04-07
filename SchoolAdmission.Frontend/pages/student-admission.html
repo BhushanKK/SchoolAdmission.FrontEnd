@@ -235,27 +235,36 @@
             <span class="badge bg-info text-dark fs-6 py-2 px-3">Step 4: Parent / Guardian Info</span>
         </div>
         <div class="row g-3">
-            <div class="col-md-4"><input type="text" id="fatherName" class="form-control" placeholder="Father Name">
+            <div class="col-md-4">
+                <input type="text" id="fatherName" class="nameValidationWithSpace form-control" placeholder="Father Name">
             </div>
-            <div class="col-md-4"><input type="text" id="motherName" class="form-control" placeholder="Mother Name">
+            <div class="col-md-4">
+                <input type="text" id="motherName" class="nameValidationWithSpace form-control" placeholder="Mother Name">
             </div>
-            <div class="col-md-4"><input type="text" id="grandFatherName" class="form-control"
-                    placeholder="Grand Father Name"></div>
-            <div class="col-md-4"><input type="text" id="parentName" class="form-control"
-                    placeholder="Parent/Guardian Name"></div>
-            <div class="col-md-4"><input type="text" id="contactNo" class="form-control" placeholder="Contact No">
+            <div class="col-md-4">
+                <input type="text" id="grandFatherName" class="nameValidationWithspace form-control" placeholder="Grand Father Name">
             </div>
-            <div class="col-md-4"><input type="email" id="emailId" class="form-control" placeholder="Email ID">
+            <div class="col-md-4">
+                <input type="text" id="parentName" class="nameValidationWithSpace form-control" placeholder="Parent/Guardian Name">
             </div>
-            <div class="col-md-4"><input type="text" id="income" class="form-control" placeholder="Income"></div>
-            <div class="col-md-4"><input type="text" id="occupation" class="form-control" placeholder="Occupation">
+            <div class="col-md-4">
+                <input type="text" id="contactNo" maxlength="10" class="numberValidation form-control" placeholder="Contact No">
+            </div>
+            <div class="col-md-4">
+                <input type="email" id="emailId" class="form-control" placeholder="Email ID">
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="income" class="numberValidation form-control" placeholder="Income">
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="occupation" class="nameValidationWithSpace form-control" placeholder="Occupation">
             </div>
         </div>
         <div class="mt-4 d-flex justify-content-between align-items-center">
             <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
 
             <div class="d-flex gap-2">
-                <button class="btn btn-success" id="btnSavePhysicalInfo">Save Parent Info</button>
+                <button class="btn btn-success" id="btnSaveParentInfo">Save Parent Info</button>
                 <button class="btn btn-primary" onclick="nextStep()">Next</button>
             </div>
         </div>

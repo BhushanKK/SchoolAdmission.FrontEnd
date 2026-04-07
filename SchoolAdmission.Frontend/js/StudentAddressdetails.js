@@ -9,8 +9,6 @@ $(document).ready(function () {
     $(document).on('click', '#btnSaveAddressInfo', function (e) {
         e.preventDefault();
 
-        console.log("Clicked");
-
         if (!studentId) {
             alert("StudentId not found. Please complete student registration first.");
             return;
