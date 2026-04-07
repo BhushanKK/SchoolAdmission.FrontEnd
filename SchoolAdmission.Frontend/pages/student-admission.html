@@ -198,9 +198,11 @@
             <span class="badge bg-warning text-dark fs-6 py-2 px-3">Step 3: Physical Details</span>
         </div>
         <div class="row g-3">
-            <div class="col-md-3"><input type="text" id="height" class="form-control" placeholder="Height (cm)">
+            <div class="col-md-3">
+                <input type="text" id="height" maxlength="3" class="numberValidation form-control" placeholder="Height (cm)">
             </div>
-            <div class="col-md-3"><input type="text" id="weight" class="form-control" placeholder="Weight (kg)">
+            <div class="col-md-3">
+                <input type="text" id="weight" maxlength="3" class="numberValidation form-control" placeholder="Weight (kg)">
             </div>
             <div class="col-md-3">
                 <select id="isHandicapped" class="form-select form-control" data-mdb-select-init required>
