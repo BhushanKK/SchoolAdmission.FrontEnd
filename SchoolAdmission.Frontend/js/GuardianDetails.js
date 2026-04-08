@@ -27,8 +27,6 @@ $(document).ready(function () {
         const income = $("#income").val();
         const occupation = $("#occupation").val();
 
-        console.log("Father:", fatherName);
-
         if (!fatherName || !motherName) {
             showToast("Father and Mother name required", "error");
             return;
@@ -59,8 +57,6 @@ $(document).ready(function () {
             occupation: occupation
         };
 
-        console.log("Payload:", payload);
-
         $("#btnSaveParentInfo").prop("disabled", true);
 
         $.ajax({
@@ -71,7 +67,6 @@ $(document).ready(function () {
             data: JSON.stringify(payload),
 
             success: function (res) {
-                console.log("Success:", res);
                 showToast("Parent details saved successfully", "success");
                 $("#btnSaveParentInfo").prop("disabled", false);
             },

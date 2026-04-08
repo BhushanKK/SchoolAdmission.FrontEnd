@@ -13,8 +13,6 @@ $(document).ready(function () {
 
         e.preventDefault();
 
-        console.log("Previous School Button Clicked ");
-
         if (!studentId) {
             showToast("StudentId not found", "error");
             return;
@@ -28,8 +26,6 @@ $(document).ready(function () {
         const seatNo = $("#seatNo").val();
         const totalMarks = $("#totalMarks").val();
         const percentage = $("#percentage").val();
-
-        console.log("School:", previousSchool);
 
         if (!previousSchool) {
             showToast("Previous school is required", "error");
@@ -55,8 +51,6 @@ $(document).ready(function () {
             percentage: percentage ? Number(percentage) : null
         };
 
-        console.log("Payload:", payload);
-
         $("#btnSavePreviousInfo").prop("disabled", true);
 
         $.ajax({
@@ -67,15 +61,12 @@ $(document).ready(function () {
             data: JSON.stringify(payload),
 
             success: function (res) {
-                console.log("Success:", res);
                 showToast("Previous school details saved successfully", "success");
                 $("#btnSavePreviousInfo").prop("disabled", false);
             },
 
             error: function (xhr) {
-
-                console.log("Error:", xhr.responseText);
-
+                
                 $("#btnSavePreviousInfo").prop("disabled", false);
 
                 if (xhr.status === 401) {

@@ -38,8 +38,6 @@ $(document).ready(function () {
             isSameAddress: $('#sameAddress').is(':checked')
         };
 
-        console.log("Payload:", payload);
-
         $('#btnSaveAddressInfo').prop("disabled", true);
 
         $.ajax({

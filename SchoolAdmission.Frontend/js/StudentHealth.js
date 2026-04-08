@@ -11,7 +11,6 @@ $(document).ready(function () {
     $(document).on("change", "#isHandicapped", function () {
 
         const value = $(this).val();
-        console.log("Handicapped Changed:", value);
 
         if (value == "true") {
             $("#handicappedTypeId").prop("disabled", false);
@@ -23,9 +22,6 @@ $(document).ready(function () {
     $(document).on("click", "#btnSavePhysicalInfo", function (e) {
 
         e.preventDefault();
-
-        console.log("Button Clicked ");
-
         if (!studentId) {
             showToast("StudentId not found", "error");
             return;
@@ -35,9 +31,6 @@ $(document).ready(function () {
         const weight = $("#weight").val();
         const isHandicapped = $("#isHandicapped").val();
         const handicappedTypeId = $("#handicappedTypeId").val();
-
-        console.log("Height:", height);
-        console.log("Weight:", weight);
 
         if (!height || !weight) {
             showToast("Height and Weight required", "error");
@@ -62,8 +55,6 @@ $(document).ready(function () {
             handicappedTypeId: handicappedTypeId ? Number(handicappedTypeId) : null
         };
 
-        console.log("Payload:", payload);
-
         $("#btnSavePhysicalInfo").prop("disabled", true);
 
         $.ajax({
@@ -74,15 +65,12 @@ $(document).ready(function () {
             data: JSON.stringify(payload),
 
             success: function (res) {
-                console.log("Success:", res);
                 showToast("Physical details saved successfully", "success");
                 $("#btnSavePhysicalInfo").prop("disabled", false);
             },
 
             error: function (xhr) {
-
-                console.log("Error:", xhr.responseText);
-
+                
                 $("#btnSavePhysicalInfo").prop("disabled", false);
 
                 if (xhr.status === 401) {
