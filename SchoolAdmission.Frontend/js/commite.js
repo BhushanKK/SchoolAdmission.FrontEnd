@@ -1,10 +1,8 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
-
     const table = $('#commiteTable').DataTable({
         ajax: {
-            url: `${apiBase}/commitemasters`,
+            url: committeeApi,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -22,19 +20,18 @@ $(document).ready(function () {
         columns: [
             { data: "commiteeId" },
             { data: "commiteeName" },
-            {
-                data: null,
-                render: function (data, type, row) {
-                    return `
-                        <button class="btn btn-sm btn-info editBtn" data-id="${row.commiteeId}" title="Edit">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.commiteeId}" title="Delete">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-                    `;
+                {
+                    data: null,
+                    render: function (data, type, row) 
+                    {
+                        return `<button class="btn btn-sm btn-info editBtn" data-id="${row.commiteeId}" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.commiteeId}" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>`;
+                    }
                 }
-            }
         ]
     });
 
@@ -62,7 +59,7 @@ $(document).ready(function () {
         };
 
         const method = id ? "PUT" : "POST";
-        const url = id ? `${apiBase}/commitemasters/${id}` : `${apiBase}/commitemasters`;
+        const url = id ? `${committeeApi}/${id}` : committeeApi;
 
         $.ajax({
             url: url,
@@ -139,7 +136,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/commitemasters/${deleteId}`,
+            url: `${committeeApi}/${deleteId}`,
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")

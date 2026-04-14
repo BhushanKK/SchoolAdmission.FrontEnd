@@ -1,10 +1,8 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
-
     const table = $('#religionTable').DataTable({
         ajax: {
-            url: `${apiBase}/religionmasters`,
+            url: religionApi,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -62,7 +60,7 @@ $(document).ready(function () {
         };
 
         const method = id ? "PUT" : "POST";
-        const url = id ? `${apiBase}/religionmasters/${id}` : `${apiBase}/religionmasters`;
+        const url = id ? `${religionApi}/${id}` : religionApi;
 
         $.ajax({
             url: url,
@@ -139,7 +137,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/religionmasters/${deleteId}`,
+            url: `${religionApi}/${deleteId}`,
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")

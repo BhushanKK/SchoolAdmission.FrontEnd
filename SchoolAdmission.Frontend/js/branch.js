@@ -1,10 +1,8 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
-
     const table = $('#branchTable').DataTable({
         ajax: {
-            url: `${apiBase}/branchmasters`,
+            url: branchApi,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -62,7 +60,7 @@ $(document).ready(function () {
         };
 
         const method = id ? "PUT" : "POST";
-        const url = id ? `${apiBase}/branchmasters/${id}` : `${apiBase}/branchmasters`;
+        const url = id ? `${branchApi}/${id}` : branchApi;
 
         $.ajax({
             url: url,
@@ -139,7 +137,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/branchmasters/${deleteId}`,
+            url: `${branchApi}/${deleteId}`,
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")

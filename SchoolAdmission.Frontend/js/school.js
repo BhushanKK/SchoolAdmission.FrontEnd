@@ -1,10 +1,8 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
-
     const table = $('#schoolTable').DataTable({
         ajax: {
-            url: `${apiBase}/schoolmasters/AllSchools`,
+            url: `${schoolApi}/AllSchools`,
             type: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
@@ -63,7 +61,7 @@ $(document).ready(function () {
         };
 
         const method = id ? "PUT" : "POST";
-        const url = id ? `${apiBase}/schoolmasters/${id}` : `${apiBase}/schoolmasters`;
+        const url = id ? `${schoolApi}/${id}` : schoolApi;
 
         $.ajax({
             url: url,
@@ -140,7 +138,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/schoolmasters/${deleteId}`,
+            url: `${schoolApi}/${deleteId}`,
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")

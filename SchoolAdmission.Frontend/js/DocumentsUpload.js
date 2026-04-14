@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
@@ -40,7 +39,7 @@ $(document).ready(function () {
         $("#btnSaveDocumentInfo").prop("disabled", true);
 
         $.ajax({
-            url: apiBase + "/student-document",
+            url: documentUploadApi,
             method: "POST",
             headers: headers,
             data: formData,

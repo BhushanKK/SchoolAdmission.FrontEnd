@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#btnSaveStudentInfo').click(function () {
-        var apiBase = "http://localhost:5263/api";
         
         const studentId = localStorage.getItem("studentId");
         const payload = {
@@ -23,7 +22,7 @@ $(document).ready(function () {
 
         
         $('#btnSaveStudentInfo').prop("disabled", true);
-        const url = `${apiBase}/student/${studentId}`;
+        const url = `${studentApi}/${studentId}`;
         $.ajax({
             url: url,
             method: "PUT",

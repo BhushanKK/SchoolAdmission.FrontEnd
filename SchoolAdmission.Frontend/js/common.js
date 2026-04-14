@@ -4,6 +4,21 @@ const categoryApi = apiBase + "/categorymasters";
 const casteApi = apiBase + "/castemaster"; 
 const schoolApi = apiBase + "/schoolmasters";
 const loginApi = apiBase + "/auth/login";
+const branchApi = apiBase + "/branchmasters";
+const studentApi = apiBase + "/student";
+const studentDetailsApi = apiBase + "/student-details";
+const studentStatusApi = apiBase + "/users/student-status";
+const committeeApi = apiBase + "/commitemasters";
+const divisionApi = apiBase + "/divisionmasters";
+const documentUploadApi = apiBase + "/student-document";
+const guardianApi = apiBase + "/student-parent";
+const previousSchoolApi = apiBase + "/student-academic-history";
+const religionApi = apiBase + "/religionmasters";
+const standardApi = apiBase + "/standardmasters";
+const studentAddressApi = apiBase + "/student-address";
+const healthApi = apiBase + "/student-health";
+const registerCommitteeApi = apiBase + "/CommiteMasters";
+const schoolAllSchoolsApi = apiBase + "/schoolmasters/AllSchools";
 
 document.getElementById("currentYear").innerText = new Date().getFullYear();
 
