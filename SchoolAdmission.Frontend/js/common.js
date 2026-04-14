@@ -50,7 +50,7 @@ function showToast(message, type = "success") {
 
 function handle401(xhr) {
     if (xhr.status === 401) {
-        alert("Session expired. Please login again.");
+        showToast("Session expired. Please login again.", "info");
         localStorage.clear();
         window.location.href = "../index.html";
     }

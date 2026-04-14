@@ -9,7 +9,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         if (!studentId) {
-            alert("StudentId not found. Please complete student registration first.");
+            showToast("StudentId not found. Please complete student registration first.", "error");
             return;
         }
 

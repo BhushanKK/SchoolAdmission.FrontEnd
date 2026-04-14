@@ -43,9 +43,10 @@ $(document).ready(function () {
                     return;
                 }
                 if (xhr.responseJSON?.message) {
-                    alert(xhr.responseJSON.message);
+                    showToast(xhr.responseJSON.message, "error");
                     return;
                 }
+                showToast("Failed to save student information", "error");
             }
         });
 

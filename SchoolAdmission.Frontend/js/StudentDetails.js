@@ -56,7 +56,7 @@ $(document).ready(function () {
             } 
         },
         error: function(xhr, status, error) {
-            console.error('API Error:', error);
+            showToast('Failed to load student information', 'error');
         }
     });
 
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 });
             },
             error: function () {
-                alert('Failed to load ' + placeholder);
+                showToast('Failed to load ' + placeholder, 'error');
             }
         });
     }
@@ -126,7 +126,7 @@ $(document).ready(function () {
                 $caste.prop('disabled', false);
             },
             error: function () {
-                alert('Failed to load caste data');
+                showToast('Failed to load caste data', 'error');
             }
         });
     }

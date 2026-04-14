@@ -97,7 +97,6 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
                 $("#errorMsg").text("Server error. Please try again.");
             }
         });

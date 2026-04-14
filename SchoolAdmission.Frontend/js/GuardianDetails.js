@@ -72,8 +72,6 @@ $(document).ready(function () {
 
             error: function (xhr) {
 
-                console.log("Error:", xhr.responseText);
-
                 $("#btnSaveParentInfo").prop("disabled", false);
 
                 if (xhr.status === 401) {
