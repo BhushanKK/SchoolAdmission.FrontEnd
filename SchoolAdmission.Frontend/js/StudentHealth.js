@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
@@ -58,7 +57,7 @@ $(document).ready(function () {
         $("#btnSavePhysicalInfo").prop("disabled", true);
 
         $.ajax({
-            url: apiBase + "/student-health",
+            url: healthApi,
             method: "POST",
             headers: headers,
             contentType: "application/json",

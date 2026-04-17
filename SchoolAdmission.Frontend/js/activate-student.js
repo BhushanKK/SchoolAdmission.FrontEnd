@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     const table = $('#studentTable').DataTable({
         ajax: {
-            url: "http://localhost:5263/api/student-details",
+            url: studentDetailsApi,
             type: "GET",
             headers: { "Authorization": "Bearer " + token },
             dataSrc: function (json) {
@@ -46,7 +46,7 @@ $(document).ready(function () {
         checkbox.prop('disabled', true);
 
         $.ajax({
-            url: `http://localhost:5263/api/users/student-status/${studentId}/${status}`,
+            url: `${studentStatusApi}/${studentId}/${status}`,
             type: "PUT",
             headers: { "Authorization": "Bearer " + token },
             success: function () {

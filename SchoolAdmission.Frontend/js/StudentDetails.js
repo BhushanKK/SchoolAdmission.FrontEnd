@@ -7,7 +7,7 @@ $(document).ready(function () {
     const headers = { "Authorization": "Bearer " + token };
 
     $.ajax({
-        url: 'http://localhost:5263/api/student/' + studentId,
+        url: studentApi + '/' + studentId,
         type: 'GET',
         dataType: 'json',
         headers: headers,
@@ -31,7 +31,7 @@ $(document).ready(function () {
                 }
                 // Religion / Category / Caste
                 populateDropdown(
-                    'http://localhost:5263/api/religionmasters',
+                    religionApi,
                     $('#religionId'),
                     'religionId',
                     'religion',
@@ -40,7 +40,7 @@ $(document).ready(function () {
                 );
 
                 populateDropdown(
-                    'http://localhost:5263/api/Categorymasters',
+                    categoryApi,
                     $('#categoryId'),
                     'categoryId',
                     'category',
@@ -56,7 +56,7 @@ $(document).ready(function () {
             } 
         },
         error: function(xhr, status, error) {
-            console.error('API Error:', error);
+            showToast('Failed to load student information', 'error');
         }
     });
 
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 });
             },
             error: function () {
-                alert('Failed to load ' + placeholder);
+                showToast('Failed to load ' + placeholder, 'error');
             }
         });
     }
@@ -101,7 +101,7 @@ $(document).ready(function () {
         if (!categoryId) return;
 
         $.ajax({
-            url: `http://localhost:5263/api/castemaster/${categoryId}`,
+            url: `${casteApi}/${categoryId}`,
             type: 'GET',
             headers: headers,
             success: function (response) {
@@ -126,7 +126,7 @@ $(document).ready(function () {
                 $caste.prop('disabled', false);
             },
             error: function () {
-                alert('Failed to load caste data');
+                showToast('Failed to load caste data', 'error');
             }
         });
     }

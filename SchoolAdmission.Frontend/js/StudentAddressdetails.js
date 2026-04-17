@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
@@ -10,7 +9,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         if (!studentId) {
-            alert("StudentId not found. Please complete student registration first.");
+            showToast("StudentId not found. Please complete student registration first.", "error");
             return;
         }
 
@@ -41,7 +40,7 @@ $(document).ready(function () {
         $('#btnSaveAddressInfo').prop("disabled", true);
 
         $.ajax({
-            url: `${apiBase}/student-address`,
+            url: studentAddressApi,
             method: "POST",
             headers: headers,
             contentType: "application/json",

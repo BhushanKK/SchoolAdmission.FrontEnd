@@ -61,8 +61,8 @@ $(document).ready(function () {
 
         const method = id ? "PUT" : "POST";
         const url = id
-            ? `${apiBase}/categorymasters/${id}`
-            : `${apiBase}/categorymasters`;
+            ? `${categoryApi}/${id}`
+            : categoryApi;
 
         $.ajax({
             url: url,
@@ -139,7 +139,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/categorymasters/${deleteId}`,
+            url: `${categoryApi}/${deleteId}`,
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")

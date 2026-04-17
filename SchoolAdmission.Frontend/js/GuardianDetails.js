@@ -1,7 +1,6 @@
 //Step 4: Parent / Guardian Info
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
@@ -60,7 +59,7 @@ $(document).ready(function () {
         $("#btnSaveParentInfo").prop("disabled", true);
 
         $.ajax({
-            url: apiBase + "/student-parent",
+            url: guardianApi,
             method: "POST",
             headers: headers,
             contentType: "application/json",
@@ -72,8 +71,6 @@ $(document).ready(function () {
             },
 
             error: function (xhr) {
-
-                console.log("Error:", xhr.responseText);
 
                 $("#btnSaveParentInfo").prop("disabled", false);
 

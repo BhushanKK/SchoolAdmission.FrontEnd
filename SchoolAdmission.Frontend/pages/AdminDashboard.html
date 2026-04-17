@@ -31,6 +31,8 @@
             <a href="#" onclick="loadPage('category.html')"><i class="fas fa-list"></i> Category Master</a>
             <a href="#" onclick="loadPage('caste.html')"><i class="fas fa-dna"></i> Caste Master</a>
             <a href="#" onclick="loadPage('branch.html')"><i class="fas fa-home"></i> Branch Master</a>
+            <a href="#" onclick="loadPage('subject.html')"><i class="fas fa-book-open"></i> Subject Master</a>
+
         </div>
 
         <a href="#" onclick="loadPage('activate-student.html')"><i class="fas fa-check-circle"></i> Activate Student</a>
@@ -166,6 +168,10 @@
                     }
                     if (page === "division.html") {
                         loadScript("../js/division.js");
+                        loadScript("../js/validations.js");
+                    }
+                    if (page === "subject.html") {
+                        loadScript("../js/subject.js");
                         loadScript("../js/validations.js");
                     }
                     if (page === "activate-student.html") {

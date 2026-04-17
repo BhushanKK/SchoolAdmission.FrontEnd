@@ -6,7 +6,7 @@ $(document).ready(function () {
         var password = $("#password").val();
 
         $.ajax({
-            url: "http://localhost:5263/api/auth/login", // update this
+            url: loginApi,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({

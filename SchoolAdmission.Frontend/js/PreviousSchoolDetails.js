@@ -1,7 +1,6 @@
 //Step 5: Previous School Information
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
@@ -54,7 +53,7 @@ $(document).ready(function () {
         $("#btnSavePreviousInfo").prop("disabled", true);
 
         $.ajax({
-            url: apiBase + "/student-academic-history",
+            url: previousSchoolApi,
             method: "POST",
             headers: headers,
             contentType: "application/json",

@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     function loadCategories(selectedId = null) {
         $.ajax({
-            url: casteApi,
+            url: categoryApi,
             method: "GET",
             headers: getTokenHeader(),
             success: function (response) {
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     const table = $('#casteTable').DataTable({
         ajax: {
-            url: apiBase + "/castemaster",
+            url: casteApi,
             type: "GET",
             headers: getTokenHeader(),
             dataSrc: "data",
@@ -88,8 +88,8 @@ $(document).ready(function () {
 
         const method = id ? "PUT" : "POST";
         const url = id
-            ? `${apiBase}/castemaster/${id}`
-            : `${apiBase}/castemaster`;
+            ? `${casteApi}/${id}`
+            : casteApi;
 
         $.ajax({
             url: url,
@@ -180,7 +180,7 @@ $(document).ready(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: `${apiBase}/castemaster/${deleteId}`,
+            url: `${casteApi}/${deleteId}`,
             type: "DELETE",
             headers: getTokenHeader(),
 

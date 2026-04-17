@@ -10,12 +10,12 @@ $(document).ready(function () {
                 if (json.success && json.data) {
                     return json.data;
                 } else {
-                    console.error("Failed to load student data");
+                    showToast("Failed to load student details", "error");
                     return [];
                 }
             },
             error: function (xhr) {
-                console.error("Server error while fetching student details:", xhr);
+                showToast("Failed to load student details", "error");
                 return [];
             }
         },

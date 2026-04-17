@@ -1,0 +1,97 @@
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Subject Details</h5>
+
+            <button class="btn btn-primary btn-sm" id="addSubjectBtn">
+                + Add Subject
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table id="subjectTable"
+                   class="table table-striped table-bordered w-100">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Subject ID</th>
+                        <th>Branch ID</th>
+                        <th>Group ID</th>
+                        <th>Subject Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="subjectModal" tabindex="-1">
+
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h6 class="modal-title">Add / Edit Subject</h6>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-mdb-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden" id="subjectId">
+
+                <div class="mb-3">
+                    <label class="form-label">Branch</label>
+
+                    <select class="form-select" id="branchId">
+                        <option value="">Select Branch</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Group</label>
+
+                    <select class="form-select" id="groupId">
+                        <option value="">Select Group</option>
+                        <option value="1">Mandatory</option>
+                        <option value="2">Optional</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject Name</label>
+
+                    <input type="text"
+                           id="subjectName"
+                           class="form-control nameValidationWithSpace"
+                           placeholder="Enter Subject Name">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-light"
+                        data-mdb-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button class="btn btn-primary"
+                        id="saveSubjectBtn">
+                    Save
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

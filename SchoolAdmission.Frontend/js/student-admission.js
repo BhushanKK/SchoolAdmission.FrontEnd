@@ -35,7 +35,6 @@ function initWizard() {
     steps = document.querySelectorAll(".step");
 
     if (!steps || steps.length === 0) {
-        console.warn("Wizard steps not found!");
         return;
     }
     currentStep = 0;

@@ -1,7 +1,6 @@
 // Step: Student Information Update
 $(document).ready(function () {
 
-    const apiBase = "http://localhost:5263/api";
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
@@ -34,7 +33,7 @@ $(document).ready(function () {
             handicappedTypeID: handicappedTypeId ? Number(handicappedTypeId) : null
         };
 
-        const url = `${apiBase}/student/${studentId}`;
+        const url = `${studentApi}/${studentId}`;
 
         $("#btnSaveStudentInfo").prop("disabled", true);
 

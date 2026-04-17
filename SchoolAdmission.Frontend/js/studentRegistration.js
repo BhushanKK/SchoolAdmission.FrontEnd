@@ -1,10 +1,7 @@
-const registerApi = "http://localhost:5263/api/student";
-const committeeApi = "http://localhost:5263/api/CommiteMasters";
-const schoolApi = "http://localhost:5263/api/schoolmasters/AllSchools";
 
 function loadCommittees() {
     $.ajax({
-        url: committeeApi,
+        url: registerCommitteeApi,
         type: "GET",
         success: function (response) {
             let dropdown = $("#committee");
@@ -24,7 +21,7 @@ function loadCommittees() {
 function loadSchools(committeeId) {
     $("#school").prop("disabled", true);
     $.ajax({
-        url: `${schoolApi}/${committeeId}`,
+        url: `${schoolAllSchoolsApi}/${committeeId}`,
         type: "GET",
         success: function (response) {
             let dropdown = $("#school");
@@ -86,7 +83,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: registerApi,
+            url: studentApi,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(payload),
@@ -100,7 +97,6 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr) {
-                console.log(xhr.responseText);
                 $("#errorMsg").text("Server error. Please try again.");
             }
         });
