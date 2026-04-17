@@ -21,6 +21,7 @@ const registerCommitteeApi = apiBase + "/CommiteMasters";
 const schoolAllSchoolsApi = apiBase + "/schoolmasters/AllSchools";
 const subjectApi = apiBase + "/Subjectmasters";
 
+
 document.getElementById("currentYear").innerText = new Date().getFullYear();
 
 function getTokenHeader() {
