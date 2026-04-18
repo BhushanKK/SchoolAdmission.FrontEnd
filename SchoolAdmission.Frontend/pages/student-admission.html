@@ -312,90 +312,105 @@
     </div>
     
     <!-- STEP 6: Subject Selection -->
-    <div class="step">
-        <div class="mb-3">
-            <span class="badge bg-primary fs-6 py-2 px-3">Step 6: Subject Selection</span>
-        </div>
+<div class="step">
 
-        <div class="card shadow-sm border-0 rounded-3">
-            <div class="card-body">
+    <div class="mb-3">
+        <span class="badge bg-primary fs-6 py-2 px-3">
+            Step 6: Subject Selection
+        </span>
+    </div>
 
-                <div class="row g-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body">
 
-                    <!-- Branch + Standard -->
-                    <div class="col-md-4">
+            <div class="row g-4">
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Select Branch</label>
-                            <select id="ddlBranch" class="form-select">
-                                <option value="">Select Branch</option>
-                            </select>
-                        </div>
+                <!-- Branch + Standard -->
+                <div class="col-md-4">
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Select Standard</label>
-                            <select id="ddlStandard" class="form-select">
-                                <option value="">Select Standard</option>
-                            </select>
-                        </div>
-
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Branch</label>
+                        <select id="ddlBranch" class="form-select">
+                            <option value="">Select Branch</option>
+                        </select>
                     </div>
 
-                    <!-- Mandatory Subjects -->
-                    <div class="col-md-4">
-
-                        <label class="form-label fw-bold">Mandatory Subjects</label>
-
-                        <div class="table-responsive border rounded shadow-sm">
-                            <table class="table table-bordered table-hover mb-0 text-center">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th style="width:80px;">ID</th>
-                                        <th>Subject Name</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="subjectsContainer">
-                                    <!-- Bind Subjects Here -->
-                                </tbody>
-                            </table>
-                        </div>
-
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Standard</label>
+                        <select id="ddlStandard" class="form-select">
+                            <option value="">Select Standard</option>
+                        </select>
                     </div>
 
-                    <!-- Optional Subjects -->
-                    <div class="col-md-4">
+                </div>
 
-                        <label class="form-label fw-bold">Optional Subjects</label>
+                <!-- Mandatory Subjects (Group 1) -->
+                <div class="col-md-4">
 
-                        <div id="optionalSubjectsContainer"
-                            class="border rounded shadow-sm p-3"
-                            style="min-height:260px;">
+                    <label class="form-label fw-bold mb-2">
+                        Mandatory Subjects (Group 1)
+                    </label>
 
-                            <!-- Radio Buttons Here -->
+                    <div class="table-responsive border rounded-3 shadow-sm">
+                        <table class="table table-sm table-hover mb-0 text-center align-middle">
 
-                        </div>
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width:80px;">ID</th>
+                                    <th>Subject Name</th>
+                                </tr>
+                            </thead>
 
+                            <tbody id="subjectsContainer">
+                                <!-- Group 1 will bind here -->
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- Optional Subjects (Group 2,3,4) -->
+                <div class="col-md-4">
+
+                    <label class="form-label fw-bold mb-2">
+                        Optional Subjects
+                    </label>
+
+                    <div id="optionalSubjectsContainer"
+                         class="border rounded-3 shadow-sm p-3 bg-light"
+                         style="min-height:260px; max-height:320px; overflow-y:auto;">
+                        <!-- Radio buttons will bind here -->
                     </div>
 
                 </div>
 
             </div>
         </div>
-
-        <!-- Buttons -->
-        <div class="mt-4 d-flex justify-content-between align-items-center">
-            <button class="btn btn-outline-secondary" onclick="prevStep()">Back</button>
-
-            <div class="d-flex gap-2">
-                <button class="btn btn-success" id="btnSaveAcademicInfo">
-                    Save Subject Info
-                </button>
-
-                <button class="btn btn-primary" onclick="nextStep()">Next</button>
-            </div>
-        </div>
     </div>
+
+    <!-- Buttons -->
+    <div class="mt-4 d-flex justify-content-between align-items-center">
+
+        <button class="btn btn-outline-secondary px-4" onclick="prevStep()">
+            Back
+        </button>
+
+        <div class="d-flex gap-2">
+
+            <button class="btn btn-success px-4" id="btnSaveAcademicInfo">
+                Save Subject Info
+            </button>
+
+            <button class="btn btn-primary px-4" onclick="nextStep()">
+                Next
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
     <!-- STEP 7: Student Document Upload -->
     <div class="step">
