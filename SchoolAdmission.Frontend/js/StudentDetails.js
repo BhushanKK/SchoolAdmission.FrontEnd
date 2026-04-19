@@ -144,4 +144,8 @@ $(document).ready(function () {
         $('#isMinority').prop('checked', religionId && religionId !== HINDU_ID);
     });
 /*--End of Step I - Student Information Fetching and Dropdown Population--*/
+
+/*Start Step 2: Student Address Details */
+
+/*End Step 2: Student Address Details */
 });

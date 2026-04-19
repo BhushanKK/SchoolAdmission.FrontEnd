@@ -20,6 +20,7 @@ const healthApi = apiBase + "/student-health";
 const registerCommitteeApi = apiBase + "/CommiteMasters";
 const schoolAllSchoolsApi = apiBase + "/schoolmasters/AllSchools";
 const subjectApi = apiBase + "/Subjectmasters";
+const subjectChoiceApi = apiBase + "/Subjectmasters/subjectsByBranchId/";
 
 
 document.getElementById("currentYear").innerText = new Date().getFullYear();
