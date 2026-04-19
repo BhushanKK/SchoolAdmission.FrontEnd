@@ -1,9 +1,7 @@
 const token = localStorage.getItem("accessToken");
 const studentId = localStorage.getItem("studentId");
-<<<<<<< HEAD
+
 const saveSubjectApi = "http://localhost:5263/api/StudentSubjectChoices";
-=======
->>>>>>> c4fec205244794408974be4f2f06c146f5e3412d
 
 const headers = {
     "Authorization": "Bearer " + token
