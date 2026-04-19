@@ -312,6 +312,7 @@
     </div>
     
     <!-- STEP 6: Subject Selection -->
+
     <div class="step">
 
         <div class="mb-3">
@@ -334,6 +335,45 @@
                                 <option value="">Select Branch</option>
                             </select>
                         </div>
+
+                        <!-- Mandatory Subjects (Group 1) -->
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-bold mb-2">
+                                Mandatory Subjects (Group 1)
+                            </label>
+
+                            <div class="table-responsive border rounded-3 shadow-sm">
+                                <table class="table table-sm table-hover mb-0 text-center align-middle">
+
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width:80px;">ID</th>
+                                            <th>Subject Name</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="subjectsContainer">
+                                        <!-- Group 1 will bind here -->
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <!-- Optional Subjects (Group 2,3,4) -->
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-bold mb-2">
+                                Optional Subjects
+                            </label>
+
+                            <div id="optionalSubjectsContainer"
+                                class="border rounded-3 shadow-sm p-3 bg-light"
+                                style="min-height:260px; max-height:320px; overflow-y:auto;">
+                                <!-- Radio buttons will bind here -->
+                            </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Select Standard</label>
@@ -361,6 +401,7 @@
                                     </tr>
                                 </thead>
 
+
                                 <tbody id="subjectsContainer">
                                     <!-- Group 1 will bind here -->
                                 </tbody>
@@ -384,8 +425,28 @@
                         </div>
 
                     </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="mt-4 d-flex justify-content-between align-items-center">
+
+                <button class="btn btn-info" onclick="prevStep()">
+                    Back
+                </button>
+
+                <div class="d-flex gap-2">
+
+                    <button class="btn btn-success px-4" id="btnSaveSubjectInfo">
+                        Save Subject Info
+                    </button>
+
+                    <button class="btn btn-primary px-4" onclick="nextStep()">
+                        Next
+                    </button>
 
                 </div>
+
             </div>
         </div>
 
@@ -398,7 +459,7 @@
 
             <div class="d-flex gap-2">
 
-                <button class="btn btn-success px-4" id="btnSaveSubjectInfo">
+                <button class="btn btn-success px-4" id="btnSaveAcademicInfo">
                     Save Subject Info
                 </button>
 
