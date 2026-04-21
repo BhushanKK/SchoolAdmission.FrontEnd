@@ -292,7 +292,7 @@ $(document).ready(function () {
                 $('#height').val(data.height);
                 $('#weight').val(data.weight);
 
-                if (data.isHandicapped !== null) {
+                if (data.isHandicapped !== null && data.isHandicapped !== undefined) {
                     $('#isHandicapped').val(data.isHandicapped.toString());
                 }
 
@@ -363,39 +363,50 @@ $(document).ready(function () {
             handicappedTypeId: handicappedTypeId ? Number(handicappedTypeId) : null
         };
 
-        $("#btnSavePhysicalInfo").prop("disabled", true);
-
-        $.ajax({
-            url: healthApi,
-            type: "POST",
-            headers: headers,
-            contentType: "application/json",
-            data: JSON.stringify(payload),
-
-            success: function () {
-                showToast("Physical details saved successfully", "success");
-                $("#btnSavePhysicalInfo").prop("disabled", false);
-            },
-
-            error: function (xhr) {
-
-                $("#btnSavePhysicalInfo").prop("disabled", false);
-
-                if (xhr.status === 401) {
-                    localStorage.clear();
-                    window.location.href = "../index.html";
-                    return;
-                }
-
-                if (xhr.responseJSON?.message) {
-                    showToast(xhr.responseJSON.message, "error");
-                    return;
-                }
-
-                showToast("Failed to save physical details", "error");
-            }
-        });
-
     });
 
 /*End Step 3: Student Health Details */
+
+/*Start Step 4: Student Parents Guardians Details */
+
+    $.ajax({
+        url: guardianApi + '/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: headers,
+
+        success: function (response) {
+
+            if (response.success && response.data) {
+
+                const data = response.data;
+
+                $('#fatherName').val(data.fatherName ?? "");
+                $('#motherName').val(data.motherName ?? "");
+                $('#grandFatherName').val(data.grandFatherName ?? "");
+                $('#parentName').val(data.parentName ?? "");
+
+                $('#contactNo').val(data.contactNo ?? "");
+                $('#emailId').val(data.emailId ?? "");
+
+                $('#income').val(data.income ?? "");
+                $('#occupation').val(data.occupation ?? "");
+            }
+            else {
+                showToast("No parent data found", "info");
+            }
+        },
+
+        error: function (xhr) {
+
+            if (xhr.status === 401) {
+                localStorage.clear();
+                window.location.href = "../index.html";
+                return;
+            }
+
+            showToast("Failed to load parent details", "error");
+        }
+    });
+
+/*End Step 4: Student Parents Guardians Details */
