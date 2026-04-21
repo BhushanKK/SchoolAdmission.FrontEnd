@@ -273,6 +273,129 @@ $(document).ready(function () {
 });
 /*End Step 2: Student Address Details */
 
-/*Start Step 3: Student Healtj Details */
+/*Start Step 3: Student Health Details */
+    
+    /* Load Student Health Details */
+
+    $.ajax({
+        url: healthApi + '/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: headers,
+
+        success: function (response) {
+
+            if (response.success && response.data) {
+
+                const data = response.data;
+
+                $('#height').val(data.height);
+                $('#weight').val(data.weight);
+
+                if (data.isHandicapped !== null) {
+                    $('#isHandicapped').val(data.isHandicapped.toString());
+                }
+
+                $('#handicappedTypeId').val(data.handicappedTypeId);
+
+                if (data.isHandicapped == true) {
+                    $('#handicappedTypeId').prop('disabled', false);
+                }
+                else {
+                    $('#handicappedTypeId').val('').prop('disabled', true);
+                }
+            }
+        },
+
+        error: function () {
+            showToast("Failed to load health details", "error");
+        }
+    });
+
+
+    $(document).on("change", "#isHandicapped", function () {
+
+        const value = $(this).val();
+
+        if (value == "true") {
+            $("#handicappedTypeId").prop("disabled", false);
+        }
+        else {
+            $("#handicappedTypeId").val("").prop("disabled", true);
+        }
+    });
+
+
+    $(document).on("click", "#btnSavePhysicalInfo", function (e) {
+
+        e.preventDefault();
+
+        if (!studentId) {
+            showToast("StudentId not found", "error");
+            return;
+        }
+
+        const height = $("#height").val();
+        const weight = $("#weight").val();
+        const isHandicapped = $("#isHandicapped").val();
+        const handicappedTypeId = $("#handicappedTypeId").val();
+
+        if (!height || !weight) {
+            showToast("Height and Weight required", "error");
+            return;
+        }
+
+        if (isHandicapped === "") {
+            showToast("Select handicapped option", "error");
+            return;
+        }
+
+        if (isHandicapped == "true" && !handicappedTypeId) {
+            showToast("Select handicapped type", "error");
+            return;
+        }
+
+        const payload = {
+            studentId: studentId,
+            height: Number(height),
+            weight: Number(weight),
+            isHandicapped: isHandicapped == "true",
+            handicappedTypeId: handicappedTypeId ? Number(handicappedTypeId) : null
+        };
+
+        $("#btnSavePhysicalInfo").prop("disabled", true);
+
+        $.ajax({
+            url: healthApi,
+            type: "POST",
+            headers: headers,
+            contentType: "application/json",
+            data: JSON.stringify(payload),
+
+            success: function () {
+                showToast("Physical details saved successfully", "success");
+                $("#btnSavePhysicalInfo").prop("disabled", false);
+            },
+
+            error: function (xhr) {
+
+                $("#btnSavePhysicalInfo").prop("disabled", false);
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
+                }
+
+                if (xhr.responseJSON?.message) {
+                    showToast(xhr.responseJSON.message, "error");
+                    return;
+                }
+
+                showToast("Failed to save physical details", "error");
+            }
+        });
+
+    });
 
 /*End Step 3: Student Health Details */
