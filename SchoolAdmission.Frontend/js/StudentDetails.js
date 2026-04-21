@@ -147,5 +147,132 @@ $(document).ready(function () {
 
 /*Start Step 2: Student Address Details */
 
-/*End Step 2: Student Address Details */
+
+    $.ajax({
+        url: studentAddressApi + '/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: headers,
+
+        success: function (response) {
+
+            if (response.success && response.data) {
+
+                const data = response.data;
+
+                /* Permanent Address */
+                $('#permanent_village').val(data.pVillage);
+                $('#permanent_city').val(data.pCity);
+                $('#permanent_taluka').val(data.pTaluka);
+                $('#permanent_district').val(data.pDistrict);
+                $('#permanent_state').val(data.pState);
+                $('#permanent_pincode').val(data.pPincode);
+                $('#permanent_landmark').val(data.pLandmark);
+
+                /* Current Address */
+                $('#current_village').val(data.cVillage);
+                $('#current_city').val(data.cCity);
+                $('#current_taluka').val(data.cTaluka);
+                $('#current_district').val(data.cDistrict);
+                $('#current_state').val(data.cState);
+                $('#current_pincode').val(data.cPincode);
+                $('#current_landmark').val(data.cLandmark);
+
+                $('#sameAddress').prop('checked', data.isSameAddress);
+
+                if (data.isSameAddress) {
+                    copyPermanent();
+                }
+            }
+        },
+
+        error: function () {
+            showToast("Failed to load address details", "error");
+        }
+    });
+
+   
+    $(document).on('click', '#btnSaveAddressInfo', function (e) {
+
+        e.preventDefault();
+
+        const payload = {
+
+            studentId: studentId,
+
+            pVillage: $("#permanent_village").val(),
+            pCity: $("#permanent_city").val(),
+            pTaluka: $("#permanent_taluka").val(),
+            pDistrict: $("#permanent_district").val(),
+            pState: $("#permanent_state").val(),
+            pCountry: "India",
+            pPincode: $("#permanent_pincode").val(),
+            pLandmark: $("#permanent_landmark").val(),
+
+            cVillage: $("#current_village").val(),
+            cCity: $("#current_city").val(),
+            cTaluka: $("#current_taluka").val(),
+            cDistrict: $("#current_district").val(),
+            cState: $("#current_state").val(),
+            cCountry: "India",
+            cPincode: $("#current_pincode").val(),
+            cLandmark: $("#current_landmark").val(),
+
+            isSameAddress: $('#sameAddress').is(':checked')
+        };
+
+        $.ajax({
+            url: studentAddressApi,
+            type: "POST",
+            headers: headers,
+            contentType: "application/json",
+            data: JSON.stringify(payload),
+
+            success: function () {
+                showToast("Address saved successfully", "success");
+            },
+
+            error: function () {
+                showToast("Failed to save address", "error");
+            }
+        });
+    });
+
+    window.copyPermanent = function () {
+
+        const isChecked = $('#sameAddress').is(':checked');
+
+        const fields = [
+            'village',
+            'city',
+            'taluka',
+            'district',
+            'state',
+            'pincode',
+            'landmark'
+        ];
+
+        fields.forEach(function (field) {
+
+            const permanent = $('#permanent_' + field).val();
+
+            if (isChecked) {
+                $('#current_' + field).val(permanent).prop('disabled', true);
+            }
+            else {
+                $('#current_' + field).val('').prop('disabled', false);
+            }
+
+        });
+    };
+
+    $('#sameAddress').change(function () {
+        copyPermanent();
+    });
+
 });
+/*End Step 2: Student Address Details */
+
+/*Start Step 3: Student Healtj Details */
+
+/*End Step 3: Student Health Details */
