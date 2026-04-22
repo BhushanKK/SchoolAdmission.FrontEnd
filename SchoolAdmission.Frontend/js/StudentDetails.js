@@ -399,3 +399,47 @@ $.ajax({
     });
 
 /*End Step 5: Student Previous School Details */
+
+/*Start Step 7: Student Document Details */
+$.ajax({
+    url: documentUploadApi + '/' + studentId,
+    type: "GET",
+    dataType: "json",
+    headers: headers,
+
+    success: function (response) {
+
+        console.log("Student Documents Response:", response);
+
+        const data = response.data || response.result || response;
+
+        if (!data || data.length === 0) {
+            showToast("No documents found", "info");
+            return;
+        }
+
+        // You can store or process data here
+        data.forEach(function (item) {
+
+            console.log("Document ID:", item.documentId);
+            console.log("Type:", item.documentType);
+            console.log("Path:", item.documentPath);
+            console.log("Uploaded:", item.uploadedDate);
+
+        });
+    },
+
+    error: function (xhr) {
+
+        console.log("Error fetching documents:", xhr.responseText);
+
+        if (xhr.status === 401) {
+            localStorage.clear();
+            window.location.href = "../index.html";
+            return;
+        }
+
+        showToast("Failed to load documents", "error");
+    }
+});
+/*End Step 7: Student Document Details */
