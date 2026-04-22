@@ -5,7 +5,7 @@ $(document).ready(function () {
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
     const headers = { "Authorization": "Bearer " + token };
-
+    console.log("StudentId:", localStorage.getItem("studentId"));
     $.ajax({
         url: studentApi + '/' + studentId,
         type: 'GET',
@@ -274,10 +274,7 @@ $(document).ready(function () {
 /*End Step 2: Student Address Details */
 
 /*Start Step 3: Student Health Details */
-    
-    /* Load Student Health Details */
-
-    $.ajax({
+$.ajax({
         url: healthApi + '/' + studentId,
         type: 'GET',
         dataType: 'json',
@@ -285,91 +282,35 @@ $(document).ready(function () {
 
         success: function (response) {
 
-            if (response.success && response.data) {
+            console.log("Health API:", response);
 
-                const data = response.data;
+            const data = response.data || response.result || response;
 
-                $('#height').val(data.height);
-                $('#weight').val(data.weight);
+            if (!data) return;
 
-                if (data.isHandicapped !== null && data.isHandicapped !== undefined) {
-                    $('#isHandicapped').val(data.isHandicapped.toString());
-                }
+            $('#height').val(data.height || "");
+            $('#weight').val(data.weight || "");
 
-                $('#handicappedTypeId').val(data.handicappedTypeId);
+            $('#isHandicapped').val(data.isHandicapped?.toString() || "false");
+            $('#handicappedTypeId').val(data.handicappedTypeId || "");
 
-                if (data.isHandicapped == true) {
-                    $('#handicappedTypeId').prop('disabled', false);
-                }
-                else {
-                    $('#handicappedTypeId').val('').prop('disabled', true);
-                }
+            if (data.isHandicapped == true) {
+                $('#handicappedTypeId').prop('disabled', false);
+            } else {
+                $('#handicappedTypeId').val('').prop('disabled', true);
             }
         },
 
-        error: function () {
+        error: function (xhr) {
+            console.log("Health Error:", xhr.responseText);
             showToast("Failed to load health details", "error");
         }
-    });
-
-
-    $(document).on("change", "#isHandicapped", function () {
-
-        const value = $(this).val();
-
-        if (value == "true") {
-            $("#handicappedTypeId").prop("disabled", false);
-        }
-        else {
-            $("#handicappedTypeId").val("").prop("disabled", true);
-        }
-    });
-
-
-    $(document).on("click", "#btnSavePhysicalInfo", function (e) {
-
-        e.preventDefault();
-
-        if (!studentId) {
-            showToast("StudentId not found", "error");
-            return;
-        }
-
-        const height = $("#height").val();
-        const weight = $("#weight").val();
-        const isHandicapped = $("#isHandicapped").val();
-        const handicappedTypeId = $("#handicappedTypeId").val();
-
-        if (!height || !weight) {
-            showToast("Height and Weight required", "error");
-            return;
-        }
-
-        if (isHandicapped === "") {
-            showToast("Select handicapped option", "error");
-            return;
-        }
-
-        if (isHandicapped == "true" && !handicappedTypeId) {
-            showToast("Select handicapped type", "error");
-            return;
-        }
-
-        const payload = {
-            studentId: studentId,
-            height: Number(height),
-            weight: Number(weight),
-            isHandicapped: isHandicapped == "true",
-            handicappedTypeId: handicappedTypeId ? Number(handicappedTypeId) : null
-        };
-
-    });
-
+});
 /*End Step 3: Student Health Details */
 
-/*Start Step 4: Student Parents Guardians Details */
+/*Start Step 4: Student Parents Details */
 
-    $.ajax({
+$.ajax({
         url: guardianApi + '/' + studentId,
         type: 'GET',
         dataType: 'json',
@@ -377,27 +318,30 @@ $(document).ready(function () {
 
         success: function (response) {
 
-            if (response.success && response.data) {
+            console.log("Guardian API:", response);
 
-                const data = response.data;
+            const data = response.data || response.result || response;
 
-                $('#fatherName').val(data.fatherName ?? "");
-                $('#motherName').val(data.motherName ?? "");
-                $('#grandFatherName').val(data.grandFatherName ?? "");
-                $('#parentName').val(data.parentName ?? "");
-
-                $('#contactNo').val(data.contactNo ?? "");
-                $('#emailId').val(data.emailId ?? "");
-
-                $('#income').val(data.income ?? "");
-                $('#occupation').val(data.occupation ?? "");
-            }
-            else {
+            if (!data) {
                 showToast("No parent data found", "info");
+                return;
             }
+
+            $('#fatherName').val(data.fatherName || "");
+            $('#motherName').val(data.motherName || "");
+            $('#grandFatherName').val(data.grandFatherName || "");
+            $('#parentName').val(data.parentName || "");
+
+            $('#contactNo').val(data.contactNo || "");
+            $('#emailId').val(data.emailId || "");
+
+            $('#income').val(data.income || "");
+            $('#occupation').val(data.occupation || "");
         },
 
         error: function (xhr) {
+
+            console.log("Guardian Error:", xhr.responseText);
 
             if (xhr.status === 401) {
                 localStorage.clear();
@@ -407,6 +351,51 @@ $(document).ready(function () {
 
             showToast("Failed to load parent details", "error");
         }
+});
+/*End Step 4: Student Parents Details */
+
+/*Start Step 5: Student Previous School Details */
+
+    $.ajax({
+        url: previousSchoolApi + '/' + studentId,
+        type: "GET",
+        dataType: "json",
+        headers: headers,
+
+        success: function (response) {
+
+            console.log("Previous School Response:", response);
+
+            const data = response.data || response.result || response;
+
+            if (!data) {
+                showToast("No previous school data found", "info");
+                return;
+            }
+
+            $("#previousSchool").val(data.previousSchool || "");
+            $("#schoolDOE").val(data.schoolDOE ? data.schoolDOE.split('T')[0] : "");
+            $("#progress").val(data.progress || "");
+            $("#behaviour").val(data.behaviour || "");
+
+            $("#passingYear").val(data.passingYear || "");
+            $("#seatNo").val(data.seatNo || "");
+            $("#totalMarks").val(data.totalMarks || "");
+            $("#percentage").val(data.percentage || "");
+        },
+
+        error: function (xhr) {
+
+            console.log("Error fetching previous school:", xhr.responseText);
+
+            if (xhr.status === 401) {
+                localStorage.clear();
+                window.location.href = "../index.html";
+                return;
+            }
+
+            showToast("Failed to load previous school details", "error");
+        }
     });
 
-/*End Step 4: Student Parents Guardians Details */
+/*End Step 5: Student Previous School Details */

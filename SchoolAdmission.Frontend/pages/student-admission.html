@@ -310,9 +310,7 @@
             </div>
         </div>
     </div>
-    
-    <!-- STEP 6: Subject Selection -->
-
+    <!-- STEP 6: SUBJECT SELECTION -->
     <div class="step">
 
         <div class="mb-3">
@@ -326,66 +324,24 @@
 
                 <div class="row g-4">
 
-                    <!-- Branch + Standard -->
-                    <div class="col-md-4">
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Select Branch</label>
-                            <select id="ddlBranch" class="form-select">
-                                <option value="">Select Branch</option>
-                            </select>
-                        </div>
-
-                        <!-- Mandatory Subjects (Group 1) -->
-                        <div class="col-md-4">
-
-                            <label class="form-label fw-bold mb-2">
-                                Mandatory Subjects (Group 1)
-                            </label>
-
-                            <div class="table-responsive border rounded-3 shadow-sm">
-                                <table class="table table-sm table-hover mb-0 text-center align-middle">
-
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th style="width:80px;">ID</th>
-                                            <th>Subject Name</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody id="subjectsContainer">
-                                        <!-- Group 1 will bind here -->
-                                    </tbody>
-
-                                </table>
-                            </div>
-
-                        </div>
-
-                        <!-- Optional Subjects (Group 2,3,4) -->
-                        <div class="col-md-4">
-
-                            <label class="form-label fw-bold mb-2">
-                                Optional Subjects
-                            </label>
-
-                            <div id="optionalSubjectsContainer"
-                                class="border rounded-3 shadow-sm p-3 bg-light"
-                                style="min-height:260px; max-height:320px; overflow-y:auto;">
-                                <!-- Radio buttons will bind here -->
-                            </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Select Standard</label>
-                            <select id="ddlStandard" class="form-select">
-                                <option value="">Select Standard</option>
-                            </select>
-                        </div>
-
+                    <!-- Branch -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Select Branch</label>
+                        <select id="ddlBranch" class="form-select">
+                            <option value="">Select Branch</option>
+                        </select>
                     </div>
 
-                    <!-- Mandatory Subjects (Group 1) -->
-                    <div class="col-md-4">
+                    <!-- Standard -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Select Standard</label>
+                        <select id="ddlStandard" class="form-select">
+                            <option value="">Select Standard</option>
+                        </select>
+                    </div>
+
+                    <!-- Mandatory Subjects -->
+                    <div class="col-md-6">
 
                         <label class="form-label fw-bold mb-2">
                             Mandatory Subjects (Group 1)
@@ -401,18 +357,15 @@
                                     </tr>
                                 </thead>
 
-
-                                <tbody id="subjectsContainer">
-                                    <!-- Group 1 will bind here -->
-                                </tbody>
+                                <tbody id="subjectsContainer"></tbody>
 
                             </table>
                         </div>
 
                     </div>
 
-                    <!-- Optional Subjects (Group 2,3,4) -->
-                    <div class="col-md-4">
+                    <!-- Optional Subjects -->
+                    <div class="col-md-6">
 
                         <label class="form-label fw-bold mb-2">
                             Optional Subjects
@@ -421,19 +374,18 @@
                         <div id="optionalSubjectsContainer"
                             class="border rounded-3 shadow-sm p-3 bg-light"
                             style="min-height:260px; max-height:320px; overflow-y:auto;">
-                            <!-- Radio buttons will bind here -->
                         </div>
 
                     </div>
+
                 </div>
+
             </div>
 
             <!-- Buttons -->
             <div class="mt-4 d-flex justify-content-between align-items-center">
 
-                <button class="btn btn-info" onclick="prevStep()">
-                    Back
-                </button>
+                <button class="btn btn-info" onclick="prevStep()">Back</button>
 
                 <div class="d-flex gap-2">
 
@@ -448,41 +400,26 @@
                 </div>
 
             </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="mt-4 d-flex justify-content-between align-items-center">
-
-            <button class="btn btn-info" onclick="prevStep()">
-                Back
-            </button>
-
-            <div class="d-flex gap-2">
-
-                <button class="btn btn-success px-4" id="btnSaveAcademicInfo">
-                    Save Subject Info
-                </button>
-
-                <button class="btn btn-primary px-4" onclick="nextStep()">
-                    Next
-                </button>
-
-            </div>
 
         </div>
-
     </div>
-
-    <!-- STEP 7: Student Document Upload -->
+    
+    <!-- STEP 7: DOCUMENT UPLOAD -->
     <div class="step">
+
         <div class="mb-3">
-            <span class="badge bg-dark fs-6 py-2 px-3">Step 6: Upload Documents</span>
+            <span class="badge bg-dark fs-6 py-2 px-3">
+                Step 7: Upload Documents
+            </span>
         </div>
+
         <div class="row g-3">
+
             <div class="col-md-6">
-                <div class="card p-3 border-info mb-3">
-                    <h6 class="text-info">Document Info</h6>
-                    <select id="documentType" class="form-select form-control" data-mdb-select-init required>
+                <div class="card p-3 border-info">
+                    <h6 class="text-info">Document Type</h6>
+
+                    <select id="documentType" class="form-select">
                         <option value="">Select Document Type</option>
                         <option value="1">Aadhar Card *</option>
                         <option value="2">PAN Card</option>
@@ -490,27 +427,41 @@
                         <option value="4">Caste Certificate</option>
                         <option value="5">Income Certificate</option>
                         <option value="6">Leaving Certificate *</option>
-                        <option value="7">Passport size photo *</option>
+                        <option value="7">Passport Size Photo *</option>
                         <option value="8">Domicile Certificate</option>
                         <option value="9">Nationality Certificate</option>
                     </select>
+
                 </div>
             </div>
+
             <div class="col-md-6">
-                <div class="card p-3 border-info mb-3">
+                <div class="card p-3 border-info">
                     <h6 class="text-info">Upload File</h6>
                     <input type="file" id="documentFile" class="form-control">
                 </div>
             </div>
+
         </div>
+
+        <!-- Buttons -->
         <div class="mt-4 d-flex justify-content-between align-items-center">
+
             <button class="btn btn-info" onclick="prevStep()">Back</button>
 
             <div class="d-flex gap-2">
-                <button class="btn btn-success" id="btnSaveDocumentInfo">Submit Documents</button>
-                <button class="btn btn-primary">Print Application</button>
-            </div>
-        </div>
-    </div>
 
+                <button class="btn btn-success" id="btnSaveDocumentInfo">
+                    Submit Documents
+                </button>
+
+                <button class="btn btn-primary">
+                    Print Application
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
