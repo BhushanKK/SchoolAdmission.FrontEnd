@@ -5,7 +5,8 @@ $(document).ready(function () {
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
     const headers = { "Authorization": "Bearer " + token };
-    console.log("StudentId:", localStorage.getItem("studentId"));
+    
+
     $.ajax({
         url: studentApi + '/' + studentId,
         type: 'GET',
@@ -282,8 +283,6 @@ $.ajax({
 
         success: function (response) {
 
-            console.log("Health API:", response);
-
             const data = response.data || response.result || response;
 
             if (!data) return;
@@ -302,7 +301,6 @@ $.ajax({
         },
 
         error: function (xhr) {
-            console.log("Health Error:", xhr.responseText);
             showToast("Failed to load health details", "error");
         }
 });
@@ -317,8 +315,6 @@ $.ajax({
         headers: headers,
 
         success: function (response) {
-
-            console.log("Guardian API:", response);
 
             const data = response.data || response.result || response;
 
@@ -341,8 +337,6 @@ $.ajax({
 
         error: function (xhr) {
 
-            console.log("Guardian Error:", xhr.responseText);
-
             if (xhr.status === 401) {
                 localStorage.clear();
                 window.location.href = "../index.html";
@@ -364,8 +358,6 @@ $.ajax({
 
         success: function (response) {
 
-            console.log("Previous School Response:", response);
-
             const data = response.data || response.result || response;
 
             if (!data) {
@@ -386,8 +378,6 @@ $.ajax({
 
         error: function (xhr) {
 
-            console.log("Error fetching previous school:", xhr.responseText);
-
             if (xhr.status === 401) {
                 localStorage.clear();
                 window.location.href = "../index.html";
@@ -400,16 +390,65 @@ $.ajax({
 
 /*End Step 5: Student Previous School Details */
 
+/*Start Step 6: Student subject Choice Details */
+
+    $.ajax({
+        url: saveSubjectApi + "/" + studentId,
+        type: "GET",
+        headers: headers,
+
+        success: function (response) {
+
+            const data = response.data || response.result || response;
+
+            if (!data || data.length === 0) {
+                showToast("No subject selection found", "info");
+                return;
+            }
+
+            const first = data[0];
+
+            $("#ddlBranch").val(first.branchId);
+            $("#ddlStandard").val(first.standardId);
+
+            BindSubjects(first.branchId);
+
+            setTimeout(function () {
+
+                data.forEach(function (item) {
+
+                    $(`input[type='radio'][value='${item.subjectId}']`)
+                        .prop("checked", true);
+
+                    $(`.branch3-checkbox[value='${item.subjectId}']`)
+                        .prop("checked", true);
+                });
+
+            }, 500);
+        },
+
+        error: function (xhr) {
+
+            if (xhr.status === 401) {
+                localStorage.clear();
+                window.location.href = "../index.html";
+                return;
+            }
+
+            showToast("Failed to load subject choice", "error");
+        }
+    });
+
+/*End Step 6: Student subject choice Details */
+
 /*Start Step 7: Student Document Details */
-$.ajax({
+    $.ajax({
     url: documentUploadApi + '/' + studentId,
-    type: "GET",
-    dataType: "json",
+    type: 'GET',
+    dataType: 'json',
     headers: headers,
 
     success: function (response) {
-
-        console.log("Student Documents Response:", response);
 
         const data = response.data || response.result || response;
 
@@ -418,20 +457,25 @@ $.ajax({
             return;
         }
 
-        // You can store or process data here
-        data.forEach(function (item) {
+        const selectedDocumentType = $("#documentType").val();
 
-            console.log("Document ID:", item.documentId);
-            console.log("Type:", item.documentType);
-            console.log("Path:", item.documentPath);
-            console.log("Uploaded:", item.uploadedDate);
+        const doc = data.find(d => 
+            d.documentType?.toString() === selectedDocumentType
+        );
 
-        });
+        if (!doc) {
+            showToast("Selected document not found", "error");
+            return;
+        }
+
+        $("#documentType").val(doc.documentType?.toString() || "");
+        $("#uploadedDate").val(
+            doc.uploadedDate ? doc.uploadedDate.split('T')[0] : ""
+        );
+
     },
 
     error: function (xhr) {
-
-        console.log("Error fetching documents:", xhr.responseText);
 
         if (xhr.status === 401) {
             localStorage.clear();

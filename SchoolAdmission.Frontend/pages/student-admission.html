@@ -289,16 +289,16 @@
                 <input type="text" id="behaviour" class="nameValidationWithSpace form-control" placeholder="Behaviour">
             </div>
             <div class="col-md-4">
-                <input type="text" id="passingYear" maxlength="4" class="numberValidation form-control" placeholder="Passing Year">
+                <input type="text" id="passingYear"  maxlength="9" class="form-control" pattern="^\d{4}-\d{4}$"  placeholder="Passing Year">
             </div>
             <div class="col-md-4">
-                <input type="text" id="seatNo" class="form-control" placeholder="Seat No">
+                <input type="text" id="seatNo" maxlength="7" class="form-control" placeholder="Seat No">
             </div>
             <div class="col-md-4">
-                <input type="text" id="totalMarks" class="form-control" placeholder="Total Marks">
+                <input type="text" id="totalMarks" maxlength="3" class="numberValidation form-control" placeholder="Total Marks">
             </div>
             <div class="col-md-4">
-                <input type="text" id="percentage" class="form-control" placeholder="Percentage">
+                <input type="text" id="percentage" maxlength="2" class="numberValidation form-control" placeholder="Percentage">
             </div>
         </div>
         <div class="mt-4 d-flex justify-content-between align-items-center">
