@@ -1,4 +1,4 @@
-const apiBase = "const apiBase = "https://schooladmission-b2escsaph3gtezbv.centralindia-01.azurewebsites.net/api";";
+const apiBase = "const apiBase = "https://schooladmission-b2escsaph3gtezbv.centralindia-01.azurewebsites.net/api";
 
 const categoryApi = apiBase + "/categorymasters";
 const casteApi = apiBase + "/castemaster"; 
