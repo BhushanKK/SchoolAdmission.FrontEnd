@@ -3,7 +3,7 @@ $(document).ready(function () {
     const headers = { "Authorization": "Bearer " + token };
     $('#casteTable').DataTable({
         ajax: {
-            url: "http://localhost:5263/api/student-details",
+            url: studentDetailsApi,
             type: "GET",
             headers: headers,
             dataSrc: function (json) {
