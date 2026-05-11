@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admission Form</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .page {
+            width: 850px;
+            background: white;
+            margin: auto;
+            padding: 20px 40px;
+            border: 1px solid #ccc;
+        }
+
+        .top-header {
+            text-align: center;
+            font-size: 12px;
+            line-height: 18px;
+            position: relative;
+        }
+
+        .form-no {
+            position: absolute;
+            right: 0;
+            top: 0;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .college-name {
+            border: 1px solid black;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .marks-table {
+            width: 300px;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .marks-table td {
+            border: 1px solid black;
+            padding: 4px;
+            font-weight: bold;
+        }
+
+        .photo-box {
+            width: 100px;
+            height: 120px;
+            border: 1px solid black;
+        }
+
+        .admission-btn {
+            border: 1px solid black;
+            padding: 10px 20px;
+            height: fit-content;
+            font-weight: bold;
+            font-size: 22px;
+            margin-top: 10px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .details-table {
+            width: 100%;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .details-table td {
+            padding: 5px;
+            vertical-align: middle;
+        }
+
+        .details-table input {
+            width: 180px;
+            border: none;
+            border-bottom: 1px solid black;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .paragraph {
+            margin-top: 20px;
+            font-size: 13px;
+            line-height: 24px;
+        }
+
+        .subject-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .subject-table th,
+        .subject-table td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .notice {
+            margin-top: 20px;
+            font-size: 12px;
+            line-height: 22px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .page {
+                border: none;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="top-header">
+
+            <img src="" width="40">
+
+            <div class="form-no">
+                फॉर्म नंबर : 1/2020-2021 <br>
+                28/02/2026
+            </div>
+
+            सोनू एज्युकेशन संस्था नाशिक रोड, नाशिक रोड
+
+        </div>
+
+        <div class="college-name">
+            के जे मेहता हायस्कूल व ई बाबा फडोळ ज्युनिअर कॉलेज, नाशिक रोड
+        </div>
+
+        <div class="top-section">
+
+            <table class="marks-table">
+
+                <tr>
+                    <td>इ. १० वी एकूण गुण</td>
+                    <td>
+                        <input type="text" value="555"
+                            style="border:none; width:100%; font-weight:bold;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>अर्ज प्रकार</td>
+                    <td>
+                        <input type="text" value="हिंदू - मराठा"
+                            style="border:none; width:100%;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>आरक्षण</td>
+                    <td>
+                        <input type="text"
+                            style="border:none; width:100%;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>सेमी प्रकार</td>
+                    <td>
+                        <input type="text" value="नाही"
+                            style="border:none; width:100%;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>प्राधान्य क्र</td>
+                    <td>
+                        <input type="text" value="0"
+                            style="border:none; width:100%;">
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="admission-btn">
+                प्रवेश अर्ज
+            </div>
+
+            <div class="photo-box"></div>
+
+        </div>
+
+        <div class="section-title">
+            * वैयक्तिक माहिती *
+        </div>
+
+        <table class="details-table">
+
+            <tr>
+
+                <td>१. संपूर्ण नाव (मराठी)</td>
+
+                <td>
+                    <input type="text" value="HARISH VINOD KUMAR">
+                </td>
+
+                <td>आईचे नाव</td>
+
+                <td>
+                    <input type="text" value="NA">
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Full Name</td>
+
+                <td>
+                    <input type="text" value="HARISH VINOD KUMAR">
+                </td>
+
+                <td>Mother Name</td>
+
+                <td>
+                    <input type="text" value="NA">
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>पालकांचे मूळ गाव</td>
+
+                <td>
+                    <input type="text" value="Nashik">
+                </td>
+
+                <td>वार्षिक उत्पन्न</td>
+
+                <td>
+                    <input type="text" value="100000">
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>२. कायमचा पत्ता</td>
+
+                <td>
+                    <input type="text" value="Nashik">
+                </td>
+
+                <td></td>
+
+                <td></td>
+
+            </tr>
+
+            <tr>
+
+                <td>मोबाईल नं.</td>
+
+                <td>
+                    <input type="text" value="9890376906">
+                </td>
+
+                <td>जन्म तारीख</td>
+
+                <td>
+                    <input type="text" value="01/01/2003">
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>३. मागील शाळेचे नाव</td>
+
+                <td>
+                    <input type="text" value="Nashik">
+                </td>
+
+                <td></td>
+
+                <td></td>
+
+            </tr>
+
+        </table>
+
+        <div class="paragraph">
+
+            प्रति, मा प्राचार्य <br><br>
+
+            महोदय, <br>
+
+            मी आपल्या कनिष्ठ महाविद्यालयात इयत्ता
+            <b>११ वी बहुविद्य - HSC(VOC)</b>
+            वर्गामध्ये प्रवेश देऊ इच्छितो / इच्छिते.
+            मी खालील विषय चालू ठेवणार.
+
+        </div>
+
+        <table class="subject-table">
+
+            <tr>
+                <th>शाखा</th>
+                <th>HSC(VOC)</th>
+            </tr>
+
+            <tr>
+                <td rowspan="5" style="vertical-align: top;">
+                    आवश्यक विषय
+                </td>
+
+                <td>
+                    <input type="text" value="मराठी"
+                        style="border:none; width:100%;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="text" value="इंग्रजी"
+                        style="border:none; width:100%;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="text" value="जनरल फाउंडेशन कोर्स"
+                        style="border:none; width:100%;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="text" value="शारीरिक शिक्षण"
+                        style="border:none; width:100%;">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="text" value="पर्यावरण"
+                        style="border:none; width:100%;">
+                </td>
+            </tr>
+
+            <tr>
+
+                <td>वैकल्पिक विषय</td>
+
+                <td>
+                    <input type="text"
+                        value="लॉजिस्टिक अँड सप्लाय चैन मॅनेजमेंट"
+                        style="border:none; width:100%;">
+                </td>
+
+            </tr>
+
+        </table>
+
+        <div class="footer-row">
+
+            <div>
+                दिनांक : 28/02/2026
+            </div>
+
+            <div>
+                शाखा : HSC(VOC)
+            </div>
+
+            <div>
+                फॉर्म नंबर : 1/2020-2021
+            </div>
+
+        </div>
+
+        <div class="notice">
+
+            विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व
+            शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.
+
+        </div>
+
+    </div>
+    <!-- SECOND PAGE -->
+
+<div class="page" style="margin-top:20px;">
+
+    <div style="display:flex; justify-content:space-between; font-size:12px;">
+
+        <div>
+            अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव
+        </div>
+
+        <div>
+            विद्यार्थ्यांची सही
+        </div>
+
+    </div>
+
+    <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:20px;">
+        *शैक्षणिक व वैयक्तिक माहिती*
+    </div>
+
+    <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:13px;">
+
+        <tr>
+
+            <th style="border:1px solid black; padding:10px;">
+                वर्ग
+            </th>
+
+            <th style="border:1px solid black; padding:10px;">
+                शिक्षण घेतलेल्या शाळेचे / वरिष्ठ महाविद्यालयाचे नाव
+            </th>
+
+            <th style="border:1px solid black; padding:10px;">
+                पास होण्याचे वर्ष
+            </th>
+
+            <th style="border:1px solid black; padding:10px;">
+                परीक्षा बैठक क्रमांक
+            </th>
+
+            <th style="border:1px solid black; padding:10px;">
+                एकूण गुण
+            </th>
+
+            <th style="border:1px solid black; padding:10px;">
+                गुणांची टक्केवारी
+            </th>
+
+            <th style="border:1px solid black; padding:10px;">
+                खेळ
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <td style="border:1px solid black; padding:10px; font-weight:bold;">
+                १० वी
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <input type="text"
+                    value="-"
+                    style="width:100%; border:none; outline:none;">
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <input type="text"
+                    value="2010-2011"
+                    style="width:100%; border:none; outline:none;">
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <input type="text"
+                    value="D044789"
+                    style="width:100%; border:none; outline:none;">
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <input type="text"
+                    value="555"
+                    style="width:100%; border:none; outline:none;">
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <input type="text"
+                    value="90"
+                    style="width:100%; border:none; outline:none;">
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <input type="text"
+                    style="width:100%; border:none; outline:none;">
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td style="border:1px solid black; padding:10px; font-weight:bold;">
+                ११ वी
+            </td>
+
+            <td style="border:1px solid black; padding:10px;"></td>
+
+            <td style="border:1px solid black; padding:10px;"></td>
+
+            <td style="border:1px solid black; padding:10px;"></td>
+
+            <td style="border:1px solid black; padding:10px;"></td>
+
+            <td style="border:1px solid black; padding:10px;"></td>
+
+            <td style="border:1px solid black; padding:10px;"></td>
+
+        </tr>
+
+    </table>
+
+    <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:13px;">
+
+        <div></div>
+
+        <div>
+            आपला / आपल्या नम्र
+        </div>
+
+    </div>
+
+    <div style="text-align:right; margin-top:20px; font-size:13px;">
+        विद्यार्थ्यांची / विद्यार्थिनीची सही
+    </div>
+
+    <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:40px;">
+        पालकांचे निवेदन
+    </div>
+
+    <div style="margin-top:20px; font-size:13px; line-height:28px; text-align:justify;">
+
+        मी माझ्या पाल्यास आपल्या कनिष्ठ महाविद्यालयात प्रवेश देण्यास संमती देत आहे.
+        त्याने / तिने अर्जात नमूद केलेली सर्व माहिती सत्य व खरी आहे.
+        कनिष्ठ महाविद्यालयाचे नियम व अटी मला पूर्णपणे मान्य आहेत.
+        कनिष्ठ महाविद्यालयाची शुल्क व खर्च देण्यास मी तयार आहे.
+        माझ्या मुलाने जे वर्तन केले त्याबद्दल मी पूर्णपणे जबाबदार राहील.
+        माझ्या पाल्याने कनिष्ठ महाविद्यालयाचे नियम न शिकलो पाळले नाहीत
+        तर त्याच्यावर करण्यात येणारी कारवाई मला मान्य राहील.
+
+    </div>
+
+    <div style="display:flex; justify-content:space-between; margin-top:40px;">
+
+        <div style="font-size:13px;">
+            ठिकाण : Nashik <br><br>
+
+            दिनांक :
+            <input type="text"
+                value="28/02/2026"
+                style="border:none; border-bottom:1px solid black; outline:none;">
+        </div>
+
+        <div style="font-size:13px; text-align:center;">
+            पालक
+        </div>
+
+    </div>
+
+    <hr style="margin-top:40px; border:1px dashed black;">
+
+    <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:20px;">
+        विद्यार्थी प्रवेश पावती
+    </div>
+
+    <div style="margin-top:20px; font-size:13px;">
+
+        फॉर्म नंबर : <b>1/2020-2021</b>
+
+    </div>
+
+    <div style="margin-top:10px; font-size:13px;">
+
+        विद्यार्थ्यांना इ. ११ वी बहुविद्य - HSC(VOC) प्रवेशासाठी खालील विषय निश्चित केलेले.
+
+    </div>
+
+    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+
+        <tr>
+
+            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
+                मराठी
+            </td>
+
+            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
+                इंग्रजी
+            </td>
+
+            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
+                जनरल फाउंडेशन कोर्स
+            </td>
+
+            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
+                शारीरिक शिक्षण
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
+                संगणक
+            </td>
+
+            <td colspan="3"
+                style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
+
+                लॉजिस्टिक अँड सप्लाय चैन मॅनेजमेंट
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <div style="margin-top:20px; font-size:13px; line-height:28px;">
+
+        टिप : १. प्रवेश अर्ज सादर करताना सर्व कागदपत्रे सोबत आणणे आवश्यक आहे. <br>
+
+        २. प्रवेशाची फी भरल्यानंतर प्रवेश पावती प्राप्त करून घ्यावी. <br>
+
+        ३. प्रवेशासाठी आलेल्या विद्यार्थ्यांनी नियम व अटी पाळणे आवश्यक आहे. <br>
+
+        ४. एकदा प्रवेश घेतल्यानंतर फी परत मिळणार नाही.
+
+    </div>
+
+    <div style="text-align:right; margin-top:50px; font-size:13px;">
+
+        अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव <br>
+
+        दिनांक :
+        <input type="text"
+            value="28/02/2026"
+            style="border:none; border-bottom:1px solid black; outline:none;">
+
+    </div>
+
+</div>
+</body>
+
+</html> 

@@ -192,81 +192,81 @@ $(document).ready(function () {
         }
     });
 
-});
+
 /*End Step 2: Student Address Details */
 
 /*Start Step 3: Student Health Details */
-$.ajax({
-        url: healthApi + '/' + studentId,
-        type: 'GET',
-        dataType: 'json',
-        headers: headers,
+    $.ajax({
+            url: healthApi + '/' + studentId,
+            type: 'GET',
+            dataType: 'json',
+            headers: headers,
 
-        success: function (response) {
+            success: function (response) {
 
-            const data = response.data || response.result || response;
+                const data = response.data || response.result || response;
 
-            if (!data) return;
+                if (!data) return;
 
-            $('#height').val(data.height || "");
-            $('#weight').val(data.weight || "");
+                $('#height').val(data.height || "");
+                $('#weight').val(data.weight || "");
 
-            $('#isHandicapped').val(data.isHandicapped?.toString() || "false");
-            $('#handicappedTypeId').val(data.handicappedTypeId || "");
+                $('#isHandicapped').val(data.isHandicapped?.toString() || "false");
+                $('#handicappedTypeId').val(data.handicappedTypeId || "");
 
-            if (data.isHandicapped == true) {
-                $('#handicappedTypeId').prop('disabled', false);
-            } else {
-                $('#handicappedTypeId').val('').prop('disabled', true);
+                if (data.isHandicapped == true) {
+                    $('#handicappedTypeId').prop('disabled', false);
+                } else {
+                    $('#handicappedTypeId').val('').prop('disabled', true);
+                }
+            },
+
+            error: function (xhr) {
+                showToast("Failed to load health details", "error");
             }
-        },
-
-        error: function (xhr) {
-            showToast("Failed to load health details", "error");
-        }
-});
+    });
 /*End Step 3: Student Health Details */
 
 /*Start Step 4: Student Parents Details */
 
-$.ajax({
-        url: guardianApi + '/' + studentId,
-        type: 'GET',
-        dataType: 'json',
-        headers: headers,
+    $.ajax({
+            url: guardianApi + '/' + studentId,
+            type: 'GET',
+            dataType: 'json',
+            headers: headers,
 
-        success: function (response) {
+            success: function (response) {
 
-            const data = response.data || response.result || response;
+                const data = response.data || response.result || response;
 
-            if (!data) {
-                showToast("No parent data found", "info");
-                return;
+                if (!data) {
+                    showToast("No parent data found", "info");
+                    return;
+                }
+
+                $('#fatherName').val(data.fatherName || "");
+                $('#motherName').val(data.motherName || "");
+                $('#grandFatherName').val(data.grandFatherName || "");
+                $('#parentName').val(data.parentName || "");
+
+                $('#contactNo').val(data.contactNo || "");
+                $('#emailId').val(data.emailId || "");
+
+                $('#income').val(data.income || "");
+                $('#occupation').val(data.occupation || "");
+            },
+
+            error: function (xhr) {
+
+                if (xhr.status === 401) {
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+                    return;
+                }
+
+                showToast("Failed to load parent details", "error");
             }
-
-            $('#fatherName').val(data.fatherName || "");
-            $('#motherName').val(data.motherName || "");
-            $('#grandFatherName').val(data.grandFatherName || "");
-            $('#parentName').val(data.parentName || "");
-
-            $('#contactNo').val(data.contactNo || "");
-            $('#emailId').val(data.emailId || "");
-
-            $('#income').val(data.income || "");
-            $('#occupation').val(data.occupation || "");
-        },
-
-        error: function (xhr) {
-
-            if (xhr.status === 401) {
-                localStorage.clear();
-                window.location.href = "../index.html";
-                return;
-            }
-
-            showToast("Failed to load parent details", "error");
-        }
-});
+    });
 /*End Step 4: Student Parents Details */
 
 /*Start Step 5: Student Previous School Details */
@@ -406,5 +406,6 @@ $.ajax({
 
         showToast("Failed to load documents", "error");
     }
+});
 });
 /*End Step 7: Student Document Details */
