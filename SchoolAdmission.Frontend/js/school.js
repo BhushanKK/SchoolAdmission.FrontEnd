@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    oadCommittees();
     const table = $('#schoolTable').DataTable({
         ajax: {
             url: `${schoolApi}/AllSchools`,
@@ -20,7 +20,7 @@ $(document).ready(function () {
         columns: [
             { data: "schoolId" },
             { data: "schoolName" },
-            { data: "committeeName"},
+            { data: "committeeName" },
             {
                 data: null,
                 render: function (data, type, row) {
@@ -173,3 +173,22 @@ $(document).ready(function () {
     });
 
 });
+
+function loadCommittees() {
+    $.ajax({
+        url: registerCommitteeApi,
+        type: "GET",
+        success: function (response) {
+            let dropdown = $("#committee");
+            dropdown.empty().append(`<option value="">Select Committee</option>`);
+            if (response.success && response.data) {
+                response.data.forEach(item => {
+                    dropdown.append(`<option value="${item.commiteeId}">${item.commiteeName}</option>`);
+                });
+            }
+        },
+        error: function () {
+            $("#errorMsg").text("Failed to load committees");
+        }
+    });
+}
