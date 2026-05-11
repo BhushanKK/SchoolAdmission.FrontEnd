@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    oadCommittees();
+    loadCommittees();
     const table = $('#schoolTable').DataTable({
         ajax: {
             url: `${schoolApi}/AllSchools`,
