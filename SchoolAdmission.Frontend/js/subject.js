@@ -21,29 +21,21 @@ $(document).ready(function () {
 
         columns: [
             { data: "subjectId" },
-            { data: "branchId" },
-            {
-                data: "groupId",
-                render: function (data) {
-
-                    if (data == 1) return "Mandatory";
-                    if (data == 2) return "Optional";
-
-                    return data;
-                }
-            },
+            { data: "branchName" },
             { data: "subjectName" },
-
+            { data: "groupName" },
             {
                 data: null,
                 render: function (data, type, row) {
 
                     return `
-                        <button class="btn btn-sm btn-info editBtn"
-                            data-id="${row.subjectId}" title="Edit">
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.subjectId}" title="Edit">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
-                    `;
+                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.subjectId}" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        `;
                 }
             }
         ]
@@ -271,12 +263,8 @@ $(document).ready(function () {
                     return;
                 }
 
-                showToast( "Unable to load record", "error");
-
+                showToast("Unable to load record", "error");
             }
-
         });
-
     });
-
 });
