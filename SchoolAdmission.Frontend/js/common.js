@@ -22,7 +22,7 @@ const registerCommitteeApi = apiBase + "/CommiteMasters";
 const schoolAllSchoolsApi = apiBase + "/schoolmasters/AllSchools";
 const subjectApi = apiBase + "/Subjectmasters";
 const subjectChoiceApi = apiBase + "/Subjectmasters/subjectsByBranchId/";
-
+const studentSubjectChoiceApi = apiBase + "/StudentSubjectChoices";
 
 document.getElementById("currentYear").innerText = new Date().getFullYear();
 

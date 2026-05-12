@@ -1,8 +1,6 @@
 const token = localStorage.getItem("accessToken");
 const studentId = localStorage.getItem("studentId");
 
-const saveSubjectApi = apiBase + "/StudentSubjectChoices";
-
 const headers = {
     "Authorization": "Bearer " + token
 };
@@ -258,7 +256,7 @@ $("#btnSaveSubjectInfo").click(function () {
     // API CALL
     // =========================
     $.ajax({
-        url: "http://localhost:5263/api/StudentSubjectChoices",
+        url: studentSubjectChoiceApi,
         type: "POST",
         headers: headers,
         contentType: "application/json",
