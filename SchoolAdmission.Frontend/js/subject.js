@@ -266,6 +266,7 @@ $(document).ready(function () {
                 showToast("Unable to load record", "error");
             }
         });
+
     });
     
     let deleteSubjectId = 0;
