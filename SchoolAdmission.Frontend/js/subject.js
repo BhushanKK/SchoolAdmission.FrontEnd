@@ -266,5 +266,63 @@ $(document).ready(function () {
                 showToast("Unable to load record", "error");
             }
         });
+
+    });
+    
+    let deleteSubjectId = 0;
+
+    $(document).on("click", ".deleteBtn", function () {
+
+        deleteSubjectId = $(this).data("id");
+
+        const modal = new mdb.Modal(
+            document.getElementById("deleteConfirmModal")
+        );
+
+        modal.show();
+    });
+
+    $("#confirmDeleteBtn").click(function () {
+
+        $.ajax({
+
+            url: `${subjectApi}/${deleteSubjectId}`,
+
+            type: "DELETE",
+
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("accessToken")
+            },
+
+            success: function () {
+
+                const modalEl =
+                    document.getElementById("deleteConfirmModal");
+
+                mdb.Modal.getInstance(modalEl)?.hide();
+
+                showToast("Deleted Successfully", "success");
+
+                table.ajax.reload(null, false);
+            },
+
+            error: function (xhr) {
+
+                const modalEl =
+                    document.getElementById("deleteConfirmModal");
+
+                mdb.Modal.getInstance(modalEl)?.hide();
+
+                if (xhr.status === 401) {
+
+                    localStorage.clear();
+                    window.location.href = "../index.html";
+
+                    return;
+                }
+
+                showToast("Delete Failed", "error");
+            }
+        });
     });
 });
