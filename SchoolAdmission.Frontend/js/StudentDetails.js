@@ -1,17 +1,12 @@
 $(document).ready(function () {
-
-    /*Step 1: Load Student Information Fetching */
-
-    const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
-    const headers = { "Authorization": "Bearer " + token };
-    
+    /*Step 1: Load Student Information Fetching */
 
     $.ajax({
         url: studentApi + '/' + studentId,
         type: 'GET',
         dataType: 'json',
-        headers: headers,
+        headers: getTokenHeader(),
         success: function(response) {
             if(response.success && response.data) {
                 const data = response.data;
@@ -68,7 +63,7 @@ $(document).ready(function () {
         $.ajax({
             url: url,
             type: 'GET',
-            headers: headers,
+            headers: getTokenHeader(),
             success: function (response) {
                 if (!response || !response.data) return;
 
@@ -104,7 +99,7 @@ $(document).ready(function () {
         $.ajax({
             url: `${casteApi}/${categoryId}`,
             type: 'GET',
-            headers: headers,
+            headers: getTokenHeader(),
             success: function (response) {
                 if (!response || !response.data) return;
 
@@ -139,7 +134,7 @@ $(document).ready(function () {
     });
 
     // Minority checkbox based on religion
-    const HINDU_ID = "7";
+    const HINDU_ID = "1"; // Assuming Hindu has ID 1, adjust as needed
     $('#religionId').on('change', function () {
         const religionId = $(this).val();
         $('#isMinority').prop('checked', religionId && religionId !== HINDU_ID);
@@ -148,12 +143,11 @@ $(document).ready(function () {
 
 /*Start Step 2: Student Address Details */
 
-
     $.ajax({
         url: studentAddressApi + '/' + studentId,
         type: 'GET',
         dataType: 'json',
-        headers: headers,
+        headers: getTokenHeader(),
 
         success: function (response) {
 
@@ -200,7 +194,7 @@ $(document).ready(function () {
             url: healthApi + '/' + studentId,
             type: 'GET',
             dataType: 'json',
-            headers: headers,
+            headers: getTokenHeader(),
 
             success: function (response) {
 
@@ -233,7 +227,7 @@ $(document).ready(function () {
             url: guardianApi + '/' + studentId,
             type: 'GET',
             dataType: 'json',
-            headers: headers,
+            headers: getTokenHeader(),
 
             success: function (response) {
 
@@ -275,7 +269,7 @@ $(document).ready(function () {
         url: previousSchoolApi + '/' + studentId,
         type: "GET",
         dataType: "json",
-        headers: headers,
+        headers: getTokenHeader(),
 
         success: function (response) {
 
@@ -313,52 +307,7 @@ $(document).ready(function () {
 
 /*Start Step 6: Student subject Choice Details */
 
-    $.ajax({
-        url: saveSubjectApi + "/" + studentId,
-        type: "GET",
-        headers: headers,
-
-        success: function (response) {
-
-            const data = response.data || response.result || response;
-
-            if (!data || data.length === 0) {
-                showToast("No subject selection found", "info");
-                return;
-            }
-
-            const first = data[0];
-
-            $("#ddlBranch").val(first.branchId);
-            $("#ddlStandard").val(first.standardId);
-
-            BindSubjects(first.branchId);
-
-            setTimeout(function () {
-
-                data.forEach(function (item) {
-
-                    $(`input[type='radio'][value='${item.subjectId}']`)
-                        .prop("checked", true);
-
-                    $(`.branch3-checkbox[value='${item.subjectId}']`)
-                        .prop("checked", true);
-                });
-
-            }, 500);
-        },
-
-        error: function (xhr) {
-
-            if (xhr.status === 401) {
-                localStorage.clear();
-                window.location.href = "../index.html";
-                return;
-            }
-
-            showToast("Failed to load subject choice", "error");
-        }
-    });
+    
 
 /*End Step 6: Student subject choice Details */
 
@@ -367,7 +316,7 @@ $(document).ready(function () {
     url: documentUploadApi + '/' + studentId,
     type: 'GET',
     dataType: 'json',
-    headers: headers,
+    headers: getTokenHeader(),
 
     success: function (response) {
 
