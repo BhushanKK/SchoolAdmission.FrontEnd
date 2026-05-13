@@ -1,8 +1,6 @@
 const token = localStorage.getItem("accessToken");
 const studentId = localStorage.getItem("studentId");
 
-const saveSubjectApi = apiBase + "/StudentSubjectChoices";
-
 const headers = {
     "Authorization": "Bearer " + token
 };
@@ -121,7 +119,7 @@ function BindSubjects(branchId) {
                     });
 
                 }
-             
+
                 else {
 
                     subjects.forEach(s => {
@@ -177,59 +175,100 @@ $(document).ready(function () {
     BindStandards();
 });
 
+
+
+
 $("#btnSaveSubjectInfo").click(function () {
 
-    let branchId = $("#ddlBranch").val();
-    let standardId = $("#ddlStandard").val();
+    let branchId = parseInt($("#ddlBranch").val());
     let studentId = localStorage.getItem("studentId");
 
-    if (!branchId || !standardId) {
-        showToast("Select Branch and Standard", "error");
+    if (!branchId) {
+        showToast("Select Branch", "error");
         return;
     }
 
-    let selectedSubjects = [];
+    if (!studentId) {
+        showToast("Student not found", "error");
+        return;
+    }
 
-    $("#optionalSubjectsContainer input[type='radio']:checked").each(function () {
-        selectedSubjects.push({
-            subjectId: $(this).val(),
-            groupId: $(this).attr("name").replace("group_", "")
+    let payload = [];
+
+    // =========================
+    // GROUP 1 (MANDATORY)
+    // =========================
+    $("#subjectsContainer tr").each(function () {
+
+        let subjectId = $(this).find("td:first").text().trim();
+
+        if (subjectId) {
+            payload.push({
+                branchId: branchId,
+                subjectId: parseInt(subjectId),
+                groupId: 1,
+                studentId: studentId
+            });
+        }
+    });
+
+    // =========================
+    // GROUP 2,3,4... (ALL RADIO GROUPS)
+    // =========================
+    $("input[type='radio']:checked").each(function () {
+
+        let name = $(this).attr("name"); // group_2, group_3, group_4
+        let groupId = parseInt(name.split("_")[1]);
+
+        payload.push({
+            branchId: branchId,
+            subjectId: parseInt($(this).val()),
+            groupId: groupId,
+            studentId: studentId
         });
     });
 
-    $(".branch3-checkbox:checked").each(function () {
-        selectedSubjects.push({
-            subjectId: $(this).val(),
-            groupId: 3
-        });
-    });
+    // =========================
+    // SCIENCE ONLY (MULTI CHECKBOX GROUP 3)
+    // =========================
+    if (branchId === 3) {
 
-    if (selectedSubjects.length == 0) {
+        $(".branch3-checkbox:checked").each(function () {
+
+            payload.push({
+                branchId: branchId,
+                subjectId: parseInt($(this).val()),
+                groupId: 3,
+                studentId: studentId
+            });
+        });
+    }
+
+    // =========================
+    // VALIDATION
+    // =========================
+    if (payload.length === 0) {
         showToast("Please select subjects", "error");
         return;
     }
 
-    selectedSubjects.forEach(function (item) {
+    // =========================
+    // API CALL
+    // =========================
+    $.ajax({
+        url: studentSubjectChoiceApi,
+        type: "POST",
+        headers: headers,
+        contentType: "application/json",
+        data: JSON.stringify(payload),
 
-        $.ajax({
-            url: saveSubjectApi,
-            type: "POST",
-            headers: headers,
-            contentType: "application/json",
-            data: JSON.stringify({
-                branchId: branchId,
-                choiceId: standardId,
-                groupId: item.groupId,
-                studentId: studentId,
-                subjectId: item.subjectId
-            }),
-            
-            error: function () {
-                showToast("Error saving subject " + item.subjectId, "error");
-            }
-        });
+        success: function () {
+            showToast("Subject Info Saved Successfully", "success");
+        },
 
+        error: function (xhr) {
+            console.error(xhr);
+            showToast("Error saving subject info", "error");
+        }
     });
-
-    showToast("Subject Info Saved Successfully", "success");
 });

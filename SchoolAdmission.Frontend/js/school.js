@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    loadCommittees();
     const table = $('#schoolTable').DataTable({
         ajax: {
             url: `${schoolApi}/AllSchools`,
@@ -20,7 +20,7 @@ $(document).ready(function () {
         columns: [
             { data: "schoolId" },
             { data: "schoolName" },
-            { data: "committeeName"},
+            { data: "committeeName" },
             {
                 data: null,
                 render: function (data, type, row) {
@@ -41,6 +41,7 @@ $(document).ready(function () {
     $('#addSchoolBtn').click(function () {
         $('#schoolId').val('');
         $('#schoolName').val('');
+        $('#committee').val('');
         const modal = new mdb.Modal(document.getElementById('schoolModal'));
         modal.show();
     });
@@ -49,15 +50,22 @@ $(document).ready(function () {
     $('#saveSchoolBtn').click(function () {
         const id = $('#schoolId').val();
         const schoolName = $('#schoolName').val().trim();
+        const committeeValue = $('#committee').val();
+        const committeeId = committeeValue ? parseInt(committeeValue, 10) : NaN;
 
         if (!schoolName) {
             showToast("Please enter School Name", "warning");
             return;
         }
-
+        if (!committeeValue || isNaN(committeeId)) {
+            showToast("Please select a Committee", "warning");
+            return;
+        }
         const payload = {
-            schoolId: parseInt(id) || 0,
-            schoolName: schoolName
+            schoolId: parseInt(id, 10) || 0,
+            schoolName: schoolName,
+            committeeId: committeeId,
+            commiteeId: committeeId
         };
 
         const method = id ? "PUT" : "POST";
@@ -121,6 +129,8 @@ $(document).ready(function () {
 
         $('#schoolId').val(rowData.schoolId);
         $('#schoolName').val(rowData.schoolName);
+        const selectedCommitteeId = rowData.committeeId ?? rowData.commiteeId;
+        $('#committee').val(selectedCommitteeId);
 
         const modal = new mdb.Modal(document.getElementById('schoolModal'));
         modal.show();
@@ -173,3 +183,23 @@ $(document).ready(function () {
     });
 
 });
+
+function loadCommittees() {
+    $.ajax({
+        url: registerCommitteeApi,
+        type: "GET",
+        success: function (response) {
+            let dropdown = $("#committee");
+            dropdown.empty().append(`<option value="">Select Committee</option>`);
+            if (response.success && response.data) {
+                response.data.forEach(item => {
+                    const committeeId = item.committeeId ?? item.commiteeId;
+                    dropdown.append(`<option value="${committeeId}">${item.commiteeName}</option>`);
+                });
+            }
+        },
+        error: function () {
+            $("#errorMsg").text("Failed to load committees");
+        }
+    });
+}

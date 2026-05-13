@@ -1,4 +1,5 @@
 const apiBase = "https://schooladmission-b2escsaph3gtezbv.centralindia-01.azurewebsites.net/api";
+//const apiBase = "http://localhost:5263/api";
 
 const categoryApi = apiBase + "/categorymasters";
 const casteApi = apiBase + "/castemaster"; 
@@ -21,7 +22,7 @@ const registerCommitteeApi = apiBase + "/CommiteMasters";
 const schoolAllSchoolsApi = apiBase + "/schoolmasters/AllSchools";
 const subjectApi = apiBase + "/Subjectmasters";
 const subjectChoiceApi = apiBase + "/Subjectmasters/subjectsByBranchId/";
-
+const studentSubjectChoiceApi = apiBase + "/StudentSubjectChoices";
 
 document.getElementById("currentYear").innerText = new Date().getFullYear();
 
