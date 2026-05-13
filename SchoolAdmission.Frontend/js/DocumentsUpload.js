@@ -3,9 +3,7 @@ $(document).ready(function () {
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
-    const headers = {
-        "Authorization": "Bearer " + token
-    };
+    const headers = getTokenHeader();
 
     $(document).on("click", "#btnSaveDocumentInfo", function (e) {
 
@@ -41,7 +39,7 @@ $(document).ready(function () {
         $.ajax({
             url: documentUploadApi,
             method: "POST",
-            headers: headers,
+            headers: getTokenHeader(),
             data: formData,
             contentType: false,
             processData: false,

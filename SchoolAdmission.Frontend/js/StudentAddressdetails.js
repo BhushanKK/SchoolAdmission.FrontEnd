@@ -3,7 +3,7 @@ $(document).ready(function () {
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
-    const headers = { "Authorization": "Bearer " + token };
+    const headers = getTokenHeader();
 
     $(document).on('click', '#btnSaveAddressInfo', function (e) {
         e.preventDefault();
@@ -42,7 +42,7 @@ $(document).ready(function () {
         $.ajax({
             url: studentAddressApi,
             method: "POST",
-            headers: headers,
+            headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
 

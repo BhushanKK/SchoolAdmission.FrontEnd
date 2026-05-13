@@ -4,9 +4,7 @@ $(document).ready(function () {
         ajax: {
             url: `${schoolApi}/AllSchools`,
             type: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
             dataSrc: "data",
             error: function (xhr) {
                 if (xhr.status === 401) {
@@ -74,9 +72,7 @@ $(document).ready(function () {
         $.ajax({
             url: url,
             method: method,
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
 
@@ -150,9 +146,7 @@ $(document).ready(function () {
         $.ajax({
             url: `${schoolApi}/${deleteId}`,
             method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
 
             success: function (res) {
                 const modalEl = document.getElementById("deleteConfirmModal");

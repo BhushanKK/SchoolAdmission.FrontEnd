@@ -4,9 +4,7 @@ $(document).ready(function () {
     const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
 
-    const headers = {
-        "Authorization": "Bearer " + token
-    };
+    const headers = getTokenHeader();
 
     $(document).on("click", "#btnSaveStudentInfo", function (e) {
 

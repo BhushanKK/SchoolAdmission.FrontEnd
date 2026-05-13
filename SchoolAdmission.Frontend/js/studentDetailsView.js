@@ -1,6 +1,6 @@
 $(document).ready(function () {
  const token = localStorage.getItem("accessToken");
-    const headers = { "Authorization": "Bearer " + token };
+    const headers = getTokenHeader();
     $('#casteTable').DataTable({
         ajax: {
             url: studentDetailsApi,

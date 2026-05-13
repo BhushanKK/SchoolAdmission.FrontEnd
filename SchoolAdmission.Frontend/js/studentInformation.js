@@ -26,9 +26,7 @@ $(document).ready(function () {
         $.ajax({
             url: url,
             method: "PUT",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
             success: function (res) {

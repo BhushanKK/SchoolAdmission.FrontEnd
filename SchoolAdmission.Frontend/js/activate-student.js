@@ -5,7 +5,7 @@ $(document).ready(function () {
         ajax: {
             url: studentDetailsApi,
             type: "GET",
-            headers: { "Authorization": "Bearer " + token },
+            headers: getTokenHeader(),
             dataSrc: function (json) {
                 return json.success && json.data ? json.data : [];
             }
@@ -48,7 +48,7 @@ $(document).ready(function () {
         $.ajax({
             url: `${studentStatusApi}/${studentId}/${status}`,
             type: "PUT",
-            headers: { "Authorization": "Bearer " + token },
+            headers: getTokenHeader(),
             success: function () {
             },
             error: function () {

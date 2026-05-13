@@ -4,9 +4,7 @@ $(document).ready(function () {
         ajax: {
             url: subjectApi,
             type: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
             dataSrc: "data",
 
             error: function (xhr) {
@@ -47,9 +45,7 @@ $(document).ready(function () {
         $.ajax({
             url: branchApi,
             type: "GET",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
 
             success: function (res) {
 
@@ -143,9 +139,7 @@ $(document).ready(function () {
             url: url,
             method: method,
 
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
 
             contentType: "application/json",
             data: JSON.stringify(payload),
@@ -233,9 +227,7 @@ $(document).ready(function () {
             url: `${subjectApi}/${id}`,
             type: "GET",
 
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
 
             success: function (res) {
 
@@ -290,9 +282,7 @@ $(document).ready(function () {
 
             type: "DELETE",
 
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            },
+            headers: getTokenHeader(),
 
             success: function () {
 
