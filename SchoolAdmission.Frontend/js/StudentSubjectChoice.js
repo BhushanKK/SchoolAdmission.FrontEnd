@@ -179,10 +179,16 @@ $(document).ready(function () {
 $("#btnSaveSubjectInfo").click(function () {
 
     let branchId = parseInt($("#ddlBranch").val());
+    let standardId = parseInt($("#ddlStandard").val());
     let studentId = localStorage.getItem("studentId");
 
     if (!branchId) {
         showToast("Select Branch", "error");
+        return;
+    }
+
+    if (!standardId) {
+        showToast("Select Standard", "error");
         return;
     }
 
@@ -205,6 +211,7 @@ $("#btnSaveSubjectInfo").click(function () {
                 branchId: branchId,
                 subjectId: parseInt(subjectId),
                 groupId: 1,
+                standardId: standardId,
                 studentId: studentId
             });
         }
@@ -222,6 +229,7 @@ $("#btnSaveSubjectInfo").click(function () {
             branchId: branchId,
             subjectId: parseInt($(this).val()),
             groupId: groupId,
+            standardId: standardId,
             studentId: studentId
         });
     });
