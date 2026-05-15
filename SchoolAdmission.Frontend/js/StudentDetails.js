@@ -320,10 +320,6 @@ $(document).ready(function () {
                 if (!response || !response.data) return;
 
                 const { branchId, standardId } = response.data;
-
-                console.log("Branch ID:", branchId);
-                console.log("Standard ID:", standardId);
-
                 loadBranchDropdown(function () {
 
                     $("#ddlBranch").val(branchId);
