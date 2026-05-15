@@ -6,6 +6,43 @@
     <title>Admission Form</title>
 
     <style>
+        /* ===== A4 PAGE SETUP ===== */
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+body {
+    background: #f5f5f5;
+}
+
+/* Each page becomes real A4 */
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm;
+    margin: 10mm auto;
+    background: white;
+    border: 1px solid #ccc;
+
+    /* important for print splitting */
+    page-break-after: always;
+    box-sizing: border-box;
+}
+
+/* Prevent breaking inside important blocks */
+table, .top-section, .details-table {
+    page-break-inside: avoid;
+}
+
+/* Print mode */
+@media print {
+       .page {
+        margin: 0;
+        border: none;
+        page-break-after: always;
+    }
+}
         * {
             margin: 0;
             padding: 0;
@@ -241,13 +278,13 @@
                 <td>१. संपूर्ण नाव (मराठी)</td>
 
                 <td>
-                    <input type="text" value="HARISH VINOD KUMAR">
+                    <input type="text"  Id="studentName">
                 </td>
 
                 <td>आईचे नाव</td>
 
                 <td>
-                    <input type="text" value="NA">
+                    <input type="text" id="motherName">
                 </td>
 
             </tr>
@@ -674,6 +711,9 @@
     </div>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/report.js"></script>
 </body>
 
 </html> 
