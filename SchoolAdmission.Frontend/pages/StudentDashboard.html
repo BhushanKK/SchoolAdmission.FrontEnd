@@ -23,7 +23,7 @@
             <i class="fas fa-user-plus"></i> Student Admission Form
         </a>
 
-        <a href="#" onclick="loadPage('print-admission.html')">
+        <a href="#" onclick="openPopup('print-admission.html')">
             <i class="fas fa-print"></i> Print Admission Form
         </a>
     </div>
@@ -76,7 +76,13 @@
             localStorage.clear();
             window.location.href = "../index.html";
         }
-
+        function openPopup(url) {
+    window.open(
+        url,
+        'popupWindow',
+        'width=900,height=700,scrollbars=yes,resizable=yes'
+    );
+}
         function loadPage(page) {
 
             fetch(page)

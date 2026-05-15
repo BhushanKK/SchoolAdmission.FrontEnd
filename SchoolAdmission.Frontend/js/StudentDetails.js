@@ -7,8 +7,8 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         headers: getTokenHeader(),
-        success: function(response) {
-            if(response.success && response.data) {
+        success: function (response) {
+            if (response.success && response.data) {
                 const data = response.data;
 
                 // Basic info
@@ -49,9 +49,9 @@ $(document).ready(function () {
                 }
 
                 $('#isMinority').prop('checked', !!data.isMinority);
-            } 
+            }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             showToast('Failed to load student information', 'error');
         }
     });
@@ -139,9 +139,9 @@ $(document).ready(function () {
         const religionId = $(this).val();
         $('#isMinority').prop('checked', religionId && religionId !== HINDU_ID);
     });
-/*--End of Step I - Student Information Fetching and Dropdown Population--*/
+    /*--End of Step I - Student Information Fetching and Dropdown Population--*/
 
-/*Start Step 2: Student Address Details */
+    /*Start Step 2: Student Address Details */
 
     $.ajax({
         url: studentAddressApi + '/' + studentId,
@@ -187,83 +187,83 @@ $(document).ready(function () {
     });
 
 
-/*End Step 2: Student Address Details */
+    /*End Step 2: Student Address Details */
 
-/*Start Step 3: Student Health Details */
+    /*Start Step 3: Student Health Details */
     $.ajax({
-            url: healthApi + '/' + studentId,
-            type: 'GET',
-            dataType: 'json',
-            headers: getTokenHeader(),
+        url: healthApi + '/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: getTokenHeader(),
 
-            success: function (response) {
+        success: function (response) {
 
-                const data = response.data || response.result || response;
+            const data = response.data || response.result || response;
 
-                if (!data) return;
+            if (!data) return;
 
-                $('#height').val(data.height || "");
-                $('#weight').val(data.weight || "");
+            $('#height').val(data.height || "");
+            $('#weight').val(data.weight || "");
 
-                $('#isHandicapped').val(data.isHandicapped?.toString() || "false");
-                $('#handicappedTypeId').val(data.handicappedTypeId || "");
+            $('#isHandicapped').val(data.isHandicapped?.toString() || "false");
+            $('#handicappedTypeId').val(data.handicappedTypeId || "");
 
-                if (data.isHandicapped == true) {
-                    $('#handicappedTypeId').prop('disabled', false);
-                } else {
-                    $('#handicappedTypeId').val('').prop('disabled', true);
-                }
-            },
-
-            error: function (xhr) {
-                showToast("Failed to load health details", "error");
+            if (data.isHandicapped == true) {
+                $('#handicappedTypeId').prop('disabled', false);
+            } else {
+                $('#handicappedTypeId').val('').prop('disabled', true);
             }
-    });
-/*End Step 3: Student Health Details */
+        },
 
-/*Start Step 4: Student Parents Details */
+        error: function (xhr) {
+            showToast("Failed to load health details", "error");
+        }
+    });
+    /*End Step 3: Student Health Details */
+
+    /*Start Step 4: Student Parents Details */
 
     $.ajax({
-            url: guardianApi + '/' + studentId,
-            type: 'GET',
-            dataType: 'json',
-            headers: getTokenHeader(),
+        url: guardianApi + '/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: getTokenHeader(),
 
-            success: function (response) {
+        success: function (response) {
 
-                const data = response.data || response.result || response;
+            const data = response.data || response.result || response;
 
-                if (!data) {
-                    showToast("No parent data found", "info");
-                    return;
-                }
-
-                $('#fatherName').val(data.fatherName || "");
-                $('#motherName').val(data.motherName || "");
-                $('#grandFatherName').val(data.grandFatherName || "");
-                $('#parentName').val(data.parentName || "");
-
-                $('#contactNo').val(data.contactNo || "");
-                $('#emailId').val(data.emailId || "");
-
-                $('#income').val(data.income || "");
-                $('#occupation').val(data.occupation || "");
-            },
-
-            error: function (xhr) {
-
-                if (xhr.status === 401) {
-                    localStorage.clear();
-                    window.location.href = "../index.html";
-                    return;
-                }
-
-                showToast("Failed to load parent details", "error");
+            if (!data) {
+                showToast("No parent data found", "info");
+                return;
             }
-    });
-/*End Step 4: Student Parents Details */
 
-/*Start Step 5: Student Previous School Details */
+            $('#fatherName').val(data.fatherName || "");
+            $('#motherName').val(data.motherName || "");
+            $('#grandFatherName').val(data.grandFatherName || "");
+            $('#parentName').val(data.parentName || "");
+
+            $('#contactNo').val(data.contactNo || "");
+            $('#emailId').val(data.emailId || "");
+
+            $('#income').val(data.income || "");
+            $('#occupation').val(data.occupation || "");
+        },
+
+        error: function (xhr) {
+
+            if (xhr.status === 401) {
+                localStorage.clear();
+                window.location.href = "../index.html";
+                return;
+            }
+
+            showToast("Failed to load parent details", "error");
+        }
+    });
+    /*End Step 4: Student Parents Details */
+
+    /*Start Step 5: Student Previous School Details */
 
     $.ajax({
         url: previousSchoolApi + '/' + studentId,
@@ -303,58 +303,290 @@ $(document).ready(function () {
         }
     });
 
-/*End Step 5: Student Previous School Details */
+    /*End Step 5: Student Previous School Details */
 
-/*Start Step 6: Student subject Choice Details */
+    /*Start Step 6: Student subject Choice Details */
+    loadStudentSubjectChoiceDetails();
 
-    
+    function loadStudentSubjectChoiceDetails() {
 
-/*End Step 6: Student subject choice Details */
+        $.ajax({
+            url: studentSubjectChoiceByStudentApi + studentId,
+            type: "GET",
+            headers: getTokenHeader(),
 
-/*Start Step 7: Student Document Details */
-    $.ajax({
-    url: documentUploadApi + '/' + studentId,
-    type: 'GET',
-    dataType: 'json',
-    headers: getTokenHeader(),
+            success: function (response) {
 
-    success: function (response) {
+                if (!response || !response.data) return;
 
-        const data = response.data || response.result || response;
+                const { branchId, standardId } = response.data;
+                loadBranchDropdown(function () {
 
-        if (!data || data.length === 0) {
-            showToast("No documents found", "info");
-            return;
-        }
+                    $("#ddlBranch").val(branchId);
 
-        const selectedDocumentType = $("#documentType").val();
+                    loadStandardDropdown(function () {
 
-        const doc = data.find(d => 
-            d.documentType?.toString() === selectedDocumentType
-        );
+                        $("#ddlStandard").val(standardId);
 
-        if (!doc) {
-            showToast("Selected document not found", "error");
-            return;
-        }
+                        // Render subjects first
+                        BindSubjects(branchId).done(function () {
 
-        $("#documentType").val(doc.documentType?.toString() || "");
-        $("#uploadedDate").val(
-            doc.uploadedDate ? doc.uploadedDate.split('T')[0] : ""
-        );
+                            // Then select saved subjects
+                            loadSelectedSubjects();
+                        });
 
-    },
-
-    error: function (xhr) {
-
-        if (xhr.status === 401) {
-            localStorage.clear();
-            window.location.href = "../index.html";
-            return;
-        }
-
-        showToast("Failed to load documents", "error");
+                    });
+                });
+            }
+        });
     }
-});
+
+    function loadSelectedSubjects() {
+
+        $.ajax({
+            url: fetchStudentSubjectsApi + studentId,
+            type: "GET",
+            headers: getTokenHeader(),
+
+            success: function (response) {
+
+                if (!response.success || !response.data) return;
+
+                response.data.forEach(function (item) {
+
+                    $("#sub_" + item.subjectId)
+                        .prop("checked", true)
+                        .trigger("change");
+                });
+            }
+        });
+    }
+
+    function loadStandardDropdown(callback) {
+
+        $.ajax({
+            url: standardApi,
+            type: "GET",
+            headers: getTokenHeader(),
+
+            success: function (response) {
+
+                $("#ddlStandard")
+                    .empty()
+                    .append('<option value="">Select Standard</option>');
+
+                response.data.forEach(function (item) {
+
+                    $("#ddlStandard").append(`
+                    <option value="${item.standardId}">
+                        ${item.standardName}
+                    </option>
+                `);
+                });
+
+                if (callback) callback();
+            }
+        });
+    }
+
+    function loadBranchDropdown(callback) {
+
+        $.ajax({
+            url: branchApi,
+            type: "GET",
+            headers: getTokenHeader(),
+
+            success: function (response) {
+
+                $("#ddlBranch")
+                    .empty()
+                    .append('<option value="">Select Branch</option>');
+
+                response.data.forEach(function (item) {
+
+                    $("#ddlBranch").append(`
+                    <option value="${item.branchId}">
+                        ${item.branchName}
+                    </option>
+                `);
+                });
+
+                if (callback) callback();
+            }
+        });
+    }
+
+    function BindSubjects(branchId) {
+
+        if (!branchId) {
+            return $.Deferred().resolve();
+        }
+
+        return $.ajax({
+            url: subjectChoiceApi + branchId,
+            type: "GET",
+            headers: getTokenHeader(),
+
+            success: function (res) {
+
+                if (!res.success) return;
+
+                const groups = res.data.groups;
+
+                $("#subjectsContainer").empty();
+                $("#optionalSubjectsContainer").empty();
+
+                // Mandatory Subjects
+                if (groups["1"]) {
+
+                    groups["1"].forEach(function (subject) {
+
+                        $("#subjectsContainer").append(`
+                        <tr>
+                            <td>${subject.subjectId}</td>
+                            <td>${subject.subjectName}</td>
+                        </tr>
+                    `);
+                    });
+                }
+
+                // Optional Subject Groups
+                $.each(groups, function (groupKey, subjects) {
+
+                    if (groupKey === "1") return;
+
+                    let html = `
+                    <div class="mb-3 border rounded p-2">
+                        <div class="fw-bold mb-2">
+                            Group ${groupKey}
+                        </div>
+                `;
+
+                    // Branch 3 - Group 3 Checkbox Logic
+                    if (branchId == 3 && groupKey == "3") {
+
+                        html += `
+                        <small class="text-danger">
+                            Select exactly 2 subjects
+                        </small>
+                    `;
+
+                        subjects.forEach(function (subject) {
+
+                            html += `
+                            <div class="form-check">
+                                <input class="form-check-input branch3-checkbox"
+                                       type="checkbox"
+                                       value="${subject.subjectId}"
+                                       id="sub_${subject.subjectId}">
+
+                                <label class="form-check-label"
+                                       for="sub_${subject.subjectId}">
+                                    ${subject.subjectName}
+                                </label>
+                            </div>
+                        `;
+                        });
+
+                    } else {
+
+                        // Radio Button Groups
+                        subjects.forEach(function (subject) {
+
+                            html += `
+                            <div class="form-check">
+
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="group_${groupKey}"
+                                       value="${subject.subjectId}"
+                                       id="sub_${subject.subjectId}">
+
+                                <label class="form-check-label"
+                                       for="sub_${subject.subjectId}">
+                                    ${subject.subjectName}
+                                </label>
+
+                            </div>
+                        `;
+                        });
+                    }
+
+                    html += `</div>`;
+
+                    $("#optionalSubjectsContainer").append(html);
+                });
+
+                bindBranch3CheckboxValidation();
+            }
+        });
+    }
+
+    function bindBranch3CheckboxValidation() {
+
+        $(document)
+            .off("change", ".branch3-checkbox")
+            .on("change", ".branch3-checkbox", function () {
+                const checked = $(".branch3-checkbox:checked");
+
+                if (checked.length > 2) {
+
+                    this.checked = false;
+
+                    showToast(
+                        "Only 2 subjects allowed for Group 3",
+                        "error"
+                    );
+                }
+            });
+    }
+
+    /*End Step 6: Student subject choice Details */
+
+    /*Start Step 7: Student Document Details */
+    $.ajax({
+        url: documentUploadApi + '/' + studentId,
+        type: 'GET',
+        dataType: 'json',
+        headers: getTokenHeader(),
+
+        success: function (response) {
+
+            const data = response.data || response.result || response;
+
+            if (!data || data.length === 0) {
+                showToast("No documents found", "info");
+                return;
+            }
+
+            const selectedDocumentType = $("#documentType").val();
+
+            const doc = data.find(d =>
+                d.documentType?.toString() === selectedDocumentType
+            );
+
+            if (!doc) {
+                //showToast("Selected document not found", "error");
+                return;
+            }
+
+            $("#documentType").val(doc.documentType?.toString() || "");
+            $("#uploadedDate").val(
+                doc.uploadedDate ? doc.uploadedDate.split('T')[0] : ""
+            );
+
+        },
+
+        error: function (xhr) {
+
+            if (xhr.status === 401) {
+                localStorage.clear();
+                window.location.href = "../index.html";
+                return;
+            }
+
+            showToast("Failed to load documents", "error");
+        }
+    });
 });
 /*End Step 7: Student Document Details */

@@ -1,13 +1,8 @@
-const token = localStorage.getItem("accessToken");
-const studentId = localStorage.getItem("studentId");
-
-const headers = getTokenHeader();
-
 function BindBranches() {
     $.ajax({
         url: branchApi,
         type: "GET",
-        headers: headers,
+        headers: getTokenHeader(),
         success: function (response) {
 
             let dropdown = $("#ddlBranch");
@@ -33,7 +28,7 @@ function BindStandards() {
     $.ajax({
         url: standardApi,
         type: "GET",
-        headers: headers,
+        headers: getTokenHeader(),
         success: function (response) {
 
             let dropdown = $("#ddlStandard");
@@ -62,7 +57,7 @@ function BindSubjects(branchId) {
     $.ajax({
         url: subjectChoiceApi + branchId,
         type: "GET",
-        headers: headers,
+        headers: getTokenHeader(),
         success: function (res) {
 
             if (!res.success) return;
@@ -179,10 +174,16 @@ $(document).ready(function () {
 $("#btnSaveSubjectInfo").click(function () {
 
     let branchId = parseInt($("#ddlBranch").val());
+    let standardId = parseInt($("#ddlStandard").val());
     let studentId = localStorage.getItem("studentId");
 
     if (!branchId) {
         showToast("Select Branch", "error");
+        return;
+    }
+
+    if (!standardId) {
+        showToast("Select Standard", "error");
         return;
     }
 
@@ -205,6 +206,7 @@ $("#btnSaveSubjectInfo").click(function () {
                 branchId: branchId,
                 subjectId: parseInt(subjectId),
                 groupId: 1,
+                standardId: standardId,
                 studentId: studentId
             });
         }
@@ -222,6 +224,7 @@ $("#btnSaveSubjectInfo").click(function () {
             branchId: branchId,
             subjectId: parseInt($(this).val()),
             groupId: groupId,
+            standardId: standardId,
             studentId: studentId
         });
     });
@@ -237,7 +240,8 @@ $("#btnSaveSubjectInfo").click(function () {
                 branchId: branchId,
                 subjectId: parseInt($(this).val()),
                 groupId: 3,
-                studentId: studentId
+                studentId: studentId,
+                standardId: standardId
             });
         });
     }
@@ -256,7 +260,7 @@ $("#btnSaveSubjectInfo").click(function () {
     $.ajax({
         url: studentSubjectChoiceApi,
         type: "POST",
-        headers: headers,
+        headers: getTokenHeader(),
         contentType: "application/json",
         data: JSON.stringify(payload),
 

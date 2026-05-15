@@ -6,6 +6,43 @@
     <title>Admission Form</title>
 
     <style>
+        /* ===== A4 PAGE SETUP ===== */
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+body {
+    background: #f5f5f5;
+}
+
+/* Each page becomes real A4 */
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm;
+    margin: 10mm auto;
+    background: white;
+    border: 1px solid #ccc;
+
+    /* important for print splitting */
+    page-break-after: always;
+    box-sizing: border-box;
+}
+
+/* Prevent breaking inside important blocks */
+table, .top-section, .details-table {
+    page-break-inside: avoid;
+}
+
+/* Print mode */
+@media print {
+       .page {
+        margin: 0;
+        border: none;
+        page-break-after: always;
+    }
+}
         * {
             margin: 0;
             padding: 0;
@@ -163,7 +200,7 @@
 
             <img src="" width="40">
 
-            <div class="form-no">
+            <div class="form-no" id="registrationNo">
                 फॉर्म नंबर : 1/2020-2021 <br>
                 28/02/2026
             </div>
@@ -183,7 +220,7 @@
                 <tr>
                     <td>इ. १० वी एकूण गुण</td>
                     <td>
-                        <input type="text" value="555"
+                        <input type="text" id="totalMarks"
                             style="border:none; width:100%; font-weight:bold;">
                     </td>
                 </tr>
@@ -191,7 +228,7 @@
                 <tr>
                     <td>अर्ज प्रकार</td>
                     <td>
-                        <input type="text" value="हिंदू - मराठा"
+                        <input type="text" 
                             style="border:none; width:100%;">
                     </td>
                 </tr>
@@ -199,7 +236,7 @@
                 <tr>
                     <td>आरक्षण</td>
                     <td>
-                        <input type="text"
+                        <input type="text" id="casteReligion"
                             style="border:none; width:100%;">
                     </td>
                 </tr>
@@ -241,13 +278,13 @@
                 <td>१. संपूर्ण नाव (मराठी)</td>
 
                 <td>
-                    <input type="text" value="HARISH VINOD KUMAR">
+                    <input type="text"  Id="studentName">
                 </td>
 
                 <td>आईचे नाव</td>
 
                 <td>
-                    <input type="text" value="NA">
+                    <input type="text" id="motherName">
                 </td>
 
             </tr>
@@ -257,13 +294,13 @@
                 <td>Full Name</td>
 
                 <td>
-                    <input type="text" value="HARISH VINOD KUMAR">
+                    <input type="text" id="studentName">
                 </td>
 
                 <td>Mother Name</td>
 
                 <td>
-                    <input type="text" value="NA">
+                    <input type="text" id="motherName">
                 </td>
 
             </tr>
@@ -279,7 +316,7 @@
                 <td>वार्षिक उत्पन्न</td>
 
                 <td>
-                    <input type="text" value="100000">
+                    <input type="text" id="income">
                 </td>
 
             </tr>
@@ -289,7 +326,7 @@
                 <td>२. कायमचा पत्ता</td>
 
                 <td>
-                    <input type="text" value="Nashik">
+                    <input type="text" id="permanentAddress">
                 </td>
 
                 <td></td>
@@ -303,13 +340,13 @@
                 <td>मोबाईल नं.</td>
 
                 <td>
-                    <input type="text" value="9890376906">
+                    <input type="text" id="parentContactNo">
                 </td>
 
                 <td>जन्म तारीख</td>
 
                 <td>
-                    <input type="text" value="01/01/2003">
+                    <input type="text" id="dob">
                 </td>
 
             </tr>
@@ -319,7 +356,7 @@
                 <td>३. मागील शाळेचे नाव</td>
 
                 <td>
-                    <input type="text" value="Nashik">
+                    <input type="text" id="previousSchool">
                 </td>
 
                 <td></td>
@@ -409,7 +446,7 @@
                 दिनांक : 28/02/2026
             </div>
 
-            <div>
+            <div >
                 शाखा : HSC(VOC)
             </div>
 
@@ -501,19 +538,19 @@
 
             <td style="border:1px solid black; padding:10px;">
                 <input type="text"
-                    value="D044789"
+                    id="seatNo"
                     style="width:100%; border:none; outline:none;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
                 <input type="text"
-                    value="555"
+                    id="totalMarks"
                     style="width:100%; border:none; outline:none;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
                 <input type="text"
-                    value="90"
+                    id="percentage"
                     style="width:100%; border:none; outline:none;">
             </td>
 
@@ -674,6 +711,9 @@
     </div>
 
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/report.js"></script>
 </body>
 
 </html> 
