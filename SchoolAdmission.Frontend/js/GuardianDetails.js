@@ -1,10 +1,6 @@
 //Step 4: Parent / Guardian Info
 $(document).ready(function () {
-
-    const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
-
-    const headers = getTokenHeader();
 
     $(document).on("click", "#btnSaveParentInfo", function (e) {
 
@@ -59,7 +55,7 @@ $(document).ready(function () {
         $.ajax({
             url: guardianApi,
             method: "POST",
-            headers: headers,
+            headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
 
