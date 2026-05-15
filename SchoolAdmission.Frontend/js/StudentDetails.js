@@ -307,7 +307,192 @@ $(document).ready(function () {
 
 /*Start Step 6: Student subject Choice Details */
 
-    
+    $.ajax({
+    url: studentSubjectChoiceByStudentApi + studentId,
+    type: "GET",
+    headers: getTokenHeader(),
+
+    success: function (response) {
+
+        if (!response || !response.data) return;
+
+        var branchId = response.data.branchId;
+        var standardId = response.data.standardId;
+
+        console.log("Branch ID:", branchId);
+        console.log("Standard ID:", standardId);
+
+        // STEP 1: Load dropdowns first
+        loadBranchDropdown(function () {
+
+            $("#ddlBranch").val(branchId);
+
+            loadStandardDropdown(function () {
+
+                $("#ddlStandard").val(standardId);
+
+                // STEP 2: Now bind subjects
+                BindSubjects(branchId);
+            });
+        });
+    }
+});
+
+$.ajax({
+    url: fetchStudentSubjectsApi + studentId,
+    type: "GET",
+    headers: getTokenHeader(),
+    success: function (response) {
+        if (response.success && response.data) {
+            const choices = response.data;
+            // Delay until radio buttons are rendered
+            setTimeout(function () {
+                choices.forEach(function (item) {
+                    $("#sub_" + item.subjectId).prop("checked", true);
+                });
+            }, 1000);
+        }
+    }
+});
+
+function loadStandardDropdown(callback) {
+
+    $.ajax({
+        url: standardApi,
+        type: "GET",
+        headers: getTokenHeader(),
+
+        success: function (response) {
+
+            $("#ddlStandard").empty().append('<option value="">Select Standard</option>');
+
+            response.data.forEach(function (item) {
+                $("#ddlStandard").append(
+                    `<option value="${item.standardId}">${item.standardName}</option>`
+                );
+            });
+
+            if (callback) callback();
+        }
+    });
+}
+
+function loadBranchDropdown(callback) {
+
+    $.ajax({
+        url: branchApi,
+        type: "GET",
+        headers: getTokenHeader(),
+
+        success: function (response) {
+            $("#ddlBranch").empty().append('<option value="">Select Branch</option>');
+            response.data.forEach(function (item) {
+                $("#ddlBranch").append(
+                    `<option value="${item.branchId}">${item.branchName}</option>`
+                );
+            });
+            if (callback) callback();
+        }
+    });
+}
+
+function BindSubjects(branchId) {
+
+    if (!branchId) return;
+
+    $.ajax({
+        url: subjectChoiceApi + branchId,
+        type: "GET",
+        headers: getTokenHeader(),
+        success: function (res) {
+            if (!res.success) return;
+            const groups = res.data.groups;
+            $("#subjectsContainer").empty();
+            $("#optionalSubjectsContainer").empty();
+
+            if (groups["1"]) {
+                groups["1"].forEach(s => {
+                    $("#subjectsContainer").append(`
+                        <tr>
+                            <td>${s.subjectId}</td>
+                            <td>${s.subjectName}</td>
+                        </tr>
+                    `);
+                });
+            }
+
+            $.each(groups, function (groupKey, subjects) {
+
+                if (groupKey === "1") return;
+
+                let html = `
+                    <div class="mb-3 border rounded p-2">
+                        <div class="fw-bold mb-2">
+                            Group ${groupKey}
+                        </div>
+                `;
+
+                if (branchId == 3 && groupKey == "3") {
+
+                    html += `
+                        <small class="text-danger">
+                            Select exactly 2 subjects
+                        </small>
+                    `;
+
+                    subjects.forEach(s => {
+                        html += `
+                            <div class="form-check">
+                                <input class="form-check-input branch3-checkbox"
+                                       type="checkbox"
+                                       value="${s.subjectId}"
+                                       id="sub_${s.subjectId}">
+                                <label class="form-check-label" for="sub_${s.subjectId}">
+                                    ${s.subjectName}
+                                </label>
+                            </div>
+                        `;
+                    });
+
+                }
+
+                else {
+
+                    subjects.forEach(s => {
+                        html += `
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="group_${groupKey}"
+                                       value="${s.subjectId}"
+                                       id="sub_${s.subjectId}">
+                                <label class="form-check-label" for="sub_${s.subjectId}">
+                                    ${s.subjectName}
+                                </label>
+                            </div>
+                        `;
+                    });
+                }
+
+                html += `</div>`;
+
+                $("#optionalSubjectsContainer").append(html);
+            });
+
+            $(document).off("change", ".branch3-checkbox").on("change", ".branch3-checkbox", function () {
+
+                let checked = $(".branch3-checkbox:checked");
+
+                if (checked.length > 2) {
+                    this.checked = false;
+                    showToast("Only 2 subjects allowed for Group 3", "error");
+                }
+            });
+
+        }
+    });
+}
+
 
 /*End Step 6: Student subject choice Details */
 
@@ -334,7 +519,7 @@ $(document).ready(function () {
         );
 
         if (!doc) {
-            showToast("Selected document not found", "error");
+            //showToast("Selected document not found", "error");
             return;
         }
 

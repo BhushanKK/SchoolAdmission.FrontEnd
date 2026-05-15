@@ -1,6 +1,3 @@
-const token = localStorage.getItem("accessToken");
-const studentId = localStorage.getItem("studentId");
-
 const headers = getTokenHeader();
 
 function BindBranches() {
@@ -245,7 +242,8 @@ $("#btnSaveSubjectInfo").click(function () {
                 branchId: branchId,
                 subjectId: parseInt($(this).val()),
                 groupId: 3,
-                studentId: studentId
+                studentId: studentId,
+                standardId: standardId
             });
         });
     }
