@@ -1,10 +1,8 @@
-const headers = getTokenHeader();
-
 function BindBranches() {
     $.ajax({
         url: branchApi,
         type: "GET",
-        headers: headers,
+        headers: getTokenHeader(),
         success: function (response) {
 
             let dropdown = $("#ddlBranch");
@@ -30,7 +28,7 @@ function BindStandards() {
     $.ajax({
         url: standardApi,
         type: "GET",
-        headers: headers,
+        headers: getTokenHeader(),
         success: function (response) {
 
             let dropdown = $("#ddlStandard");
@@ -59,7 +57,7 @@ function BindSubjects(branchId) {
     $.ajax({
         url: subjectChoiceApi + branchId,
         type: "GET",
-        headers: headers,
+        headers: getTokenHeader(),
         success: function (res) {
 
             if (!res.success) return;
@@ -262,7 +260,7 @@ $("#btnSaveSubjectInfo").click(function () {
     $.ajax({
         url: studentSubjectChoiceApi,
         type: "POST",
-        headers: headers,
+        headers: getTokenHeader(),
         contentType: "application/json",
         data: JSON.stringify(payload),
 

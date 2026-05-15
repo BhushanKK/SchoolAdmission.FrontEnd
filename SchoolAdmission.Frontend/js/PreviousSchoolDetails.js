@@ -1,10 +1,6 @@
 //Step 5: Previous School Information
 $(document).ready(function () {
-
-    const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
-
-    const headers = getTokenHeader();
 
     $(document).on("click", "#btnSavePreviousInfo", function (e) {
 
@@ -53,7 +49,7 @@ $(document).ready(function () {
         $.ajax({
             url: previousSchoolApi,
             method: "POST",
-            headers: headers,
+            headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
 

@@ -1,10 +1,6 @@
 // Step: Student Information Update
 $(document).ready(function () {
-
-    const token = localStorage.getItem("accessToken");
     const studentId = localStorage.getItem("studentId");
-
-    const headers = getTokenHeader();
 
     $(document).on("click", "#btnSaveStudentInfo", function (e) {
 
@@ -38,7 +34,7 @@ $(document).ready(function () {
         $.ajax({
             url: url,
             method: "PUT",
-            headers: headers,
+            headers: getTokenHeader(),
             contentType: "application/json",
             data: JSON.stringify(payload),
 

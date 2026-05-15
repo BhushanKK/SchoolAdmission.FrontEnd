@@ -1,11 +1,10 @@
 $(document).ready(function () {
  const token = localStorage.getItem("accessToken");
-    const headers = getTokenHeader();
     $('#casteTable').DataTable({
         ajax: {
             url: studentDetailsApi,
             type: "GET",
-            headers: headers,
+            headers: getTokenHeader(),
             dataSrc: function (json) {
                 if (json.success && json.data) {
                     return json.data;
