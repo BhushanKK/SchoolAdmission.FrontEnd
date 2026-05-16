@@ -62,3 +62,10 @@ function handle401(xhr) {
         window.location.href = "../index.html";
     }
 }
+ function openPopup(url) {
+    window.open(
+        url,
+        'popupWindow',
+        'width=900,height=700,scrollbars=yes,resizable=yes'
+    );
+}
