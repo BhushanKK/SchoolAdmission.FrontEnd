@@ -25,7 +25,6 @@ $(document).ready(function () {
                 $("#permanentAddress").val(res.data.permanentAddress);
                 $("#currentAddress").val(res.data.currentAddress);
                 $("#mobileNumber").val(res.data.mobileNumber);
-                $("#birthDate").val(res.data.birthDate);
                 $("#annualIncome").val(res.data.income);
                 $("#mobileNumber").val(res.data.parentContactNo);
                 $(".previousSchool").val(res.data.previousSchool);
@@ -42,7 +41,17 @@ $(document).ready(function () {
                     String(date.getDate()).padStart(2, '0') + '-' +
                     String(date.getMonth() + 1).padStart(2, '0') + '-' +
                     date.getFullYear();
+<<<<<<< HEAD
                 $("#birthDate").val(formatted);
+=======
+        
+                $("#dob").val(res.data.dob);
+                $("#previousSchool").val(res.data.previousSchool);
+                $("#permanentAddress").val(res.data.permanentAddress);
+                $("#registrationNo").val(res.data.registrationNo);
+                $("#parentContactNo").val(res.data.parentContactNo);
+                $("#totalMarks").val(res.data.totalMarks);
+>>>>>>> fcbb1a0fe8b19db17ff0d6510e24896ca2319af6
             }
         },
         error: function () {
