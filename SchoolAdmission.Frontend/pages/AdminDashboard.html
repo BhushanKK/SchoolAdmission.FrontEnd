@@ -100,35 +100,73 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
 
     <script>
-        function toggleSubMenu(id, el) {
-            const submenu = document.getElementById(id);
-            const arrow = el.querySelector('.arrow');
+    function toggleSubMenu(id, el) {
+        const submenu = document.getElementById(id);
+        const arrow = el.querySelector('.arrow');
 
-            if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-                arrow.style.transform = "rotate(90deg)"; // arrow points down
-                arrow.style.transition = "transform 0.3s";
-            } else {
-                submenu.style.display = "none";
-                arrow.style.transform = "rotate(0deg)"; // arrow points right
-            }
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+            submenu.style.display = "block";
+            arrow.style.transform = "rotate(90deg)";
+            arrow.style.transition = "transform 0.3s";
+        } else {
+            submenu.style.display = "none";
+            arrow.style.transform = "rotate(0deg)";
         }
-        document.getElementById("userEmail").innerText =
-            localStorage.getItem("userEmail");
+    }
 
-        function logout() {
-            localStorage.clear();
-            window.location.href = "../index.html";
+    // Get user data from localStorage
+    const userEmail = localStorage.getItem("userEmail");
+    const roleId = localStorage.getItem("roleId");
+
+    document.getElementById("userEmail").innerText = userEmail;
+
+    // Validation for page access
+    // roleId = 1 => Admin
+    // other => Student
+
+    // If current page is admin page and user is not admin
+    if (roleId != "1") {
+        alert("Access Denied! Only Admin can access this page.");
+        window.location.href = "../student/student-dashboard.html";
+    }
+
+    // If current page is student page and user is admin
+    if (roleId == "1") {
+        window.location.href = "../admin/admin-dashboard.html";
+    }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = "../index.html";
+    }
+
+    function loadPage(page) {
+
+        // Prevent non-admin users from opening admin pages
+        const adminPages = [
+            "caste.html",
+            "category.html",
+            "religion.html",
+            "standard.html",
+            "branch.html",
+            "committee.html",
+            "school.html",
+            "division.html",
+            "subject.html",
+            "activate-student.html"
+        ];
+
+        if (adminPages.includes(page) && roleId != "1") {
+            alert("Access Denied!");
+            return;
         }
 
-        function loadPage(page) {
+        fetch(page)
+            .then(res => res.text())
+            .then(html => {
 
-            fetch(page)
-                .then(res => res.text())
-                .then(html => {
-
-                    document.getElementById("mainContent").innerHTML =
-                        `
+                document.getElementById("mainContent").innerHTML =
+                    `
             <div class="topbar d-flex justify-content-between">
                 <h4>${page.replace('.html', '').charAt(0).toUpperCase() + page.replace('.html', '').slice(1).toLowerCase()}</h4>
                 <div>
@@ -138,59 +176,68 @@
             </div>
         ` + html;
 
-                    if (page === "caste.html") {
-                        loadScript("../js/caste.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "category.html") {
-                        loadScript("../js/category.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "religion.html") {
-                        loadScript("../js/religion.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "standard.html") {
-                        loadScript("../js/standard.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "branch.html") {
-                        loadScript("../js/branch.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "committee.html") {
-                        loadScript("../js/commite.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "school.html") {
-                        loadScript("../js/school.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "division.html") {
-                        loadScript("../js/division.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "subject.html") {
-                        loadScript("../js/subject.js");
-                        loadScript("../js/validations.js");
-                    }
-                    if (page === "activate-student.html") {
-                        loadScript("../js/activate-student.js");
-                        
-                    }
-                    if (page === "studentDetailsView.html") {
-                        loadScript("../js/studentDetailsView.js");
-                    }
-                });
-        }
+                if (page === "caste.html") {
+                    loadScript("../js/caste.js");
+                    loadScript("../js/validations.js");
+                }
 
-        function loadScript(src) {
-            let script = document.createElement("script");
-            script.src = src;
-            script.type = "text/javascript";
-            document.body.appendChild(script);
-        }
-    </script>
+                if (page === "category.html") {
+                    loadScript("../js/category.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "religion.html") {
+                    loadScript("../js/religion.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "standard.html") {
+                    loadScript("../js/standard.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "branch.html") {
+                    loadScript("../js/branch.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "committee.html") {
+                    loadScript("../js/commite.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "school.html") {
+                    loadScript("../js/school.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "division.html") {
+                    loadScript("../js/division.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "subject.html") {
+                    loadScript("../js/subject.js");
+                    loadScript("../js/validations.js");
+                }
+
+                if (page === "activate-student.html") {
+                    loadScript("../js/activate-student.js");
+                }
+
+                if (page === "studentDetailsView.html") {
+                    loadScript("../js/studentDetailsView.js");
+                }
+            });
+    }
+
+    function loadScript(src) {
+        let script = document.createElement("script");
+        script.src = src;
+        script.type = "text/javascript";
+        document.body.appendChild(script);
+    }
+</script>
 </body>
 
 </html>

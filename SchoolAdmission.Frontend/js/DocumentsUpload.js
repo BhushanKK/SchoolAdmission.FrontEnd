@@ -186,7 +186,6 @@ function deleteDocument(documentId) {
         },
 
         error: function (xhr) {
-            console.log(xhr.responseText);
 
             if (xhr.status === 404) {
                 showToast("API not found", "error");
