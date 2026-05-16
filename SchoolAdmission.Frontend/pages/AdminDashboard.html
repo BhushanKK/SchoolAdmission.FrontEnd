@@ -125,15 +125,15 @@
     // other => Student
 
     // If current page is admin page and user is not admin
-    if (roleId != "1") {
-        alert("Access Denied! Only Admin can access this page.");
-        window.location.href = "../student/student-dashboard.html";
-    }
+    // if (roleId != "1") {
+    //     alert("Access Denied! Only Admin can access this page.");
+    //     window.location.href = "../student/student-dashboard.html";
+    // }
 
-    // If current page is student page and user is admin
-    if (roleId == "1") {
-        window.location.href = "../admin/admin-dashboard.html";
-    }
+    // // If current page is student page and user is admin
+    // if (roleId == "1") {
+    //     window.location.href = "../admin/admin-dashboard.html";
+    // }
 
     function logout() {
         localStorage.clear();
@@ -156,10 +156,10 @@
             "activate-student.html"
         ];
 
-        if (adminPages.includes(page) && roleId != "1") {
-            alert("Access Denied!");
-            return;
-        }
+        // if (adminPages.includes(page) && roleId != "1") {
+        //     alert("Access Denied!");
+        //     return;
+        // }
 
         fetch(page)
             .then(res => res.text())

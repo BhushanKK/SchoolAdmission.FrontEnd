@@ -1,7 +1,7 @@
 
 function loadCommittees() {
     $.ajax({
-        url: registerCommitteeApi,
+        url: "http://localhost:5263/api/commitemasters",
         type: "GET",
         success: function (response) {
             let dropdown = $("#committee");
@@ -21,7 +21,7 @@ function loadCommittees() {
 function loadSchools(committeeId) {
     $("#school").prop("disabled", true);
     $.ajax({
-        url: `${schoolAllSchoolsApi}/${committeeId}`,
+        url: `http://localhost:5263/api/schoolmasters/AllSchools/${committeeId}`,
         type: "GET",
         success: function (response) {
             let dropdown = $("#school");
