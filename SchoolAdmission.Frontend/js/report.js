@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-   const studentId = localStorage.getItem("studentId");
+    const studentId = localStorage.getItem("studentId");
 
     if (!studentId) {
         alert("StudentId missing");
@@ -15,17 +15,39 @@ $(document).ready(function () {
             if (res.success) {
                 $("#studentName").val(res.data.studentName);
                 $("#motherName").val(res.data.motherName);
-                $("#income").val(res.data.income);
+                $("#EnStudentName").val(res.data.studentName);
+                $("#EnMotherName").val(res.data.motherName);
+                $("#commiteeName").text(res.data.commiteeName);
+                $("#collegeName").text(res.data.schoolName);
+                $(".totalMarks").val(res.data.totalMarks);
+                $("#casteAndCategory").val(res.data.religion + " - " + res.data.caste);
+                $("#category").val(res.data.category);
+                $("#permanentAddress").val(res.data.permanentAddress);
+                $("#currentAddress").val(res.data.currentAddress);
+                $("#mobileNumber").val(res.data.mobileNumber);
+                $("#annualIncome").val(res.data.income);
+                $("#mobileNumber").val(res.data.parentContactNo);
+                $(".previousSchool").val(res.data.previousSchool);
+                $("#Standard").text(res.data.standardName + " - " + res.data.branchName);
+                $(".StandardAndBranch").text(res.data.standardName + " - " + res.data.branchName);
+                $("#PassingYear").text(res.data.passingYear);
+                $("#SeatNo").text(res.data.seatNo);
+                $("#percentage").val(res.data.percentage);
+                $(".formNo").text(res.data.registrationNo);
+                $(".applicationDate").text(new Date().toLocaleDateString());
+                const date = new Date(res.data.dob);
+
+                const formatted =
+                    String(date.getDate()).padStart(2, '0') + '-' +
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                    date.getFullYear();
+
                 $("#dob").val(res.data.dob);
                 $("#previousSchool").val(res.data.previousSchool);
                 $("#permanentAddress").val(res.data.permanentAddress);
                 $("#registrationNo").val(res.data.registrationNo);
                 $("#parentContactNo").val(res.data.parentContactNo);
                 $("#totalMarks").val(res.data.totalMarks);
-                $("#casteReligion").val((res.data.religion || "") + " - " + (res.data.caste || ""));
-                $("#seatNo").val(res.data.seatNo);
-                $("#percentage").val(res.data.percentage);
-                $("#passingYear").val(res.data.passingYear);
             }
         },
         error: function () {
@@ -37,4 +59,84 @@ $(document).ready(function () {
         const params = new URLSearchParams(window.location.search);
         return params.get("studentId");
     }
+
+    loadStudentSubjects(studentId);
 });
+
+async function loadStudentSubjects(studentId) {
+
+    const response = await fetch(
+        studentSubjectReportApi + studentId,
+        {
+            method: "GET",
+            headers: getTokenHeader()
+        }
+    );
+
+    const result = await response.json();
+
+    if (!result.success) {
+        return;
+    }
+
+    const data = result.data;
+
+    // Get branch name
+    const branchName = data[0]?.branchName || "";
+
+    // Group data by groupName
+    const grouped = {};
+
+    data.forEach(item => {
+
+        if (!grouped[item.groupName]) {
+            grouped[item.groupName] = [];
+        }
+
+        grouped[item.groupName].push(item.subjectName);
+    });
+
+    let html = "";
+
+    // Header row
+    html += `
+            <tr>
+                <th>शाखा</th>
+                <th>${branchName}</th>
+            </tr>
+        `;
+
+    // Dynamic groups
+    Object.keys(grouped).forEach(groupName => {
+
+        const subjects = grouped[groupName];
+
+        subjects.forEach((subject, index) => {
+
+            html += `
+                    <tr>
+                        ${index === 0
+                    ? `<td rowspan="${subjects.length}" style="vertical-align: top;">
+                                    ${groupName}
+                               </td>`
+                    : ""
+                }
+
+                        <td>
+                            <input type="text"
+                                   value="${subject}"
+                                   style="border:none; width:100%;">
+                        </td>
+                    </tr>
+                `;
+        });
+
+    });
+
+    const tables = document.getElementsByClassName("subject-table");
+
+    document.querySelectorAll(".subject-table").forEach(table => {
+        table.innerHTML = html;
+    });
+}
+

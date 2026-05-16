@@ -71,12 +71,11 @@ table, .top-section, .details-table {
         }
 
         .form-no {
-            position: absolute;
-            right: 0;
-            top: 0;
-            text-align: right;
-            font-weight: bold;
-        }
+    text-align: right;
+    font-weight: bold;
+    margin-top: 8px;
+    font-size: 12px;
+}
 
         .college-name {
             border: 1px solid black;
@@ -188,6 +187,7 @@ table, .top-section, .details-table {
                 border: none;
             }
         }
+        
     </style>
 
 </head>
@@ -198,21 +198,36 @@ table, .top-section, .details-table {
 
         <div class="top-header">
 
-            <img src="" width="40">
+    <img src="../assets/nes.jpeg" width="160" height="160">
 
-            <div class="form-no" id="registrationNo">
-                फॉर्म नंबर : 1/2020-2021 <br>
-                28/02/2026
-            </div>
+</div>
 
-            सोनू एज्युकेशन संस्था नाशिक रोड, नाशिक रोड
+<center>
+    <label style="font-size:18px; font-weight:bold;text-align: center;"
+        id="commiteeName">
+    </label>
+</center>
 
-        </div>
+<div class="college-name">
+    <label id="collegeName"
+        style="font-size: 14; font-weight: bold;">
+    </label>
+</div>
 
-        <div class="college-name">
-            के जे मेहता हायस्कूल व ई बाबा फडोळ ज्युनिअर कॉलेज, नाशिक रोड
-        </div>
+<div class="form-no">
+    फॉर्म नंबर :
+    <label class="formNo"
+        style="font-weight: bold;font-size: small;">
+    </label>
 
+    <br>
+
+    <label class="applicationDate"
+        style="font-weight: bold;">
+    </label>
+</div>
+           <center><label style="font-size:18px; font-weight:bold;text-align: center;" id="commiteeName"> 
+            </label></center> 
         <div class="top-section">
 
             <table class="marks-table">
@@ -220,7 +235,7 @@ table, .top-section, .details-table {
                 <tr>
                     <td>इ. १० वी एकूण गुण</td>
                     <td>
-                        <input type="text" id="totalMarks"
+                        <input type="text" id="totalMarks" class="totalMarks"
                             style="border:none; width:100%; font-weight:bold;">
                     </td>
                 </tr>
@@ -228,7 +243,7 @@ table, .top-section, .details-table {
                 <tr>
                     <td>अर्ज प्रकार</td>
                     <td>
-                        <input type="text" 
+                        <input type="text" id="casteAndCategory"
                             style="border:none; width:100%;">
                     </td>
                 </tr>
@@ -236,7 +251,7 @@ table, .top-section, .details-table {
                 <tr>
                     <td>आरक्षण</td>
                     <td>
-                        <input type="text" id="casteReligion"
+                        <input type="text" id="category"
                             style="border:none; width:100%;">
                     </td>
                 </tr>
@@ -294,13 +309,13 @@ table, .top-section, .details-table {
                 <td>Full Name</td>
 
                 <td>
-                    <input type="text" id="studentName">
+                    <input type="text" id="EnStudentName">
                 </td>
 
                 <td>Mother Name</td>
 
                 <td>
-                    <input type="text" id="motherName">
+                    <input type="text" id="EnMotherName">
                 </td>
 
             </tr>
@@ -310,13 +325,13 @@ table, .top-section, .details-table {
                 <td>पालकांचे मूळ गाव</td>
 
                 <td>
-                    <input type="text" value="Nashik">
+                    <textarea disabled id="permanentAddress" rows="4" cols="50" style="border:none;resize: none;background-color: #ffffff;border-bottom:1px solid black;"></textarea>
                 </td>
 
                 <td>वार्षिक उत्पन्न</td>
 
                 <td>
-                    <input type="text" id="income">
+                    <input type="text" id="annualIncome">
                 </td>
 
             </tr>
@@ -325,8 +340,8 @@ table, .top-section, .details-table {
 
                 <td>२. कायमचा पत्ता</td>
 
-                <td>
-                    <input type="text" id="permanentAddress">
+                    <td>
+                        <textarea disabled id="currentAddress" rows="4" cols="50" style="border:none;resize: none;background-color: #ffffff;border-bottom:1px solid black;"></textarea>
                 </td>
 
                 <td></td>
@@ -340,13 +355,13 @@ table, .top-section, .details-table {
                 <td>मोबाईल नं.</td>
 
                 <td>
-                    <input type="text" id="parentContactNo">
+                    <input type="text" id="mobileNumber">
                 </td>
 
                 <td>जन्म तारीख</td>
 
                 <td>
-                    <input type="text" id="dob">
+                    <input type="text" id="birthDate">
                 </td>
 
             </tr>
@@ -356,7 +371,7 @@ table, .top-section, .details-table {
                 <td>३. मागील शाळेचे नाव</td>
 
                 <td>
-                    <input type="text" id="previousSchool">
+                    <input type="text" id="previousSchool" class="previousSchool"/>
                 </td>
 
                 <td></td>
@@ -374,94 +389,41 @@ table, .top-section, .details-table {
             महोदय, <br>
 
             मी आपल्या कनिष्ठ महाविद्यालयात इयत्ता
-            <b>११ वी बहुविद्य - HSC(VOC)</b>
+            <b><label id="Standard"></b>
             वर्गामध्ये प्रवेश देऊ इच्छितो / इच्छिते.
             मी खालील विषय चालू ठेवणार.
 
         </div>
 
-        <table class="subject-table">
+       <table class="subject-table">
+       </table>
 
-            <tr>
-                <th>शाखा</th>
-                <th>HSC(VOC)</th>
-            </tr>
+        <div class="page-break-before">
 
-            <tr>
-                <td rowspan="5" style="vertical-align: top;">
-                    आवश्यक विषय
-                </td>
+    <div class="footer-row" style="margin-top: 40px;">
 
-                <td>
-                    <input type="text" value="मराठी"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="इंग्रजी"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="जनरल फाउंडेशन कोर्स"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="शारीरिक शिक्षण"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="पर्यावरण"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-
-                <td>वैकल्पिक विषय</td>
-
-                <td>
-                    <input type="text"
-                        value="लॉजिस्टिक अँड सप्लाय चैन मॅनेजमेंट"
-                        style="border:none; width:100%;">
-                </td>
-
-            </tr>
-
-        </table>
-
-        <div class="footer-row">
-
-            <div>
-                दिनांक : 28/02/2026
-            </div>
-
-            <div >
-                शाखा : HSC(VOC)
-            </div>
-
-            <div>
-                फॉर्म नंबर : 1/2020-2021
-            </div>
-
+        <div>
+            दिनांक : <label class="applicationDate"></label>
         </div>
 
-        <div class="notice">
-
-            विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व
-            शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.
-
+        <div>
+            शाखा : <label class="StandardAndBranch"></label>
         </div>
+
+        <div>
+            फॉर्म नंबर : <label class="formNo"></label>
+        </div>
+
+    </div>
+
+    <div class="notice">
+
+        विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व
+        शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.
+
+    </div>
+
+</div>
 
     </div>
     <!-- SECOND PAGE -->
@@ -525,37 +487,35 @@ table, .top-section, .details-table {
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    value="-"
+                <input type="text" class="previousSchool"
                     style="width:100%; border:none; outline:none;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    value="2010-2011"
+                <label type="text"
+                    id="PassingYear"
+                    style="width:100%; border:none; outline:none;font-weight: bold;">
+                </label>
+            </td>
+
+            <td style="border:1px solid black; padding:10px;">
+                <label type="text"
+                    id="SeatNo"
                     style="width:100%; border:none; outline:none;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    id="seatNo"
-                    style="width:100%; border:none; outline:none;">
+                <input type="text" class="totalMarks"
+                            style="border:none; width:100%; font-weight:bold;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    id="totalMarks"
-                    style="width:100%; border:none; outline:none;">
+                <input type="text" id="percentage"
+                    style="width:100%; border:none; outline:none;font-weight: bold;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    id="percentage"
-                    style="width:100%; border:none; outline:none;">
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <input type="text"
+                <input type="text" value="NA"
                     style="width:100%; border:none; outline:none;">
             </td>
 
@@ -619,9 +579,9 @@ table, .top-section, .details-table {
             ठिकाण : Nashik <br><br>
 
             दिनांक :
-            <input type="text"
-                value="28/02/2026"
-                style="border:none; border-bottom:1px solid black; outline:none;">
+            <label type="text" class="applicationDate"
+                style="border:none; border-bottom:1px solid black; outline:none;font-weight: bold;">
+            </label>
         </div>
 
         <div style="font-size:13px; text-align:center;">
@@ -644,47 +604,11 @@ table, .top-section, .details-table {
 
     <div style="margin-top:10px; font-size:13px;">
 
-        विद्यार्थ्यांना इ. ११ वी बहुविद्य - HSC(VOC) प्रवेशासाठी खालील विषय निश्चित केलेले.
+        विद्यार्थ्यांना इ. <label class="StandardAndBranch"> प्रवेशासाठी खालील विषय निश्चित केलेले.
 
     </div>
 
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-
-        <tr>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                मराठी
-            </td>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                इंग्रजी
-            </td>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                जनरल फाउंडेशन कोर्स
-            </td>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                शारीरिक शिक्षण
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                संगणक
-            </td>
-
-            <td colspan="3"
-                style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-
-                लॉजिस्टिक अँड सप्लाय चैन मॅनेजमेंट
-
-            </td>
-
-        </tr>
-
+    <table class="subject-table" >
     </table>
 
     <div style="margin-top:20px; font-size:13px; line-height:28px;">
@@ -704,10 +628,7 @@ table, .top-section, .details-table {
         अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव <br>
 
         दिनांक :
-        <input type="text"
-            value="28/02/2026"
-            style="border:none; border-bottom:1px solid black; outline:none;">
-
+        <label class="applicationDate" style="font-weight: bold;"></label>
     </div>
 
 </div>
