@@ -26,6 +26,7 @@ const studentSubjectChoiceApi = apiBase + "/StudentSubjectChoices";
 const studentSubjectChoiceByStudentApi = apiBase + "/StudentSubjectChoices/GetStandard/";
 const fetchStudentSubjectsApi = apiBase + "/StudentSubjectChoices/";
 const reportApi = apiBase + "/student-details/";
+const studentSubjectReportApi = apiBase + "/StudentSubjectChoices/GetStudentSubjectReport/";
 document.getElementById("currentYear").innerText = new Date().getFullYear();
 
 function getTokenHeader() {

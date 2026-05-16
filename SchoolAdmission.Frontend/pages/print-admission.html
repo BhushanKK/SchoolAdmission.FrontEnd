@@ -71,12 +71,11 @@ table, .top-section, .details-table {
         }
 
         .form-no {
-            position: absolute;
-            right: 0;
-            top: 0;
-            text-align: right;
-            font-weight: bold;
-        }
+    text-align: right;
+    font-weight: bold;
+    margin-top: 8px;
+    font-size: 12px;
+}
 
         .college-name {
             border: 1px solid black;
@@ -188,6 +187,7 @@ table, .top-section, .details-table {
                 border: none;
             }
         }
+        
     </style>
 
 </head>
@@ -198,22 +198,36 @@ table, .top-section, .details-table {
 
         <div class="top-header">
 
-            <img src="" width="40">
+    <img src="../assets/nes.jpeg" width="160" height="160">
 
-            <div class="form-no">
-                फॉर्म नंबर : <label class="formNo" style="font-weight: bold;font-size: small;"> </label> <br>
-               <label class="applicationDate" style="font-weight: bold;"></label>
-            </div>
+</div>
+
+<center>
+    <label style="font-size:18px; font-weight:bold;text-align: center;"
+        id="commiteeName">
+    </label>
+</center>
+
+<div class="college-name">
+    <label id="collegeName"
+        style="font-size: 14; font-weight: bold;">
+    </label>
+</div>
+
+<div class="form-no">
+    फॉर्म नंबर :
+    <label class="formNo"
+        style="font-weight: bold;font-size: small;">
+    </label>
+
+    <br>
+
+    <label class="applicationDate"
+        style="font-weight: bold;">
+    </label>
 </div>
            <center><label style="font-size:18px; font-weight:bold;text-align: center;" id="commiteeName"> 
             </label></center> 
-
-        
-
-        <div class="college-name">
-            <label id="collegeName" style="font-size: 14; font-weight: bold;"></label>
-        </div>
-
         <div class="top-section">
 
             <table class="marks-table">
@@ -381,88 +395,35 @@ table, .top-section, .details-table {
 
         </div>
 
-        <table class="subject-table">
+       <table class="subject-table">
+       </table>
 
-            <tr>
-                <th>शाखा</th>
-                <th><label class="StandardAndBranch"></label></th>
-            </tr>
+        <div class="page-break-before">
 
-            <tr>
-                <td rowspan="5" style="vertical-align: top;">
-                    आवश्यक विषय
-                </td>
+    <div class="footer-row" style="margin-top: 40px;">
 
-                <td>
-                    <input type="text" value="मराठी"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="इंग्रजी"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="जनरल फाउंडेशन कोर्स"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="शारीरिक शिक्षण"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="text" value="पर्यावरण"
-                        style="border:none; width:100%;">
-                </td>
-            </tr>
-
-            <tr>
-
-                <td>वैकल्पिक विषय</td>
-
-                <td>
-                    <input type="text"
-                        value="लॉजिस्टिक अँड सप्लाय चैन मॅनेजमेंट"
-                        style="border:none; width:100%;">
-                </td>
-
-            </tr>
-
-        </table>
-
-        <div class="footer-row">
-
-            <div>
-                दिनांक : <label class="applicationDate"></label>
-            </div>
-
-            <div>
-                शाखा : <label class="StandardAndBranch"></label>
-            </div>
-
-            <div>
-                फॉर्म नंबर : <label class="formNo"></label>
-            </div>
-
+        <div>
+            दिनांक : <label class="applicationDate"></label>
         </div>
 
-        <div class="notice">
-
-            विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व
-            शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.
-
+        <div>
+            शाखा : <label class="StandardAndBranch"></label>
         </div>
+
+        <div>
+            फॉर्म नंबर : <label class="formNo"></label>
+        </div>
+
+    </div>
+
+    <div class="notice">
+
+        विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व
+        शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.
+
+    </div>
+
+</div>
 
     </div>
     <!-- SECOND PAGE -->
@@ -647,43 +608,7 @@ table, .top-section, .details-table {
 
     </div>
 
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-
-        <tr>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                मराठी
-            </td>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                इंग्रजी
-            </td>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                जनरल फाउंडेशन कोर्स
-            </td>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                शारीरिक शिक्षण
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-                संगणक
-            </td>
-
-            <td colspan="3"
-                style="border:1px solid black; padding:10px; text-align:center; font-weight:bold;">
-
-                लॉजिस्टिक अँड सप्लाय चैन मॅनेजमेंट
-
-            </td>
-
-        </tr>
-
+    <table class="subject-table" >
     </table>
 
     <div style="margin-top:20px; font-size:13px; line-height:28px;">

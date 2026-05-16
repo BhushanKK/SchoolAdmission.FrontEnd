@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-   const studentId = localStorage.getItem("studentId");
+    const studentId = localStorage.getItem("studentId");
 
     if (!studentId) {
         alert("StudentId missing");
@@ -41,17 +41,13 @@ $(document).ready(function () {
                     String(date.getDate()).padStart(2, '0') + '-' +
                     String(date.getMonth() + 1).padStart(2, '0') + '-' +
                     date.getFullYear();
-<<<<<<< HEAD
-                $("#birthDate").val(formatted);
-=======
-        
+
                 $("#dob").val(res.data.dob);
                 $("#previousSchool").val(res.data.previousSchool);
                 $("#permanentAddress").val(res.data.permanentAddress);
                 $("#registrationNo").val(res.data.registrationNo);
                 $("#parentContactNo").val(res.data.parentContactNo);
                 $("#totalMarks").val(res.data.totalMarks);
->>>>>>> fcbb1a0fe8b19db17ff0d6510e24896ca2319af6
             }
         },
         error: function () {
@@ -63,4 +59,84 @@ $(document).ready(function () {
         const params = new URLSearchParams(window.location.search);
         return params.get("studentId");
     }
+
+    loadStudentSubjects(studentId);
 });
+
+async function loadStudentSubjects(studentId) {
+
+    const response = await fetch(
+        studentSubjectReportApi + studentId,
+        {
+            method: "GET",
+            headers: getTokenHeader()
+        }
+    );
+
+    const result = await response.json();
+
+    if (!result.success) {
+        return;
+    }
+
+    const data = result.data;
+
+    // Get branch name
+    const branchName = data[0]?.branchName || "";
+
+    // Group data by groupName
+    const grouped = {};
+
+    data.forEach(item => {
+
+        if (!grouped[item.groupName]) {
+            grouped[item.groupName] = [];
+        }
+
+        grouped[item.groupName].push(item.subjectName);
+    });
+
+    let html = "";
+
+    // Header row
+    html += `
+            <tr>
+                <th>शाखा</th>
+                <th>${branchName}</th>
+            </tr>
+        `;
+
+    // Dynamic groups
+    Object.keys(grouped).forEach(groupName => {
+
+        const subjects = grouped[groupName];
+
+        subjects.forEach((subject, index) => {
+
+            html += `
+                    <tr>
+                        ${index === 0
+                    ? `<td rowspan="${subjects.length}" style="vertical-align: top;">
+                                    ${groupName}
+                               </td>`
+                    : ""
+                }
+
+                        <td>
+                            <input type="text"
+                                   value="${subject}"
+                                   style="border:none; width:100%;">
+                        </td>
+                    </tr>
+                `;
+        });
+
+    });
+
+    const tables = document.getElementsByClassName("subject-table");
+
+    document.querySelectorAll(".subject-table").forEach(table => {
+        table.innerHTML = html;
+    });
+}
+
