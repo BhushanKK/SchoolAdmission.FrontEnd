@@ -71,7 +71,12 @@
     <script>
         document.getElementById("userEmail").innerText =
             localStorage.getItem("userEmail");
+        const role = localStorage.getItem("role");
 
+        if (role != "Student") {
+        alert("Access Denied! Only Student can access this page.");
+        window.location.href = "AdminDashboard.html";
+    }
         function logout() {
             localStorage.clear();
             window.location.href = "../index.html";

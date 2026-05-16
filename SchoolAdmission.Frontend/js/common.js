@@ -1,5 +1,5 @@
-const apiBase = "https://schooladmission-b2escsaph3gtezbv.centralindia-01.azurewebsites.net/api";
-//const apiBase = "http://localhost:5263/api";
+//const apiBase = "https://schooladmission-b2escsaph3gtezbv.centralindia-01.azurewebsites.net/api";
+const apiBase = "http://localhost:5263/api";
 
 const categoryApi = apiBase + "/categorymasters";
 const casteApi = apiBase + "/castemaster"; 
@@ -61,4 +61,11 @@ function handle401(xhr) {
         localStorage.clear();
         window.location.href = "../index.html";
     }
+}
+ function openPopup(url) {
+    window.open(
+        url,
+        'popupWindow',
+        'width=900,height=700,scrollbars=yes,resizable=yes'
+    );
 }

@@ -3,10 +3,6 @@ $(document).ready(function () {
     const studentId = localStorage.getItem("studentId");
 
     loadDocuments();
-
-    // =========================
-    // UPLOAD DOCUMENT
-    // =========================
     $(document).on("click", "#btnSaveDocumentInfo", function (e) {
 
         e.preventDefault();
@@ -74,10 +70,6 @@ $(document).ready(function () {
     });
 });
 
-
-// =========================
-// LOAD DOCUMENTS
-// =========================
 function loadDocuments() {
 
     const studentId = localStorage.getItem("studentId");
@@ -152,23 +144,15 @@ function loadDocuments() {
     });
 }
 
-
-// =========================
-// VIEW DOCUMENT
-// =========================
 function viewDocument(path) {
 
     const fullUrl = path.startsWith("http")
         ? path
-        : "http://localhost:5263/" + path;
+        : apiBase + path;
 
     window.open(fullUrl, "_blank");
 }
 
-
-// =========================
-// DELETE DOCUMENT
-// =========================
 function deleteDocument(documentId) {
 
     if (!confirm("Are you sure you want to delete this document?")) {
@@ -176,7 +160,7 @@ function deleteDocument(documentId) {
     }
 
     $.ajax({
-        url: "http://localhost:5263/api/student-document/" + documentId,
+        url: documentUploadApi + "/" + documentId,
         method: "DELETE",
         headers: getTokenHeader(),
 
@@ -186,7 +170,6 @@ function deleteDocument(documentId) {
         },
 
         error: function (xhr) {
-            console.log(xhr.responseText);
 
             if (xhr.status === 404) {
                 showToast("API not found", "error");

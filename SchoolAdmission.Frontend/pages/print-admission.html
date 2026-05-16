@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <title>Admission Form</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
-        /* ===== A4 PAGE SETUP ===== */
+        /* ===== LEGAL PAGE SETUP ===== */
 @page {
-    size: A4;
+    size: legal;
     margin: 10mm;
 }
 
@@ -56,7 +58,7 @@ table, .top-section, .details-table {
         }
 
         .page {
-            width: 850px;
+            width: 900px;
             background: white;
             margin: auto;
             padding: 20px 40px;
@@ -186,6 +188,30 @@ table, .top-section, .details-table {
             .page {
                 border: none;
             }
+
+            .print-button-container {
+                display: none;
+            }
+        }
+
+        .print-button-container {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .print-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .print-button:hover {
+            background-color: #45a049;
         }
         
     </style>
@@ -193,6 +219,11 @@ table, .top-section, .details-table {
 </head>
 
 <body>
+
+    <div class="print-button-container">
+        <button class="print-button" onclick="window.print()">Print Admission Form</button>
+        <button class="print-button" onclick="downloadPDF()" style="background-color: #008CBA; margin-left: 10px;">Download PDF</button>
+    </div>
 
     <div class="page">
 
@@ -632,6 +663,21 @@ table, .top-section, .details-table {
     </div>
 
 </div>
+
+<script>
+    function downloadPDF() {
+        const element = document.querySelector('.page');
+        const opt = {
+            margin: 10,
+            filename: 'Admission_Form.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'legal' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/report.js"></script>
