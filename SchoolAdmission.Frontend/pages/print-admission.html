@@ -201,8 +201,8 @@ table, .top-section, .details-table {
             <img src="" width="40">
 
             <div class="form-no">
-                फॉर्म नंबर : 1/2020-2021 <br>
-                28/02/2026
+                फॉर्म नंबर : <label class="formNo" style="font-weight: bold;font-size: small;"> </label> <br>
+               <label class="applicationDate" style="font-weight: bold;"></label>
             </div>
 </div>
            <center><label style="font-size:18px; font-weight:bold;text-align: center;" id="commiteeName"> 
@@ -221,7 +221,7 @@ table, .top-section, .details-table {
                 <tr>
                     <td>इ. १० वी एकूण गुण</td>
                     <td>
-                        <input type="text" value="555"
+                        <input type="text" id="totalMarks" class="totalMarks"
                             style="border:none; width:100%; font-weight:bold;">
                     </td>
                 </tr>
@@ -229,7 +229,7 @@ table, .top-section, .details-table {
                 <tr>
                     <td>अर्ज प्रकार</td>
                     <td>
-                        <input type="text" value="हिंदू - मराठा"
+                        <input type="text" id="casteAndCategory"
                             style="border:none; width:100%;">
                     </td>
                 </tr>
@@ -237,7 +237,7 @@ table, .top-section, .details-table {
                 <tr>
                     <td>आरक्षण</td>
                     <td>
-                        <input type="text"
+                        <input type="text" id="category"
                             style="border:none; width:100%;">
                     </td>
                 </tr>
@@ -295,13 +295,13 @@ table, .top-section, .details-table {
                 <td>Full Name</td>
 
                 <td>
-                    <input type="text" value="HARISH VINOD KUMAR">
+                    <input type="text" id="EnStudentName">
                 </td>
 
                 <td>Mother Name</td>
 
                 <td>
-                    <input type="text" value="NA">
+                    <input type="text" id="EnMotherName">
                 </td>
 
             </tr>
@@ -317,7 +317,7 @@ table, .top-section, .details-table {
                 <td>वार्षिक उत्पन्न</td>
 
                 <td>
-                    <input type="text" value="100000">
+                    <input type="text" id="annualIncome">
                 </td>
 
             </tr>
@@ -326,8 +326,8 @@ table, .top-section, .details-table {
 
                 <td>२. कायमचा पत्ता</td>
 
-                <td>
-                    <input type="text" value="Nashik">
+                    <td>
+                        <textarea disabled id="currentAddress" rows="4" cols="50" style="border:none;resize: none;background-color: #ffffff;border-bottom:1px solid black;"></textarea>
                 </td>
 
                 <td></td>
@@ -341,13 +341,13 @@ table, .top-section, .details-table {
                 <td>मोबाईल नं.</td>
 
                 <td>
-                    <input type="text" value="9890376906">
+                    <input type="text" id="mobileNumber">
                 </td>
 
                 <td>जन्म तारीख</td>
 
                 <td>
-                    <input type="text" value="01/01/2003">
+                    <input type="text" id="birthDate">
                 </td>
 
             </tr>
@@ -357,7 +357,7 @@ table, .top-section, .details-table {
                 <td>३. मागील शाळेचे नाव</td>
 
                 <td>
-                    <input type="text" value="Nashik">
+                    <input type="text" id="previousSchool" class="previousSchool"/>
                 </td>
 
                 <td></td>
@@ -448,7 +448,7 @@ table, .top-section, .details-table {
             </div>
 
             <div>
-                शाखा : HSC(VOC)
+                शाखा : <label class="StandardAndBranch"></label>
             </div>
 
             <div>
@@ -538,21 +538,19 @@ table, .top-section, .details-table {
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    value="D044789"
+                <label type="text"
+                    id="SeatNo"
                     style="width:100%; border:none; outline:none;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    value="555"
-                    style="width:100%; border:none; outline:none;">
+                <input type="text" class="totalMarks"
+                            style="border:none; width:100%; font-weight:bold;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
-                <input type="text"
-                    value="90"
-                    style="width:100%; border:none; outline:none;">
+                <input type="text" id="percentage"
+                    style="width:100%; border:none; outline:none;font-weight: bold;">
             </td>
 
             <td style="border:1px solid black; padding:10px;">
