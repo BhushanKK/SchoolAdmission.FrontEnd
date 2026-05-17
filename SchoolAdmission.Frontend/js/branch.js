@@ -1,116 +1,165 @@
 $(document).ready(function () {
 
-    loadDocuments();
+    const table = $('#branchTable').DataTable({
+        ajax: {
+            url: branchApi,
+            type: "GET",
+            headers: getTokenHeader(),
+            dataSrc: "data",
+            error: function (xhr) {
+                handle401(xhr);
+            }
+        },
+        columns: [
+            { data: "branchId" },
+            { data: "branchName" },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-info editBtn" data-id="${row.branchId}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
 
-    const studentId = localStorage.getItem("studentId");
+                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${row.branchId}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
 
-    $(document).on("click", "#btnSaveDocumentInfo", function (e) {
+    $('#addBranchBtn').click(function () {
 
-        e.preventDefault();
+        $('#branchId').val('');
+        $('#branchName').val('');
 
-        if (!studentId) {
-            showToast("StudentId not found", "error");
+        const modal = new mdb.Modal(document.getElementById("branchModal"));
+        modal.show();
+    });
+
+    $('#saveBranchBtn').click(function () {
+
+        const id = $('#branchId').val();
+
+        const payload = {
+            branchId: parseInt(id) || 0,
+            branchName: $('#branchName').val().trim()
+        };
+
+        if (!payload.branchName) {
+            showToast("Please enter branch name", "warning");
             return;
         }
 
-        const documentType = $("#documentType").val();
-        const fileInput = $("#documentFile")[0];
-
-        if (!documentType) {
-            showToast("Please select document type", "error");
-            return;
-        }
-
-        if (fileInput.files.length === 0) {
-            showToast("Please select file", "error");
-            return;
-        }
-
-        const file = fileInput.files[0];
-
-        const formData = new FormData();
-        formData.append("StudentId", studentId);
-        formData.append("DocumentType", documentType);
-        formData.append("File", file);
-
-        $("#btnSaveDocumentInfo").prop("disabled", true);
+        const method = id ? "PUT" : "POST";
+        const url = id ? `${branchApi}/${id}` : branchApi;
 
         $.ajax({
-            url: documentUploadApi,
-            method: "POST",
+            url: url,
+            method: method,
             headers: getTokenHeader(),
-            data: formData,
-            contentType: false,
-            processData: false,
+            contentType: "application/json",
+            data: JSON.stringify(payload),
 
-            success: function () {
+            success: function (res) {
 
-                showToast("Document uploaded successfully", "success");
+                mdb.Modal.getInstance(
+                    document.getElementById("branchModal")
+                ).hide();
 
-                $("#documentType").val("");
-                $("#documentFile").val("");
+                table.ajax.reload();
 
-                $("#btnSaveDocumentInfo").prop("disabled", false);
-
-                loadDocuments();
+                showToast(res.message, "success");
             },
 
             error: function (xhr) {
 
-                $("#btnSaveDocumentInfo").prop("disabled", false);
-
                 if (xhr.status === 401) {
-                    localStorage.clear();
-                    window.location.href = "../index.html";
+                    handle401(xhr);
                     return;
                 }
 
-                showToast("Upload failed", "error");
+                if (xhr.responseJSON) {
+
+                    if (xhr.status === 409) {
+                        showToast(xhr.responseJSON.message, "exists");
+                        return;
+                    }
+
+                    if (xhr.responseJSON.message) {
+                        showToast(xhr.responseJSON.message, "error");
+                        return;
+                    }
+                }
+
+                showToast("Something went wrong", "error");
             }
         });
+
     });
 
-    let deleteDocId = 0;
+    $('#branchTable').on('click', '.editBtn', function () {
 
-    $(document).on('click', '.deleteDocumentBtn', function () {
-        deleteDocId = $(this).data('id');
+        const rowData = $('#branchTable')
+            .DataTable()
+            .row($(this).parents('tr'))
+            .data();
 
-        const modal = new mdb.Modal(document.getElementById("deleteConfirmModal"));
+        if (!rowData) {
+            showToast("Unable to load record", "error");
+            return;
+        }
+
+        $('#branchId').val(rowData.branchId);
+        $('#branchName').val(rowData.branchName);
+
+        const modal = new mdb.Modal(document.getElementById("branchModal"));
+        modal.show();
+    });
+
+    let deleteId = 0;
+
+    $('#branchTable').on('click', '.deleteBtn', function () {
+
+        deleteId = $(this).data('id');
+
+        const modal = new mdb.Modal(
+            document.getElementById("deleteConfirmModal")
+        );
         modal.show();
     });
 
     $('#confirmDeleteBtn').click(function () {
 
-        if (!deleteDocId) return;
+        if (!deleteId) return;
 
         $.ajax({
-            url: documentUploadApi + "/" + deleteDocId,
-            method: "DELETE",
+            url: `${branchApi}/${deleteId}`,
+            type: "DELETE",
             headers: getTokenHeader(),
 
-            success: function () {
+            success: function (res) {
+                
+                document.activeElement.blur();
+                mdb.Modal.getInstance(
+                    document.getElementById("deleteConfirmModal")
+                ).hide();
 
-                const modalEl = document.getElementById("deleteConfirmModal");
-                mdb.Modal.getInstance(modalEl)?.hide();
+                $('#branchTable').DataTable().ajax.reload(null, false);
 
-                showToast("Document deleted successfully", "success");
-
-                loadDocuments();
+                showToast(res.message, "success");
             },
 
             error: function (xhr) {
-
-                const modalEl = document.getElementById("deleteConfirmModal");
-                mdb.Modal.getInstance(modalEl)?.hide();
+                document.activeElement.blur();
+                mdb.Modal.getInstance(
+                    document.getElementById("deleteConfirmModal")
+                ).hide();
 
                 if (xhr.status === 401) {
-                    localStorage.clear();
-                    window.location.href = "../index.html";
-                    return;
-                }
-
-                if (xhr.status === 404) {
-                    showToast("API not found", "error");
+                    handle401(xhr);
                     return;
                 }
 
@@ -120,87 +169,3 @@ $(document).ready(function () {
     });
 
 });
-
-
-function loadDocuments() {
-
-    const studentId = localStorage.getItem("studentId");
-
-    $.ajax({
-        url: documentUploadApi + "/" + studentId,
-        method: "GET",
-        headers: getTokenHeader(),
-
-        success: function (response) {
-
-            $("#documentTableBody").empty();
-
-            const data = response.data;
-
-            if (!data || data.length === 0) {
-
-                $("#documentTableBody").append(`
-                    <tr>
-                        <td colspan="4" class="text-center text-muted">
-                            No Documents Uploaded
-                        </td>
-                    </tr>
-                `);
-                return;
-            }
-
-            for (let i = 0; i < data.length; i++) {
-
-                const item = data[i];
-
-                let documentName = "";
-
-                switch (item.documentType) {
-                    case 1: documentName = "Aadhar Card"; break;
-                    case 2: documentName = "PAN Card"; break;
-                    case 3: documentName = "Birth Certificate"; break;
-                    case 4: documentName = "Caste Certificate"; break;
-                    case 5: documentName = "Income Certificate"; break;
-                    case 6: documentName = "Leaving Certificate"; break;
-                    case 7: documentName = "Passport Size Photo"; break;
-                    case 8: documentName = "Domicile Certificate"; break;
-                    case 9: documentName = "Nationality Certificate"; break;
-                    default: documentName = "Unknown";
-                }
-
-                $("#documentTableBody").append(`
-                    <tr>
-                        <td>${i + 1}</td>
-                        <td>${item.documentId}</td>
-                        <td>${documentName}</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm"
-                                onclick="viewDocument('${item.documentPath}')">
-                                View
-                            </button>
-
-                            <button class="btn btn-danger btn-sm ms-2 deleteDocumentBtn"
-                                data-id="${item.documentId}">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                `);
-            }
-        },
-
-        error: function () {
-            showToast("Failed to load documents", "error");
-        }
-    });
-}
-
-
-function viewDocument(path) {
-
-    const fullUrl = path.startsWith("http")
-        ? path
-        : "http://localhost:5263/" + path;
-
-    window.open(fullUrl, "_blank");
-}

@@ -147,8 +147,8 @@ function loadDocuments() {
 function viewDocument(path) {
 
     const fullUrl = path.startsWith("http")
-        ? path
-        : apiBase + path;
+    ? path
+    : fileBase + path;
 
     window.open(fullUrl, "_blank");
 }
