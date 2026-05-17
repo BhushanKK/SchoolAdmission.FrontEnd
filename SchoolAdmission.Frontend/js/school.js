@@ -65,7 +65,7 @@ $(document).ready(function () {
             committeeId: committeeId,
             commiteeId: committeeId
         };
-
+        
         const method = id ? "PUT" : "POST";
         const url = id ? `${schoolApi}/${id}` : schoolApi;
 
