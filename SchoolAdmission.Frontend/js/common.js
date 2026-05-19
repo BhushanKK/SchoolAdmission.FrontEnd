@@ -29,7 +29,7 @@ const reportApi = apiBase + "/student-details/";
 const studentSubjectReportApi = apiBase + "/StudentSubjectChoices/GetStudentSubjectReport/";
 const fileBase = "http://localhost:5263/";
 
-document.getElementById("currentYear").innerText = new Date().getFullYear();
+//document.getElementById("currentYear").innerText = new Date().getFullYear();
 
 function getTokenHeader() {
     const token = localStorage.getItem("accessToken");

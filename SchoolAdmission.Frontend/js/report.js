@@ -13,26 +13,26 @@ $(document).ready(function () {
         headers: getTokenHeader(),
         success: function (res) {
             if (res.success) {
-                $("#studentName").val(res.data.studentName);
-                $("#motherName").val(res.data.motherName);
-                $("#EnStudentName").val(res.data.studentName);
-                $("#EnMotherName").val(res.data.motherName);
+                $("#studentName").text(res.data.studentName);
+                $("#motherName").text(res.data.motherName);
+                $("#EnStudentName").text(res.data.studentName);
+                $("#EnMotherName").text(res.data.motherName);
                 $("#commiteeName").text(res.data.commiteeName);
                 $("#collegeName").text(res.data.schoolName);
-                $(".totalMarks").val(res.data.totalMarks);
-                $("#casteAndCategory").val(res.data.religion + " - " + res.data.caste);
-                $("#category").val(res.data.category);
-                $("#permanentAddress").val(res.data.permanentAddress);
-                $("#currentAddress").val(res.data.currentAddress);
-                $("#mobileNumber").val(res.data.mobileNumber);
-                $("#annualIncome").val(res.data.income);
-                $("#mobileNumber").val(res.data.parentContactNo);
-                $(".previousSchool").val(res.data.previousSchool);
+                $(".totalMarks").text(res.data.totalMarks);
+                $("#casteAndCategory").text(res.data.religion + " - " + res.data.caste);
+                $("#category").text(res.data.category);
+                $("#permanentAddress").text(res.data.permanentAddress);
+                $("#currentAddress").text(res.data.currentAddress);
+                $("#mobileNumber").text(res.data.mobileNumber);
+                $("#annualIncome").text(res.data.income);
+                $("#mobileNumber").text(res.data.parentContactNo);
+                $(".previousSchool").text(res.data.previousSchool);
                 $("#Standard").text(res.data.standardName + " - " + res.data.branchName);
                 $(".StandardAndBranch").text(res.data.standardName + " - " + res.data.branchName);
                 $("#PassingYear").text(res.data.passingYear);
                 $("#SeatNo").text(res.data.seatNo);
-                $("#percentage").val(res.data.percentage);
+                $("#percentage").text(res.data.percentage);
                 $(".formNo").text(res.data.registrationNo);
                 $(".applicationDate").text(new Date().toLocaleDateString());
                 const date = new Date(res.data.dob);
@@ -42,12 +42,12 @@ $(document).ready(function () {
                     String(date.getMonth() + 1).padStart(2, '0') + '-' +
                     date.getFullYear();
 
-                $("#dob").val(res.data.dob);
-                $("#previousSchool").val(res.data.previousSchool);
-                $("#permanentAddress").val(res.data.permanentAddress);
-                $("#registrationNo").val(res.data.registrationNo);
-                $("#parentContactNo").val(res.data.parentContactNo);
-                $("#totalMarks").val(res.data.totalMarks);
+                $("#dob").text(res.data.dob);
+                $("#previousSchool").text(res.data.previousSchool);
+                $("#permanentAddress").text(res.data.permanentAddress);
+                $("#registrationNo").text(res.data.registrationNo);
+                $("#parentContactNo").text(res.data.parentContactNo);
+                $("#totalMarks").text(res.data.totalMarks);
             }
         },
         error: function () {
@@ -139,4 +139,3 @@ async function loadStudentSubjects(studentId) {
         table.innerHTML = html;
     });
 }
-

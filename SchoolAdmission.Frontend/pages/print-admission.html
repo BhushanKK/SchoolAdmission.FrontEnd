@@ -1,686 +1,797 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="mr">
 <head>
-    <meta charset="UTF-8">
-    <title>Admission Form</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>प्रवेश अर्ज – नाशिक एज्यूकेशन सोसायटी</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
-    <style>
-        /* ===== LEGAL PAGE SETUP ===== */
-@page {
-    size: legal;
-    margin: 10mm;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+
+<style>
+/* ══════════════════════════════════════════
+   VARIABLES
+══════════════════════════════════════════ */
+:root {
+  --navy:      #1a3a6b;
+  --navy-md:   #2a5298;
+  --navy-lt:   #3d6cc0;
+  --gold:      #b8860b;
+  --gold-lt:   #d4a017;
+  --saffron:   #c0580a;
+  --ink:       #1c1c1c;
+  --muted:     #5a6272;
+  --bg-page:   #c9d4e8;
+  --bg-paper:  #ffffff;
+  --bg-stripe: #f4f7fd;
+  --border:    #b8cce8;
+  --radius:    5px;
+  --font-mr:   'Noto Serif Devanagari', serif;
+  --font-en:   'Source Serif 4', 'Playfair Display', serif;
 }
 
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-    background: #f5f5f5;
+  background: var(--bg-page);
+  font-family: var(--font-en);
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.5;
+  min-height: 100vh;
 }
 
-/* Each page becomes real A4 */
-.page {
-    width: 210mm;
-    min-height: 297mm;
-    padding: 15mm;
-    margin: 10mm auto;
-    background: white;
-    border: 1px solid #ccc;
+/* ══════════════════════════════════════════
+   TOOLBAR
+══════════════════════════════════════════ */
+#toolbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0f2347 0%, #1e4080 60%, #2a5298 100%);
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 20px; height: 58px;
+  box-shadow: 0 3px 20px rgba(0,0,0,.45);
+}
+.t-brand {
+  display: flex; align-items: center; gap: 10px; flex: 1;
+}
+.t-brand-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.t-brand-text { color: #fff; }
+.t-brand-text .title { font-size: 14px; font-weight: 700; letter-spacing: .4px; }
+.t-brand-text .sub   { font-size: 10.5px; opacity: .7; font-family: var(--font-mr); }
 
-    /* important for print splitting */
-    page-break-after: always;
-    box-sizing: border-box;
+.t-divider { width: 1px; height: 32px; background: rgba(255,255,255,.2); }
+
+#formSelect {
+  padding: 7px 12px; border-radius: var(--radius);
+  border: 1.5px solid rgba(255,255,255,.25);
+  font-size: 12.5px; cursor: pointer;
+  background: rgba(255,255,255,.12); color: #fff;
+  min-width: 240px; font-weight: 600;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) center;
+  padding-right: 30px;
+}
+#formSelect option { background: #1e4080; color: #fff; }
+
+.tbtn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 18px; border-radius: var(--radius);
+  border: none; cursor: pointer;
+  font-size: 12.5px; font-weight: 700;
+  letter-spacing: .3px; transition: all .2s;
+  white-space: nowrap;
+}
+.tbtn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.tbtn:active { transform: translateY(0); }
+
+.btn-load  { background: rgba(255,255,255,.15); color: #fff; border: 1.5px solid rgba(255,255,255,.3); }
+.btn-load:hover { background: rgba(255,255,255,.25); }
+.btn-print { background: linear-gradient(135deg, #b8860b, #d4a017); color: #fff; }
+.btn-pdf   { background: linear-gradient(135deg, #b91c1c, #dc2626); color: #fff; }
+
+/* progress bar */
+#pgBar {
+  position: absolute; bottom: 0; left: 0;
+  height: 3px; width: 0;
+  background: linear-gradient(90deg, var(--gold-lt), #fff8);
+  transition: width .3s; border-radius: 0 2px 0 0;
 }
 
-/* Prevent breaking inside important blocks */
-table, .top-section, .details-table {
-    page-break-inside: avoid;
+/* ══════════════════════════════════════════
+   OVERLAY LOADER
+══════════════════════════════════════════ */
+#overlay {
+  position: fixed; inset: 0; z-index: 8888;
+  background: rgba(10,22,50,.72);
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  backdrop-filter: blur(4px);
+}
+.ov-card {
+  background: #fff; border-radius: 12px;
+  padding: 36px 48px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.ov-spin {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 5px solid #dbeafe;
+  border-top-color: var(--navy-md);
+  animation: spin .75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.ov-msg  { font-family: var(--font-mr); font-size: 15px; font-weight: 700; color: var(--navy); }
+.ov-sub  { font-size: 12px; color: var(--muted); font-family: var(--font-mr); }
+
+/* ══════════════════════════════════════════
+   PAGE & PAPER
+══════════════════════════════════════════ */
+#pageWrap {
+  max-width: 880px;
+  margin: 78px auto 50px;
+  padding: 0 14px;
 }
 
-/* Print mode */
+#reportRoot {
+  background: var(--bg-paper);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 10px 50px rgba(15,35,71,.28), 0 2px 8px rgba(0,0,0,.12);
+  position: relative;
+}
+
+/* Tricolor accent bar */
+.accent-bar {
+  height: 7px;
+  background: linear-gradient(90deg,
+    #ff8f00 0%, #ff8f00 33%,
+    #fff 33%, #fff 66%,
+    var(--navy) 66%, var(--navy) 100%);
+}
+
+/* Subtle watermark */
+.watermark {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) rotate(-28deg);
+  font-family: var(--font-mr);
+  font-size: 130px; font-weight: 700;
+  color: rgba(26,58,107,.035);
+  pointer-events: none; white-space: nowrap;
+  z-index: 0; user-select: none;
+}
+
+.rpt-inner {
+  position: relative; z-index: 1;
+  padding: 30px 40px 40px;
+}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.hdr {
+  display: flex; align-items: center; gap: 20px;
+  border-bottom: 3px double var(--navy);
+  padding-bottom: 16px; margin-bottom: 10px;
+}
+.hdr-emblem {
+  width: 86px; height: 86px; border-radius: 50%;
+  border: 3px solid var(--navy);
+  background: radial-gradient(circle at 40% 40%, #dbeafe, #bfdbfe 70%, #93c5fd);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px; flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(26,58,107,.3);
+}
+.hdr-text { flex: 1; text-align: center; }
+.hdr-society {
+  font-family: 'Playfair Display', serif;
+  font-size: 23px; font-weight: 700;
+  color: var(--navy); letter-spacing: .6px;
+  line-height: 1.2; margin-bottom: 4px;
+}
+.hdr-society-mr {
+  font-family: var(--font-mr);
+  font-size: 13px; color: var(--muted);
+}
+.school-chip {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--navy), var(--navy-md));
+  color: #fff; border-radius: 4px;
+  padding: 5px 32px; margin-top: 8px;
+  font-family: var(--font-mr);
+  font-size: 15px; font-weight: 700;
+  letter-spacing: .5px;
+  box-shadow: 0 2px 10px rgba(26,58,107,.35);
+}
+.hdr-branch-badge {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+}
+.branch-pill {
+  padding: 6px 16px; border-radius: 20px;
+  font-family: var(--font-mr); font-size: 12px; font-weight: 700;
+  letter-spacing: .4px; white-space: nowrap;
+}
+.branch-arts     { background: #fef3c7; color: #92400e; border: 1.5px solid #fbbf24; }
+.branch-science  { background: #d1fae5; color: #065f46; border: 1.5px solid #34d399; }
+.branch-commerce { background: #ede9fe; color: #4c1d95; border: 1.5px solid #a78bfa; }
+.branch-default  { background: #dbeafe; color: #1e40af; border: 1.5px solid #60a5fa; }
+
+/* ══════════════════════════════════════════
+   FORM META
+══════════════════════════════════════════ */
+.form-meta {
+  display: flex; justify-content: flex-end; gap: 20px;
+  font-size: 11.5px; color: var(--muted); margin-bottom: 14px;
+  font-family: var(--font-mr);
+  background: var(--bg-stripe); padding: 6px 10px; border-radius: 4px;
+}
+.form-meta strong { color: var(--navy); }
+
+/* ══════════════════════════════════════════
+   TOP GRID
+══════════════════════════════════════════ */
+.top-grid {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 14px; align-items: start; margin-bottom: 6px;
+}
+.info-tbl { width: 100%; border-collapse: collapse; }
+.info-tbl td {
+  border: 1px solid var(--border);
+  padding: 5.5px 10px;
+  font-family: var(--font-mr); font-size: 12.5px;
+}
+.info-tbl tr:nth-child(odd) td.lbl { background: #eef2fa; }
+.info-tbl tr:nth-child(even) td.lbl { background: #e5ecf9; }
+.info-tbl td.lbl {
+  font-weight: 700; color: var(--navy);
+  border-right: 2px solid var(--navy-lt);
+  width: 46%;
+}
+
+.badge-photo {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 10px;
+}
+.adm-badge {
+  background: linear-gradient(135deg, var(--navy), var(--navy-md));
+  color: #fff; padding: 14px 22px;
+  border-radius: var(--radius);
+  font-family: var(--font-mr); font-size: 18px; font-weight: 700;
+  white-space: nowrap; letter-spacing: .5px;
+  box-shadow: 0 6px 20px rgba(26,58,107,.4);
+  border-top: 3px solid var(--gold-lt);
+}
+.photo-box {
+  width: 98px; height: 118px;
+  border: 2px dashed var(--navy-lt);
+  border-radius: 4px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 5px; color: var(--navy-lt);
+  font-size: 28px; background: var(--bg-stripe);
+}
+.photo-box span { font-size: 10px; font-family: var(--font-mr); color: var(--muted); }
+
+/* ══════════════════════════════════════════
+   SECTION TITLE
+══════════════════════════════════════════ */
+.sec {
+  display: flex; align-items: center;
+  margin: 18px 0 12px;
+}
+.sec::before, .sec::after {
+  content: ''; flex: 1; height: 1.5px;
+}
+.sec::before { background: linear-gradient(90deg, transparent, var(--navy)); }
+.sec::after  { background: linear-gradient(90deg, var(--navy), transparent); }
+.sec-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--navy); background: var(--bg-paper);
+  padding: 0 16px; white-space: nowrap; letter-spacing: .5px;
+}
+
+/* ══════════════════════════════════════════
+   PERSONAL INFO GRID
+══════════════════════════════════════════ */
+.pinfo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin-bottom: 14px; }
+.pf { display: flex; flex-direction: column; gap: 3px; }
+.pf label {
+  font-family: var(--font-mr); font-size: 10.5px;
+  color: var(--navy-md); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.pf .v {
+  border-bottom: 1.5px solid var(--border);
+  min-height: 24px; padding: 3px 6px;
+  font-size: 13px; color: var(--ink);
+  font-family: var(--font-en);
+  transition: background .2s;
+}
+.pf-wide { grid-column: 1 / -1; }
+
+/* ══════════════════════════════════════════
+   LETTER BLOCK
+══════════════════════════════════════════ */
+.letter-salute {
+  font-family: var(--font-mr); font-size: 12.5px;
+  color: var(--muted); margin-bottom: 5px;
+}
+.letter-body {
+  font-family: var(--font-mr); font-size: 12.5px;
+  line-height: 1.8; margin-bottom: 14px;
+  background: linear-gradient(135deg, #f0f5ff, #f7f9ff);
+  border-left: 4px solid var(--navy-lt);
+  padding: 10px 14px; border-radius: 0 6px 6px 0;
+}
+.letter-body strong { color: var(--saffron); font-size: 14px; }
+
+/* ══════════════════════════════════════════
+   SUBJECT TABLE
+══════════════════════════════════════════ */
+.subj-tbl {
+  width: 100%; border-collapse: collapse;
+  margin-bottom: 12px;
+  border-radius: 6px; overflow: hidden;
+  box-shadow: 0 2px 12px rgba(26,58,107,.12);
+}
+.subj-tbl thead th {
+  background: linear-gradient(135deg, var(--navy), var(--navy-md));
+  color: #fff; padding: 9px 14px;
+  font-family: var(--font-mr); font-size: 13px; font-weight: 700;
+  text-align: center;
+}
+.subj-tbl td {
+  border: 1px solid var(--border);
+  padding: 6.5px 14px;
+  font-family: var(--font-mr); font-size: 12.5px;
+}
+.subj-tbl td.type-lbl {
+  background: linear-gradient(135deg, #eef2fa, #e5ecf9);
+  color: var(--navy); font-weight: 700;
+  width: 32%; border-right: 2px solid var(--navy-lt);
+}
+.subj-tbl tr:nth-child(even) td:not(.type-lbl) { background: var(--bg-stripe); }
+.subj-tbl tr:hover td { background: #e8eef9; }
+
+/* ══════════════════════════════════════════
+   FOOTER META
+══════════════════════════════════════════ */
+.ftr-meta {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mr); font-size: 11.5px;
+  background: linear-gradient(135deg, #eef2fa, #f4f7fd);
+  border: 1px solid var(--border);
+  padding: 7px 12px; border-radius: 4px;
+  margin: 4px 0 6px;
+}
+.ftr-meta strong { color: var(--navy); }
+.ftr-note {
+  font-family: var(--font-mr); font-size: 11px;
+  color: var(--muted); font-style: italic; margin-bottom: 4px;
+}
+
+/* ══════════════════════════════════════════
+   ACADEMIC TABLE
+══════════════════════════════════════════ */
+.acad-tbl {
+  width: 100%; border-collapse: collapse;
+  box-shadow: 0 2px 12px rgba(26,58,107,.12);
+  border-radius: 6px; overflow: hidden;
+  margin-bottom: 10px;
+}
+.acad-tbl thead th {
+  background: linear-gradient(135deg, var(--navy), var(--navy-md));
+  color: #fff; padding: 8px 6px;
+  font-family: var(--font-mr); font-size: 11.5px; font-weight: 700;
+  text-align: center;
+}
+.acad-tbl td {
+  border: 1px solid var(--border);
+  padding: 7px 8px;
+  font-family: var(--font-mr); font-size: 12px;
+  text-align: center;
+}
+.acad-tbl td.ta-l { text-align: left; }
+.acad-tbl .cls-lbl {
+  font-weight: 700; color: var(--navy);
+  background: linear-gradient(135deg, #eef2fa, #e5ecf9);
+}
+.acad-tbl tr:nth-child(even) td { background: var(--bg-stripe); }
+.acad-tbl tr:hover td { background: #e8eef9; }
+
+.pct-badge {
+  display: inline-block; padding: 2px 9px;
+  border-radius: 12px; font-weight: 700; font-size: 12px;
+}
+.pct-low  { background: #fee2e2; color: #991b1b; }
+.pct-mid  { background: #dbeafe; color: #1e40af; }
+.pct-good { background: #d1fae5; color: #065f46; }
+.pct-top  { background: #fef3c7; color: #92400e; }
+
+/* ══════════════════════════════════════════
+   SIG ROW
+══════════════════════════════════════════ */
+.sig-row {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mr); font-size: 11.5px;
+  color: var(--muted); margin-top: 8px;
+}
+
+/* ══════════════════════════════════════════
+   PAGE DIVIDER
+══════════════════════════════════════════ */
+.pg-div {
+  position: relative;
+  margin: 30px -40px 0;
+  border-top: 2px dashed #b0c4de;
+  display: flex; align-items: center; justify-content: center;
+}
+.pg-div-label {
+  position: absolute;
+  background: var(--bg-paper); padding: 0 14px;
+  font-size: 10.5px; color: var(--muted);
+  font-family: var(--font-en); letter-spacing: .6px;
+  top: -9px;
+}
+
+/* ══════════════════════════════════════════
+   DECLARATION
+══════════════════════════════════════════ */
+.decl-title {
+  display: flex; align-items: center; margin: 24px 0 12px;
+}
+.decl-title::before, .decl-title::after {
+  content: ''; flex: 1; height: 1.5px;
+}
+.decl-title::before { background: linear-gradient(90deg, transparent, var(--gold)); }
+.decl-title::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+.decl-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--gold); background: var(--bg-paper);
+  padding: 0 16px; white-space: nowrap;
+}
+
+.decl-body {
+  font-family: var(--font-mr); font-size: 12.5px;
+  line-height: 2; color: var(--ink);
+  border: 1px solid #e8d9a0;
+  background: linear-gradient(135deg, #fffdf5, #fff8e6);
+  padding: 14px 16px; border-radius: 6px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 1px 4px rgba(184,134,11,.07);
+}
+.decl-footer {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mr); font-size: 12.5px;
+}
+.sig-line {
+  border-top: 1.5px solid #888;
+  padding-top: 5px; min-width: 140px;
+  text-align: center; font-size: 11.5px; color: var(--muted);
+}
+
+/* ══════════════════════════════════════════
+   RECEIPT
+══════════════════════════════════════════ */
+.rcpt-banner {
+  background: linear-gradient(135deg, var(--navy), var(--navy-lt));
+  color: #fff; border-radius: 6px;
+  padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 20px 0 12px;
+  box-shadow: 0 4px 16px rgba(26,58,107,.3);
+  border-left: 5px solid var(--gold-lt);
+}
+.rcpt-banner h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; font-weight: 700; letter-spacing: .5px;
+}
+.rcpt-meta-line {
+  font-family: var(--font-mr); font-size: 12.5px;
+  color: var(--muted); margin-bottom: 8px;
+}
+.rcpt-meta-line strong { color: var(--navy); }
+
+/* ══════════════════════════════════════════
+   TIPS BOX
+══════════════════════════════════════════ */
+.tips-box {
+  background: linear-gradient(135deg, #f0f4ff, #f7f9ff);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 12px 16px;
+  margin-top: 14px;
+  box-shadow: 0 1px 6px rgba(26,58,107,.08);
+}
+.tips-box h4 {
+  font-family: var(--font-mr); font-size: 12px;
+  color: var(--navy); font-weight: 700; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.tips-box ol {
+  padding-left: 18px;
+  font-family: var(--font-mr); font-size: 11.5px;
+  line-height: 2; color: var(--muted);
+}
+
+/* ══════════════════════════════════════════
+   PRINT STYLES
+══════════════════════════════════════════ */
 @media print {
-       .page {
-        margin: 0;
-        border: none;
-        page-break-after: always;
-    }
+  @page { margin: 0; size: A4; }
+  body { background: #fff !important; }
+  #toolbar, #overlay { display: none !important; }
+  #pageWrap { margin: 0; max-width: 100%; padding: 0; }
+  #reportRoot { box-shadow: none; border-radius: 0; }
+  .rpt-inner { padding: 20px 30px 30px; }
+  .watermark { display: none; }
+  .pg-div { page-break-before: always; border: none; margin: 0 -30px; }
+  .pg-div-label { display: none; }
+  .subj-tbl, .acad-tbl, .info-tbl { page-break-inside: avoid; }
+  .hdr-emblem { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .adm-badge, .school-chip, .subj-tbl thead th, .acad-tbl thead th,
+  .rcpt-banner, .accent-bar {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
 }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f5f5;
-            padding: 20px;
-        }
-
-        .page {
-            width: 900px;
-            background: white;
-            margin: auto;
-            padding: 20px 40px;
-            border: 1px solid #ccc;
-        }
-
-        .top-header {
-            text-align: center;
-            font-size: 12px;
-            line-height: 18px;
-            position: relative;
-        }
-
-        .form-no {
-    text-align: right;
-    font-weight: bold;
-    margin-top: 8px;
-    font-size: 12px;
-}
-
-        .college-name {
-            border: 1px solid black;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-            padding: 5px;
-            margin-top: 10px;
-        }
-
-        .top-section {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .marks-table {
-            width: 300px;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
-
-        .marks-table td {
-            border: 1px solid black;
-            padding: 4px;
-            font-weight: bold;
-        }
-
-        .photo-box {
-            width: 100px;
-            height: 120px;
-            border: 1px solid black;
-        }
-
-        .admission-btn {
-            border: 1px solid black;
-            padding: 10px 20px;
-            height: fit-content;
-            font-weight: bold;
-            font-size: 22px;
-            margin-top: 10px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .details-table {
-            width: 100%;
-            margin-top: 20px;
-            font-size: 13px;
-        }
-
-        .details-table td {
-            padding: 5px;
-            vertical-align: middle;
-        }
-
-        .details-table input {
-            width: 180px;
-            border: none;
-            border-bottom: 1px solid black;
-            outline: none;
-            font-size: 13px;
-        }
-
-        .paragraph {
-            margin-top: 20px;
-            font-size: 13px;
-            line-height: 24px;
-        }
-
-        .subject-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 13px;
-        }
-
-        .subject-table th,
-        .subject-table td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-
-        .footer-row {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        .notice {
-            margin-top: 20px;
-            font-size: 12px;
-            line-height: 22px;
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-
-            .page {
-                border: none;
-            }
-
-            .print-button-container {
-                display: none;
-            }
-        }
-
-        .print-button-container {
-            text-align: right;
-            margin-bottom: 10px;
-        }
-
-        .print-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 15px;
-            font-size: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .print-button:hover {
-            background-color: #45a049;
-        }
-        
-    </style>
-
+</style>
 </head>
-
 <body>
 
-    <div class="print-button-container">
-        <button class="print-button" onclick="window.print()">Print Admission Form</button>
-        <button class="print-button" onclick="downloadPDF()" style="background-color: #008CBA; margin-left: 10px;">Download PDF</button>
+<!-- ══ TOOLBAR ══════════════════════════════ -->
+<div id="toolbar">
+  <div class="t-brand">
+    <div class="t-brand-icon">🏛️</div>
+    <div class="t-brand-text">
+      <div class="title">NES – प्रवेश अर्ज Portal</div>
+      <div class="sub">नाशिक एज्यूकेशन सोसायटी</div>
     </div>
+  </div>
 
-    <div class="page">
+  <div class="t-divider"></div>
 
-        <div class="top-header">
+  <label style="color:#fff;font-size:11.5px;white-space:nowrap;">विद्यार्थी :</label>
+  <select id="formSelect">
+    <option value="1">Siddhant Rajendra Pote – Arts</option>
+  </select>
 
-    <img src="../assets/Photo.jpg" width="160" height="180">
-
+  <button class="tbtn btn-load" id="btnLoad">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    लोड करा
+  </button>
+  <button class="tbtn btn-print" id="btnPrint">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print
+  </button>
+  <button class="tbtn btn-pdf" id="btnPDF">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    PDF Download
+  </button>
+  <div id="pgBar"></div>
 </div>
 
-<center>
-    <label style="font-size:18px; font-weight:bold;text-align: center;"
-        id="commiteeName">
-    </label>
-</center>
+<!-- ══ REPORT ════════════════════════════════ -->
+<div id="pageWrap">
+<div id="reportRoot">
+  <div class="accent-bar"></div>
+  <div class="watermark">प्रवेश अर्ज</div>
 
-<div class="college-name">
-    <label id="collegeName"
-        style="font-size: 14; font-weight: bold;">
-    </label>
-</div>
+  <div class="rpt-inner">
 
-<div class="form-no">
-    फॉर्म नंबर :
-    <label class="formNo"
-        style="font-weight: bold;font-size: small;">
-    </label>
-
-    <br>
-
-    <label class="applicationDate"
-        style="font-weight: bold;">
-    </label>
-</div>
-           <center><label style="font-size:18px; font-weight:bold;text-align: center;" id="commiteeName"> 
-            </label></center> 
-        <div class="top-section">
-
-            <table class="marks-table">
-
-                <tr>
-                    <td>इ. १० वी एकूण गुण</td>
-                    <td>
-                        <input type="text" id="totalMarks" class="totalMarks"
-                            style="border:none; width:100%; font-weight:bold;">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>अर्ज प्रकार</td>
-                    <td>
-                        <input type="text" id="casteAndCategory"
-                            style="border:none; width:100%;">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>आरक्षण</td>
-                    <td>
-                        <input type="text" id="category"
-                            style="border:none; width:100%;">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>सेमी प्रकार</td>
-                    <td>
-                        <input type="text" value="नाही"
-                            style="border:none; width:100%;">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>प्राधान्य क्र</td>
-                    <td>
-                        <input type="text" value="0"
-                            style="border:none; width:100%;">
-                    </td>
-                </tr>
-
-            </table>
-
-            <div class="admission-btn">
-                प्रवेश अर्ज
-            </div>
-
-            <div class="photo-box" ></div>
-
+    <!-- HEADER -->
+    <div class="hdr">
+      <div>
+        <img src="../assets/Photo.jpg" width="140" height="140">
+      </div>
+      <div class="hdr-text">
+        <div class="hdr-society" id="societyName">नाशिक एज्यूकेशन सोसायटी</div>
+        <div class="hdr-society-mr">Nashik Education Society</div>
+        <div><span class="school-chip" id="schoolName">PES School</span></div>
+      </div>
+      <div class="hdr-branch-badge">
+        <span class="branch-pill branch-arts" id="branchPill">Arts</span>
+        <div style="font-family:var(--font-mr);font-size:11px;color:var(--muted);text-align:center;">
+          <span id="classLabel">11th</span> वर्ग
         </div>
-
-        <div class="section-title">
-            * वैयक्तिक माहिती *
-        </div>
-
-        <table class="details-table">
-
-            <tr>
-
-                <td>१. संपूर्ण नाव (मराठी)</td>
-
-                <td>
-                    <input type="text"  Id="studentName">
-                </td>
-
-                <td>आईचे नाव</td>
-
-                <td>
-                    <input type="text" id="motherName">
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>Full Name</td>
-
-                <td>
-                    <input type="text" id="EnStudentName">
-                </td>
-
-                <td>Mother Name</td>
-
-                <td>
-                    <input type="text" id="EnMotherName">
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>पालकांचे मूळ गाव</td>
-
-                <td>
-                    <textarea disabled id="permanentAddress" rows="4" cols="50" style="border:none;resize: none;background-color: #ffffff;border-bottom:1px solid black;"></textarea>
-                </td>
-
-                <td>वार्षिक उत्पन्न</td>
-
-                <td>
-                    <input type="text" id="annualIncome">
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>२. कायमचा पत्ता</td>
-
-                    <td>
-                        <textarea disabled id="currentAddress" rows="4" cols="50" style="border:none;resize: none;background-color: #ffffff;border-bottom:1px solid black;"></textarea>
-                </td>
-
-                <td></td>
-
-                <td></td>
-
-            </tr>
-
-            <tr>
-
-                <td>मोबाईल नं.</td>
-
-                <td>
-                    <input type="text" id="mobileNumber">
-                </td>
-
-                <td>जन्म तारीख</td>
-
-                <td>
-                    <input type="text" id="birthDate">
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>३. मागील शाळेचे नाव</td>
-
-                <td>
-                    <input type="text" id="previousSchool" class="previousSchool"/>
-                </td>
-
-                <td></td>
-
-                <td></td>
-
-            </tr>
-
-        </table>
-
-        <div class="paragraph">
-
-            प्रति, मा प्राचार्य <br><br>
-
-            महोदय, <br>
-
-            मी आपल्या कनिष्ठ महाविद्यालयात इयत्ता
-            <b><label id="Standard"></b>
-            वर्गामध्ये प्रवेश देऊ इच्छितो / इच्छिते.
-            मी खालील विषय चालू ठेवणार.
-
-        </div>
-
-       <table class="subject-table">
-       </table>
-
-        <div class="page-break-before">
-
-    <div class="footer-row" style="margin-top: 40px;">
-
-        <div>
-            दिनांक : <label class="applicationDate"></label>
-        </div>
-
-        <div>
-            शाखा : <label class="StandardAndBranch"></label>
-        </div>
-
-        <div>
-            फॉर्म नंबर : <label class="formNo"></label>
-        </div>
-
+      </div>
     </div>
 
-    <div class="notice">
-
-        विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व
-        शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.
-
+    <!-- Form meta -->
+    <div class="form-meta">
+      <span>फॉर्म नंबर : <strong id=".formNo"></strong></span>
+      <span>दिनांक : <strong id=".applicationDate"></strong></span>
     </div>
 
-</div>
-
-    </div>
-    <!-- SECOND PAGE -->
-
-<div class="page" style="margin-top:20px;">
-
-    <div style="display:flex; justify-content:space-between; font-size:12px;">
-
-        <div>
-            अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव
-        </div>
-
-        <div>
-            विद्यार्थ्यांची सही
-        </div>
-
+    <!-- Top info + badge -->
+    <div class="top-grid">
+      <table class="info-tbl">
+        <tr><td class="lbl">इ. १० वी एकूण गुण</td><td id="totalMarks"></td></tr>
+        <tr><td class="lbl">अर्ज प्रकार</td><td id="casteAndCategory"></td></tr>
+        <tr><td class="lbl">आरक्षण</td><td id="category">SC</td></tr>
+        <tr><td class="lbl">सेमी प्रकार</td><td>नाही</td></tr>
+        <tr><td class="lbl">प्राधान्य क्र</td><td>0</td></tr>
+      </table>
+      <div class="badge-photo">
+        <div class="adm-badge">प्रवेश अर्ज</div>
+        <div class="photo-box">📷<span>फोटो</span></div>
+      </div>
     </div>
 
-    <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:20px;">
-        *शैक्षणिक व वैयक्तिक माहिती*
+    <!-- ── PERSONAL INFO ── -->
+    <div class="sec"><span class="sec-label">✦ वैयक्तिक माहिती ✦</span></div>
+
+    <div class="pinfo">
+      <div class="pf">
+        <label>१. संपूर्ण नाव (मराठी)</label>
+        <div class="v" id="studentName"></div>
+      </div>
+      <div class="pf">
+        <label>आईचे नाव / Mother Name</label>
+        <div class="v" id="motherName">Laxmi</div>
+      </div>
+      <div class="pf">
+        <label>Full Name (English)</label>
+        <div class="v" id="EnStudentName"></div>
+      </div>
+      <div class="pf">
+        <label>वार्षिक उत्पन्न / Annual Income</label>
+        <div class="v" id="annualIncome"></div>
+      </div>
+      <div class="pf pf-wide">
+        <label>पालकांचे मूळ गाव / Native Place</label>
+        <div class="v" id="permanentAddress"></div>
+      </div>
+      <div class="pf pf-wide">
+        <label>२. कायमचा पत्ता / Permanent Address</label>
+        <div class="v" id="currentAddress"></div>
+      </div>
+      <div class="pf">
+        <label>मोबाईल नं. / Mobile</label>
+        <div class="v" id="mobileNumber"></div>
+      </div>
+      <div class="pf">
+        <label>जन्म तारीख / Date of Birth</label>
+        <div class="v" id="dob"></div>
+      </div>
+      <div class="pf pf-wide">
+        <label>३. मागील शाळेचे नाव / Previous School</label>
+        <div class="v" id="previousSchool"></div>
+      </div>
     </div>
 
-    <table style="width:100%; border-collapse:collapse; margin-top:20px; font-size:13px;">
+    <p class="letter-salute">प्रति, मा प्राचार्य &nbsp;|&nbsp; महोदय,</p>
+    <div class="letter-body">
+      मी आपल्या कनिष्ठ महाविद्यालयात इयत्ता <b><label id="Standard"></label></b>
+      वर्गामध्ये प्रवेश देऊ इच्छितो / इच्छिते. मी खालील विषय चालू ठेवणार.
+    </div>
 
+    <!-- Subject table -->
+    <table class="subj-tbl">
+      <thead>
         <tr>
-
-            <th style="border:1px solid black; padding:10px;">
-                वर्ग
-            </th>
-
-            <th style="border:1px solid black; padding:10px;">
-                शिक्षण घेतलेल्या शाळेचे / वरिष्ठ महाविद्यालयाचे नाव
-            </th>
-
-            <th style="border:1px solid black; padding:10px;">
-                पास होण्याचे वर्ष
-            </th>
-
-            <th style="border:1px solid black; padding:10px;">
-                परीक्षा बैठक क्रमांक
-            </th>
-
-            <th style="border:1px solid black; padding:10px;">
-                एकूण गुण
-            </th>
-
-            <th style="border:1px solid black; padding:10px;">
-                गुणांची टक्केवारी
-            </th>
-
-            <th style="border:1px solid black; padding:10px;">
-                खेळ
-            </th>
-
+          <th style="width:32%;text-align:left;padding-left:14px;">शाखा</th>
+          <th id="branchLabel">Arts</th>
         </tr>
-
-        <tr>
-
-            <td style="border:1px solid black; padding:10px; font-weight:bold;">
-                १० वी
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <input type="text" class="previousSchool"
-                    style="width:100%; border:none; outline:none;">
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <label type="text"
-                    id="PassingYear"
-                    style="width:100%; border:none; outline:none;font-weight: bold;">
-                </label>
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <label type="text"
-                    id="SeatNo"
-                    style="width:100%; border:none; outline:none;">
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <input type="text" class="totalMarks"
-                            style="border:none; width:100%; font-weight:bold;">
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <input type="text" id="percentage"
-                    style="width:100%; border:none; outline:none;font-weight: bold;">
-            </td>
-
-            <td style="border:1px solid black; padding:10px;">
-                <input type="text" value="NA"
-                    style="width:100%; border:none; outline:none;">
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td style="border:1px solid black; padding:10px; font-weight:bold;">
-                ११ वी
-            </td>
-
-            <td style="border:1px solid black; padding:10px;"></td>
-
-            <td style="border:1px solid black; padding:10px;"></td>
-
-            <td style="border:1px solid black; padding:10px;"></td>
-
-            <td style="border:1px solid black; padding:10px;"></td>
-
-            <td style="border:1px solid black; padding:10px;"></td>
-
-            <td style="border:1px solid black; padding:10px;"></td>
-
-        </tr>
-
+      </thead>
+      <tbody id="StandardAndBranch"></tbody>
     </table>
 
-    <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:13px;">
+    <div class="ftr-meta">
+      <span>दिनांक : <strong id="footerDate">16/05/2026</strong></span>
+      <span>शाखा : <strong id="StandardAndBranch"></strong></span>
+      <span>फॉर्म नंबर : <strong id=".formNo"></strong></span>
+    </div>
+    <p class="ftr-note">विज्ञान, गणित व कला या सर्व शाखांसाठी पर्यावरण शिक्षण आणि आरोग्य व शारीरिक शिक्षण हे दोन विषय अनिवार्य आहेत.</p>
 
-        <div></div>
+    <!-- ── ACADEMIC RECORDS ── -->
+    <div class="sec" style="margin-top:22px;"><span class="sec-label">✦ शैक्षणिक व वैयक्तिक माहिती ✦</span></div>
 
-        <div>
-            आपला / आपल्या नम्र
-        </div>
-
+    <div style="display:flex;justify-content:space-between;font-family:var(--font-mr);font-size:11px;color:var(--muted);margin-bottom:6px;">
+      <span>अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव</span>
+      <span>विद्यार्थ्यांची सही</span>
     </div>
 
-    <div style="text-align:right; margin-top:20px; font-size:13px;">
-        विद्यार्थ्यांची / विद्यार्थिनीची सही
-    </div>
-
-    <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:40px;">
-        पालकांचे निवेदन
-    </div>
-
-    <div style="margin-top:20px; font-size:13px; line-height:28px; text-align:justify;">
-
-        मी माझ्या पाल्यास आपल्या कनिष्ठ महाविद्यालयात प्रवेश देण्यास संमती देत आहे.
-        त्याने / तिने अर्जात नमूद केलेली सर्व माहिती सत्य व खरी आहे.
-        कनिष्ठ महाविद्यालयाचे नियम व अटी मला पूर्णपणे मान्य आहेत.
-        कनिष्ठ महाविद्यालयाची शुल्क व खर्च देण्यास मी तयार आहे.
-        माझ्या मुलाने जे वर्तन केले त्याबद्दल मी पूर्णपणे जबाबदार राहील.
-        माझ्या पाल्याने कनिष्ठ महाविद्यालयाचे नियम न शिकलो पाळले नाहीत
-        तर त्याच्यावर करण्यात येणारी कारवाई मला मान्य राहील.
-
-    </div>
-
-    <div style="display:flex; justify-content:space-between; margin-top:40px;">
-
-        <div style="font-size:13px;">
-            ठिकाण : Nashik <br><br>
-
-            दिनांक :
-            <label type="text" class="applicationDate"
-                style="border:none; border-bottom:1px solid black; outline:none;font-weight: bold;">
-            </label>
-        </div>
-
-        <div style="font-size:13px; text-align:center;">
-            पालक
-        </div>
-
-    </div>
-
-    <hr style="margin-top:40px; border:1px dashed black;">
-
-    <div style="text-align:center; font-size:22px; font-weight:bold; margin-top:20px;">
-        विद्यार्थी प्रवेश पावती
-    </div>
-
-    <div style="margin-top:20px; font-size:13px;">
-
-        फॉर्म नंबर : <b>1/2020-2021</b>
-
-    </div>
-
-    <div style="margin-top:10px; font-size:13px;">
-
-        विद्यार्थ्यांना इ. <label class="StandardAndBranch"> प्रवेशासाठी खालील विषय निश्चित केलेले.
-
-    </div>
-
-    <table class="subject-table" >
+    <table class="acad-tbl">
+      <thead>
+        <tr>
+          <th>वर्ग</th>
+          <th>शाळेचे / महाविद्यालयाचे नाव</th>
+          <th>पास वर्ष</th>
+          <th>बैठक क्र.</th>
+          <th>एकूण गुण</th>
+          <th>टक्केवारी</th>
+          <th>खेळ</th>
+        </tr>
+      </thead>
+      <tbody id="acadBody"></tbody>
     </table>
 
-    <div style="margin-top:20px; font-size:13px; line-height:28px;">
-
-        टिप : १. प्रवेश अर्ज सादर करताना सर्व कागदपत्रे सोबत आणणे आवश्यक आहे. <br>
-
-        २. प्रवेशाची फी भरल्यानंतर प्रवेश पावती प्राप्त करून घ्यावी. <br>
-
-        ३. प्रवेशासाठी आलेल्या विद्यार्थ्यांनी नियम व अटी पाळणे आवश्यक आहे. <br>
-
-        ४. एकदा प्रवेश घेतल्यानंतर फी परत मिळणार नाही.
-
+    <div class="sig-row">
+      <span>आपला / आपल्या नम</span>
+      <span>विद्यार्थ्यांची / विद्यार्थिनींची सही</span>
     </div>
 
-    <div style="text-align:right; margin-top:50px; font-size:13px;">
+    <!-- ══ PAGE 2 ══ -->
+    <div class="pg-div"><span class="pg-div-label">— Page 2 —</span></div>
+    <div style="height:24px;"></div>
 
-        अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव <br>
-
-        दिनांक :
-        <label class="applicationDate" style="font-weight: bold;"></label>
+    <!-- ── DECLARATION ── -->
+    <div class="decl-title"><span class="decl-label">पालकांचे निवेदन</span></div>
+    <div class="decl-body" id="declarationText">
+      मी माझ्या पाल्यास आपल्या कनिष्ठ महाविद्यालयात प्रवेश देण्यास संमती देत आहे.
+      त्याने / तिने अर्जात नमूद केलेली सर्व माहिती सत्य व खरी आहे.
+      कनिष्ठ महाविद्यालयाचे नियम व अटी मला पूर्णपणे मान्य आहेत.
+      कनिष्ठ महाविद्यालयाची शुल्के व खर्च देण्यास मी तयार आहे.
+      माझ्या मुलाने जे वर्तन केले त्यासाठे मी पूर्णपणे जबाबदार राहील.
+      माझ्या पाल्याने कनिष्ठ महाविद्यालयाचे नियम न पाळले नाहीत तर त्याच्यावर करण्यात येणारी कारवाई मला मान्य राहील.
+    </div>
+    <div class="decl-footer">
+      <div>
+        <p style="font-family:var(--font-mr);font-size:12.5px;margin-bottom:2px;">ठिकाण : <strong id="place">Nashik</strong></p>
+        <p style="font-family:var(--font-mr);font-size:12.5px;">दिनांक : <strong id="declDate">16/05/2026</strong></p>
+      </div>
+      <div class="sig-line">पालक</div>
     </div>
 
-</div>
+    <!-- ── RECEIPT ── -->
+    <div class="rcpt-banner">
+      <h2>विद्यार्थी प्रवेश पावती</h2>
+      <div style="font-family:var(--font-mr);font-size:12px;opacity:.88;">
+        फॉर्म नंबर : <span id="receiptFormNo">1/2020-2021</span>
+      </div>
+    </div>
 
-<script>
-    function downloadPDF() {
-        const element = document.querySelector('.page');
-        const opt = {
-            margin: 10,
-            filename: 'Admission_Form.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'legal' }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
-</script>
+    <p class="rcpt-meta-line">विद्यार्थ्यांचे इ. <strong id="receiptClass">11th - Arts</strong></p>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <table class="subj-tbl">
+      <thead>
+        <tr>
+          <th style="width:32%;text-align:left;padding-left:14px;">शाखा</th>
+          <th id="rcptBranch">Arts</th>
+        </tr>
+      </thead>
+      <tbody id="rcptBody"></tbody>
+    </table>
+
+    <div class="tips-box">
+      <h4>📋 महत्त्वाच्या सूचना</h4>
+      <ol>
+        <li>प्रवेश अर्ज सादर करताना सर्व कागदपत्रे सोबत आणणे आवश्यक आहे.</li>
+        <li>प्रवेशाची फी भरल्यानंतर प्रवेश पावती प्राप्त करून ध्यावी.</li>
+        <li>प्रवेशासाठी आलेल्या विद्यार्थ्यांनी नियम व अटी पाळणे आवश्यक आहे.</li>
+        <li>एकदा प्रवेश घेतल्यानंतर फी परत मिळणार नाही.</li>
+      </ol>
+    </div>
+
+    <div class="sig-row" style="margin-top:28px;">
+      <span></span>
+      <div class="sig-line" style="text-align:center;">
+        अर्ज स्वीकृती करणाऱ्या शिक्षकाची सही व नाव<br>
+        <small style="font-size:11px;color:var(--muted);">दिनांक : <span id="receiptDate">16/05/2026</span></small>
+      </div>
+    </div>
+
+  </div><!-- /rpt-inner -->
+</div><!-- /reportRoot -->
+</div><!-- /pageWrap -->
 <script src="../js/common.js"></script>
 <script src="../js/report.js"></script>
-</body>
 
-</html> 
+</body>
+</html>

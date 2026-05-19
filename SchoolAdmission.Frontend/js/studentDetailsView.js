@@ -18,8 +18,19 @@ $(document).ready(function () {
                 return [];
             }
         },
+        
         columns: [
-
+            {
+                data: null,
+                orderable: false,
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-primary printBtn" data-id="${row.studentId}">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    `;
+                }
+            },
             {data:"studentId",defaultContent:""},
             {data:"registrationNo",defaultContent:""},
             {data:"schoolName",defaultContent:""},
@@ -61,6 +72,7 @@ $(document).ready(function () {
             {data:"parentEmail",defaultContent:""},
             {data:"income",defaultContent:""},
             {data:"occupation",defaultContent:""}
+            
         ],
         responsive: true,
         pageLength: 10
